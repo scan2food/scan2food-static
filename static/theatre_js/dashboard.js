@@ -15,7 +15,7 @@ function createOrUpdateChart(newData) {
         orderComparisonChart = new Chart(ctx1, {
             type: 'pie', // Pie chart type
             data: {
-                labels: ['Table Orders', 'Delivery Orders'],
+                labels: ['Staff Orders', 'Self Orders'],
                 datasets: [{
                     data: [newData.staff_orders, newData.self_orders],
                     backgroundColor: ['rgba(254, 175, 57, 0.6)', 'rgba(44, 64, 110, 0.8)'], // Colors for each section

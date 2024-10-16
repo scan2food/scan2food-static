@@ -7,7 +7,7 @@ function createOrUpdateChart(newData) {
     // If the chart already exists, update it
     if (orderComparisonChart) {
         // Update the chart's data
-        orderComparisonChart.data.datasets[0].data = [newData.seat_orders, newData.automate_orders];
+        orderComparisonChart.data.datasets[0].data = [newData.staff_orders, newData.self_orders];
         orderComparisonChart.update(); // Update the chart to reflect changes
     } else {
         // Create the chart for the first time
@@ -17,7 +17,7 @@ function createOrUpdateChart(newData) {
             data: {
                 labels: ['Table Orders', 'Delivery Orders'],
                 datasets: [{
-                    data: [newData.seat_orders, newData.automate_orders],
+                    data: [newData.staff_orders, newData.self_orders],
                     backgroundColor: ['rgba(254, 175, 57, 0.6)', 'rgba(44, 64, 110, 0.8)'], // Colors for each section
                     hoverOffset: 4 // Space when hovering over the segments
                 }]
@@ -166,15 +166,16 @@ async function get_all_data() {
     const complete_url = `${api_url}?daterange=${date}`
     all_data = await getRequest(complete_url);
 
+    console.log(all_data);
 
     let total_payment = parseFloat(all_data['Total Payment'].toFixed(2));
 
-    document.getElementById('all-orders').innerText = all_data.all_orders;
-    document.getElementById('self-orders').innerText = all_data.seat_orders;
+    document.getElementById('staff-orders').innerText = all_data.staff_orders;
+    document.getElementById('self-orders').innerText = all_data.self_orders;
     document.getElementById('total-payment').innerText = total_payment;
     document.getElementById('running-orders').innerText = all_data['running_orders']
 
-    createOrUpdateChart({ seat_orders: all_data.seat_orders, automate_orders: all_data.automate_orders });
+    createOrUpdateChart({ staff_orders: all_data.staff_orders, self_orders: all_data.self_orders });
     return all_data
 
 }

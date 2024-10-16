@@ -166,13 +166,11 @@ async function get_all_data() {
     const complete_url = `${api_url}?daterange=${date}`
     all_data = await getRequest(complete_url);
 
-    console.log(all_data);
 
     let total_payment = parseFloat(all_data['Total Payment'].toFixed(2));
-    console.log('payment ===> ', total_payment);
 
-    document.getElementById('table-orders').innerText = all_data.all_orders;
-    document.getElementById('delivery-orders').innerText = all_data.seat_orders;
+    document.getElementById('all-orders').innerText = all_data.all_orders;
+    document.getElementById('self-orders').innerText = all_data.seat_orders;
     document.getElementById('total-payment').innerText = total_payment;
     document.getElementById('running-orders').innerText = all_data['running_orders']
 

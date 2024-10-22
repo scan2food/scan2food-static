@@ -128,7 +128,7 @@ addRowButton.addEventListener('click', () => {
     new_input.setAttribute('name', 'last-alphabet');
     new_input.setAttribute('id', 'last-alphabet');
     new_input.value = value;
-    new_input.setAttribute('readonly', '');
+    new_input.removeAttribute('readonly', '');
 
     parent.appendChild(new_input);
 

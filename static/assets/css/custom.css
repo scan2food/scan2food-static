@@ -296,6 +296,14 @@ body {
   box-shadow: 0px 0px 0px 0px transparent;
 }
 
+.form-control:-moz-read-only {
+  background-color: #ffffff !important;
+}
+
+.form-control:read-only {
+  background-color: #ffffff !important;
+}
+
 #revenueChart {
   width: 100%; /* Responsive width */
   height: 300px; /* Desired height for the chart */

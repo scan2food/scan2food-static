@@ -80,7 +80,13 @@ function SetUpSeats(all_row, index, hall_name) {
 
         // getting all the seats
         let all_seats = all_row[row]
+        // Create a wrapper div for the seats
+        let seatWrapper = document.createElement('div');
+        seatWrapper.setAttribute('class', 'seat-wrapper');
 
+        // theatreRow.appendChild(seatWrapper);
+
+        // Kanika - 14 dec - is for loop se phle ek div or add kar dena <div class="seat-wrapper">
         // creating the seats and update on the row
         for (let i = 0; i < all_seats.length; i++) {
             let seat_data = all_seats[i];

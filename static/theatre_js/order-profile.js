@@ -104,15 +104,16 @@ function createCartTab(order_data) {
                         <div class="row mb-2 order-item">
                             <div class="col-8">
                                 <h6 class="d-flex align-items-center">
-                                    <span class="ms-2">${item.name}</span>
+                                    <span class="">${item.name}</span>    <span class="text-muted ms-4 ps-2" style="font-size: 0.85rem;"> <span class="ms-2 me-3"> | </span>Quantity:
+                                    ${item.quantity}</span>
                                 </h6>
-                                <p class="text-muted ms-4 ps-2" style="font-size: 0.85rem;">Quantity:
-                                    ${item.quantity}</p>
+                              
                             </div>
                             <div class="col-4 text-end">
                                 <h6 class="price"><span class="me-1-cust">₹</span>${item.price}</h6>
-                            </div>
+                            </div>  
                         </div>
+                       
         `
         document.getElementById('order-items').innerHTML += item_row;
     }
@@ -171,13 +172,14 @@ async function deliverOrder() {
     let url = `/theatre/api/deliver-order/${order_id}`
     let order_status = await getRequest(url)
 
-
+    
     if (order_status.message === 'Order Delivered Successfully') {
         document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> Order Delivered`
     }
-    else {
-        alert(order_status.message)
-    }
 
     document.getElementById('order-deliver-button').style.display = 'none'
+
+    if (window.location.href.includes('theatre/all-seats')) {
+        $("#orderPopUp").modal('hide');
+    }
 }

@@ -30,7 +30,7 @@ function createRow(btn, alphabet, seatCounts) {
 
     div.appendChild(smallDiv);
     allHallList.appendChild(div);
-
+// yaha bhi seats ko ek div meh wrap karna HTMLDetailsElement, <div class="seat-wrapper"></div>
     // creating the seats 
     for (let i = 0; i < seatCounts; i++) {
         let newDiv = document.createElement('div');

@@ -386,6 +386,7 @@ body {
 
 .row.custom-theatre-row {
   flex-wrap: nowrap;
+  position: relative;
 }
 
 .cinema {
@@ -481,4 +482,12 @@ body {
 .tooltip:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
+}
+
+.br-right-1 {
+  border-right: 1px solid #d9d8d8;
+}
+
+.nav-item h6, .nav-item h6 {
+  text-transform: capitalize !important;
 }/*# sourceMappingURL=custom.css.map */

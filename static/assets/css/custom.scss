@@ -364,6 +364,7 @@ color: white;
 }
 .row.custom-theatre-row {
   flex-wrap: nowrap;
+  position: relative;
 }
 .cinema {
   perspective: 13px; /* Gives a 3D perspective to child elements */
@@ -467,3 +468,9 @@ color: white;
   visibility: visible;
   opacity: 1;
 }     
+.br-right-1 {
+border-right: 1px solid #d9d8d8;
+}
+.nav-item h6, .nav-item h6 {
+  text-transform: capitalize!important;
+}

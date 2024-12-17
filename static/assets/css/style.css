@@ -114,6 +114,52 @@ body {
 .sticky-top.navbar-dark .navbar-brand img {
     max-height: 45px;
 }
+@media (max-width: 767px) {
+    .pageWrapper {
+    min-height: calc(100vh - 19vh);
+    }
+    .seating-hall,  #all-hall-list {
+        overflow-y: auto;
+        position: relative;
+    }
+    .row-label {
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    /* position: fixed; */
+    margin-left: 20px;
+    width: 30px;
+    height: 30px;
+    max-width: 30px!important;
+    min-width: 30px!important;
+    background-color: #fff;
+    display: block;
+    margin-top: 5px;
+    text-align: center;
+    }
+
+.seat-wrapper {
+    display: -webkit-inline-box;
+    margin-left: 50px;
+}
+#order-list table, .table-scrollable-sm {
+    min-width: 1000px;
+}
+.table-scrollable {
+    min-width: 700px
+}
+.food-name {
+    max-width: 120px!important;
+}
+.row.custom-theatre-row:last-child {
+    margin-bottom: 20px;
+}
+.text-start-sm {
+    text-align: left!important;
+} 
+.float-start-sm {
+    float: left!important;
+}
+}
 
 @media (max-width: 991.98px) {
     .sticky-top.navbar-dark {
@@ -135,10 +181,29 @@ body {
         max-height: 45px;
     }
     .container-xxl.position-relative.p-0 {
-        padding-bottom: 40px!important;
+        padding-bottom: 0px!important;
     }
     #paymentPage  { 
         min-height: calc(100vh - 33vh);
+        }
+        .ff-secondary-mobile {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .ff-secondary-mobile::after {
+            content: none;
+            width: 0px !important;
+        }
+        .ps-sm-0 {
+            padding-left: 0px!important;
+        }
+        .navbar-toggler {
+            margin-left: auto!important;
+            margin-left: 100%;
+            float: right;
+        }
+        .navbar.nav-custom {
+            padding-bottom: 1rem;
         }
 }
 
@@ -174,6 +239,9 @@ body {
     }
     #paymentPage  { 
     min-height: calc(100vh - 30vh);
+    }
+    .tabs-wrapper {
+        padding: 0px 5rem;
     }
 }
 
@@ -234,7 +302,9 @@ body {
 .section-title.text-end::after {
     display: none;
 }
-
+.section-title.ff-secondary {
+    margin-top: 30px;
+}
 
 /*** Service ***/
 .service-item {
@@ -589,3 +659,40 @@ margin-bottom: 15px!important;
 .brandLogo {
     max-width: 50%;
 }
+.fa-2x {
+    font-size: 1.5em;
+}
+.order-item {
+border-bottom: 1px solid #bbb;
+    padding: 10px;
+}
+.nav-item h6 {
+    text-transform: capitalize!important;
+}
+/* .bg-danger {
+background-color: #ffffff !important;
+    border: 1px solid #dc3545;
+    color: #dc3545!important;
+}
+
+    .bg-success {        
+        background-color: #ffffff !important;
+        border: 1px solid #198754;
+        color: #198754!important;
+    } */
+    label {
+        text-transform: capitalize!important;
+    }
+   .food-details-add-menu {
+    font-size: 13px;
+   }
+   .food-name {
+    max-width: 152px;
+    word-break: normal;
+   }
+   .food-description {
+    font-size: 0.7rem;
+   }
+   .seating-hall {
+    position: relative;
+   }

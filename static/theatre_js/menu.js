@@ -51,7 +51,7 @@ function showFoodItems(category_data, is_active) {
             <!-- <i class="fa fa-coffee fa-2x text-primary"></i> -->
             <div class="ps-3">
                 <!-- <small class="text-body">#</small> -->
-                <h6 class="mt-n1 mb-0">${category_data.name}</h6>
+                <h6 class="mt-n1 mb-0 text-capitalize">${category_data.name}</h6>
             </div>
         </a>
     `

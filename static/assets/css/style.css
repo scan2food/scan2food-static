@@ -127,6 +127,7 @@ body {
     border-radius: 5px;
     /* position: fixed; */
     margin-left: 20px;
+    margin-right: 15px;
     width: 30px;
     height: 30px;
     max-width: 30px!important;
@@ -159,6 +160,22 @@ body {
 .float-start-sm {
     float: left!important;
 }
+.mt-sm-0-cust {
+    margin-top: 0px!important;
+}
+.p-sm-0,.p-sm-0-cust {
+    padding-left: 0px!important;
+    padding-right: 0px!important;
+}
+
+.text-md-end {
+    float: right;
+    text-align: right!important;
+}
+/* .category-wrapper-outer {
+    max-height: 67vh;
+    overflow-y: auto;
+} */
 }
 
 @media (max-width: 991.98px) {
@@ -695,4 +712,30 @@ background-color: #ffffff !important;
    }
    .seating-hall {
     position: relative;
+   }
+   .brder-t-1 {
+    border-top: 1px solid #fff;
+   }
+   .category-img-wrapper {
+    /* max-width: 100%;
+    max-height: 200px; */
+    border: 1px solid #0f172b;
+   }
+   .category-card-link:hover .category-name p {
+    color: #FEA116;
+   }
+   .category-img {
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    max-height: 130px;
+    min-height: 130px;
+   }
+   .category-name p {
+    font-size: 0.8rem;
+   }
+   .menu-food-img {
+    width: 80px;
+    height: 80px;
    }

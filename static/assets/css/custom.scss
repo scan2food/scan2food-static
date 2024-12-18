@@ -196,9 +196,14 @@ color: white;
     margin-top: 20px;
     margin-left: 10px;
   }
+  .item-name {
+    font-size: 1rem;
+  }
   .veg-icon {
     width: 20px;
     height: 20px;
+    min-width: 20px;
+    min-height: 20px;
     display: inline-block;
     // background-color: green;
     border: 1.4px solid green;
@@ -217,6 +222,8 @@ color: white;
   .non-veg-icon {
     width: 20px;
     height: 20px;
+    min-width: 20px;
+    min-height: 20px;
     display: inline-block;
     // background-color: red;
     border: 1.4px solid red;
@@ -237,7 +244,9 @@ color: white;
     border-right: 6px solid transparent;
     border-bottom: 10px solid red;
   }
-
+  .menu-item .menu-img {
+    width: 65px!important
+  }
  .custom-table {
   th, td {
     padding-left: 20px!important;

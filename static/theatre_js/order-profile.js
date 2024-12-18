@@ -72,6 +72,8 @@ function createOrderTab(order_data) {
     document.getElementById('seat-name').innerText = order_data.seat;
     document.getElementById('order-date').innerText = order_data.order_detail.order_date;
     document.getElementById('order-time').innerText = order_data.order_detail.order_time;
+    console.log(order_data)
+    document.getElementById('phone-number').innerText = order_data.order_detail.phone_number;
 
     if (order_data.order_detail.payment_pending === true) {
         payment_status = '<i class="fa fas fa-clock text-danger mb-0 me-1"></i> Pending';

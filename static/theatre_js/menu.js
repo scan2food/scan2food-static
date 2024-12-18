@@ -83,7 +83,7 @@ function showFoodItems(category_data, is_active) {
 
         let food_card_html = `
                                             <div class="d-flex align-items-center menu-item my-food-card">
-                                                <img class="flex-shrink-0 img-fluid rounded"
+                                                <img class="flex-shrink-0 img-fluid rounded menu-img"
                                                     src="${item_data.food_image}" alt="" style="width: 80px;">
                                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                                     <span class="item-pk" style="display: none;">${item_data.item_id}</span>
@@ -104,7 +104,7 @@ function showFoodItems(category_data, is_active) {
                                                         </div>
                                                         <div class="row d-none remove-box">
 
-                                                            <div class="col-lg-6 col-md-6 col-12">
+                                                            <div class="col-lg-6 col-md-6 col-6">
                                                                 <div class="quantity-controls" style="display: flex;">
                                                                     <button class="minus btn btn-primary"
                                                                         onclick="DecreseQuantity(this)">-</button>
@@ -114,10 +114,10 @@ function showFoodItems(category_data, is_active) {
                                                                 </div>
                                                             </div>
                                                             <div
-                                                                class="col-lg-6 col-md-6 col-12 text-md-end text-lg-end">
+                                                                class="col-lg-6 col-md-6 col-6 text-md-end text-lg-end p-sm-0">
                                                                 <button onclick="removeItem(this)"
-                                                                    class="remove-from-cart btn text-primary text-capitalize"><i
-                                                                        class="fas fa-trash me-2"></i>Remove Item
+                                                                    class="remove-from-cart btn text-primary text-capitalize p-sm-0"><i
+                                                                        class="fas fa-trash me-2"></i>Remove
                                                                 </button>
                                                             </div>
                                                         </div>

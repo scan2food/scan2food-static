@@ -211,9 +211,15 @@ body {
   margin-left: 10px;
 }
 
+.item-name {
+  font-size: 1rem;
+}
+
 .veg-icon {
   width: 20px;
   height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   display: inline-block;
   border: 1.4px solid green;
   border-radius: 4px;
@@ -233,6 +239,8 @@ body {
 .non-veg-icon {
   width: 20px;
   height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   display: inline-block;
   border: 1.4px solid red;
   border-radius: 4px;
@@ -252,6 +260,10 @@ body {
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-bottom: 10px solid red;
+}
+
+.menu-item .menu-img {
+  width: 65px !important;
 }
 
 .custom-table th, .custom-table td {

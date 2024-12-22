@@ -40,7 +40,9 @@ function RunWebSocket() {
             if (payment_panding === false) {
                 seat.setAttribute('class', 'seat paymentreceived');
                 showToast(updated_data.type, updated_data.message);
-                sendNotification(updated_data.message);
+                sendNotification('Notification', {
+                    body: updated_data.message
+                });
             }
     
             let order_status = updated_data.is_vacent

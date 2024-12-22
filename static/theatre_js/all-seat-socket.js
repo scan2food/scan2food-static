@@ -1,5 +1,7 @@
 let socket_url;
 
+let audio = new Audio('https://guru-sevak-singh.github.io/scan2food-static/static/sound/notification.wav');
+
 if (window.location.href.includes('https')) {
     socket_url = `wss://${window.location.host}/ws/all-seat-datasocket/`
 }
@@ -40,6 +42,7 @@ function RunWebSocket() {
             if (payment_panding === false) {
                 seat.setAttribute('class', 'seat paymentreceived');
                 showToast(updated_data.type, updated_data.message);
+                audio.play();
                 sendNotification('Notification', {
                     body: updated_data.message
                 });

@@ -15,6 +15,7 @@ const sendNotification = (message) => {
             console.error('Please allow notifications to receive notifications');
         }
         else if (perm === 'granted') {
+            audio.play();
             new Notification(message);
         }
     })
@@ -42,7 +43,6 @@ function RunWebSocket() {
             if (payment_panding === false) {
                 seat.setAttribute('class', 'seat paymentreceived');
                 showToast(updated_data.type, updated_data.message);
-                audio.play();
                 sendNotification('Notification', {
                     body: updated_data.message
                 });

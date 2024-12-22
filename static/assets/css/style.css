@@ -739,3 +739,13 @@ background-color: #ffffff !important;
     width: 80px;
     height: 80px;
    }
+   .category-name {
+    border: 1px solid #fff;
+   }
+   .app-brand-logo {
+    width: 110px;
+    max-width: 100%;
+   }
+   .app-theatre-details {
+    padding-top: 90px!important;
+   }

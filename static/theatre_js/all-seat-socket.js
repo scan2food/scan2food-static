@@ -7,6 +7,17 @@ else {
     socket_url = `ws://${window.location.host}/ws/all-seat-datasocket/`
 }
 
+const sendNotification = (message) => {
+    Notification.requestPermission().then(perm => {
+        if (perm === 'denied') {
+            console.error('Please allow notifications to receive notifications');
+        }
+        else if (perm === 'granted') {
+            new Notification(message);
+        }
+    })
+}
+
 function RunWebSocket() {
 
     let allSeatSocket = new WebSocket(socket_url)
@@ -27,8 +38,9 @@ function RunWebSocket() {
             let payment_panding = updated_data.payment_panding;
     
             if (payment_panding === false) {
-                seat.setAttribute('class', 'seat paymentreceived')
-                showToast(updated_data.type, updated_data.message)
+                seat.setAttribute('class', 'seat paymentreceived');
+                showToast(updated_data.type, updated_data.message);
+                sendNotification(updated_data.message);
             }
     
             let order_status = updated_data.is_vacent

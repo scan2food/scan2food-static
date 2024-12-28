@@ -47,7 +47,13 @@ function RunWebSocket() {
                     body: updated_data.message
                 });
             }
-    
+            else if (payment_panding === true && updated_data.is_vacent === false) {
+                seat.setAttribute('class', 'seat orderreceived');
+                showToast(updated_data.type, updated_data.message);
+                sendNotification('Notification', {
+                    body: updated_data.message});
+
+            }
             let order_status = updated_data.is_vacent
             if (order_status == true) {
                 seat.setAttribute('class', 'seat')

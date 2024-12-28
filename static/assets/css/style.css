@@ -116,7 +116,7 @@ body {
 }
 @media (max-width: 767px) {
     .pageWrapper {
-    min-height: calc(100vh - 19vh);
+    min-height: calc(100vh - 19vh)!important;
     }
     .seating-hall,  #all-hall-list {
         overflow-y: auto;

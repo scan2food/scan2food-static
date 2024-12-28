@@ -103,14 +103,14 @@ function createItemCart(item_name, item_type, item_price, item_quantity, item_de
 
                             <p class="text-muted small">${item_description}</p>
                             <div class="row align-items-center g-3">
-                                <div class="col-lg-6 col-md-6 col-6">
+                                <div class="col-lg-6 col-md-6 col-7">
                                     <div class="quantity">
                                         <button class="btn btn-primary" onclick="DecreseQuantityInCart(this)">-</button>
                                         <input type="text" class="quantity-box" value="${item_quantity}" readonly>
                                         <button class="btn btn-primary" onclick="IncreseQuantityInCart(this)">+</button>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-6 text-md-end text-lg-end text-start p-sm-0">
+                                <div class="col-lg-6 col-md-6 col-5 text-md-end text-lg-end text-start p-sm-0">
                                     <a class="dismiss-icon text-primary text-end remove-link p-sm-0" onclick="removeItemInCart(this)">
                                         <i class="fas fa-times me-1"></i>
                                         Remove Item
@@ -194,7 +194,7 @@ async function createOrder() {
         localStorage.removeItem(seat_name);
         let redirect_url = data['url']
         
-        if (window.location.href.includes('show-menu')){
+        if (window.location.href.includes('menu')){
             window.open(redirect_url, '_self')
         }
         else {

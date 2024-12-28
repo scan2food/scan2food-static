@@ -3,7 +3,6 @@ localStorage.clear()
 let theatre_id = JSON.parse(document.getElementById('theatre-id').innerText)
 
 async function getRequest(url) {
-    console.log(url);
     return fetch(url)
         .then(function (response) {
             return response.json();
@@ -39,40 +38,59 @@ async function loadMenu() {
 
 function showFoodItems(category_data, is_active) {
 
-    let food_catogary_list = document.getElementById('food-category-list');
-
-    let li = document.createElement('li');
-
-    li.setAttribute('class', 'nav-item');
-    let li_html = `
-        <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3"
-            data-bs-toggle="pill" href="#food-category-${category_data.id}">
-
-            <!-- <i class="fa fa-coffee fa-2x text-primary"></i> -->
-            <div class="ps-3">
-                <!-- <small class="text-body">#</small> -->
-                <h6 class="mt-n1 mb-0 text-capitalize">${category_data.name}</h6>
-            </div>
-        </a>
-    `
-    li.innerHTML = li_html;
-    food_catogary_list.appendChild(li);
-
     // creating all food view
     let foodContent = document.getElementById('food-item-content');
     let div = document.createElement('div');
     div.setAttribute('id', `food-category-${category_data.id}`);
-    if (is_active == true) {
-        div.setAttribute('class', 'tab-pane fade show p-0 active')
-        let a_tag = li.getElementsByTagName('a')[0]
-        a_tag.setAttribute('class', 'd-flex align-items-center text-start mx-3 ms-0 pb-3 active')
+    if (is_active) {
+        div.setAttribute('class', 'tab-pane fade show active')
     }
     else {
-        div.setAttribute('class', 'tab-pane fade show p-0')
+        div.setAttribute('class', 'tab-pane fade')
+    }
+    
+
+    // /////////////////////////////////////////////////////////////////////////////////////
+    // New code start for new food view
+    let window_location = window.location.href;
+    if (window_location.includes('menu')) {
+        let menu_footer = document.getElementById('food-category-list');
+        let li = document.createElement('li');
+        li.setAttribute('class', 'nav-item col-lg-2 col col-md-2 category-type-column');
+
+        let col = document.createElement('a');
+
+        col.setAttribute('href', `#food-category-${category_data.id}`);
+        col.setAttribute('data-bs-toggle', "pill");
+        if (is_active == true) {
+            col.setAttribute('class', 'active show');
+        }
+        else {
+            col.setAttribute('class', 'col-lg-2 col col-md-2 category-type-column');
+        }
+
+
+        html_data = `<div class="category-card-link">
+                <div class="category-type-card">
+                    <div class="category-type-img-wrapper">
+                        <img src="${category_data.category_image}" alt="" class=" category-type-img">
+                    </div>
+                    <div class="category-type-name  text-white p-2">
+                        <p class="mb-0">${category_data.name}</p>
+                    </div>
+                </div>
+                </div>`
+
+        col.innerHTML = html_data;
+        li.appendChild(col);
+        menu_footer.appendChild(li);
+
     }
 
+    // New code ends here
+
     let new_div = document.createElement('div');
-    new_div.setAttribute('class', 'row mb-5 g-3')
+    new_div.setAttribute('class', 'row g-3 mb-3')
 
     let food_items = category_data.items
     for (let i = 0; i < food_items.length; i++) {

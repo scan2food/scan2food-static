@@ -1,5 +1,5 @@
 async function getRequest(url) {
-    
+
     return fetch(url)
         .then(function (response) {
             return response.json();
@@ -95,7 +95,13 @@ function SetUpSeats(all_row, index, hall_name) {
                 seat.setAttribute('class', 'seat');
             }
             else {
-                seat.setAttribute('class', 'seat paymentreceived')
+                if (seat_data.payment_method == 'Cash' && seat_data.payment_status == 'Created') {
+                    console.log('order received');
+                    seat.setAttribute('class', 'seat orderreceived')
+                }
+                else {
+                    seat.setAttribute('class', 'seat paymentreceived')
+                }
             }
             seat.setAttribute('id', `seat-${seat_data.seat_id}`)
             seat.innerText = seat_data.seat_name
@@ -104,7 +110,7 @@ function SetUpSeats(all_row, index, hall_name) {
             theatreRow.appendChild(seat);
 
             let table_position = `${hall_name} | ${seat_data.seat_name}`
-            seat.addEventListener('click', async() => {
+            seat.addEventListener('click', async () => {
                 await OpenPopUp(table_position, seat);
             })
             table_name = table_position
@@ -138,12 +144,12 @@ function showOrderData() {
 
 ShowSeats()
 
-async function OpenPopUp(table_name, div="") {
+async function OpenPopUp(table_name, div = "") {
     let seat_class
     if (div === "") {
-        seat_class = 'seat'   
+        seat_class = 'seat'
     }
-    else{
+    else {
         seat_class = div.getAttribute('class');
     }
     if (seat_class === 'seat') {
@@ -163,7 +169,7 @@ async function OpenPopUp(table_name, div="") {
         loadExistingCart(table_name);
         $("#menuePopUp").modal('show');
     }
-    else {
+    else if (seat_class === 'seat paymentreceived') {
         let seat_id = div.getAttribute('id');
         seat_id = seat_id.split("-")[1];
 
@@ -171,6 +177,12 @@ async function OpenPopUp(table_name, div="") {
         document.getElementById('orderPopUpLabel').innerText = table_name;
 
         $("#orderPopUp").modal('show');
+    }
+    else {
+        let seat_id = div.getAttribute('id');
+        seat_id = seat_id.replaceAll('seat-', '');
+        let url = `/theatre/get-seat-last-order/${seat_id}`
+        window.open(url, "", "width=600, height=600");
     }
 
 

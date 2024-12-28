@@ -175,13 +175,13 @@ function UpdateCart(table_name) {
 
     if (cart_length == 0) {
         document.getElementById('cart-div').setAttribute('disabled', '');
-        if (window.location.href.includes('show-menu')) {
+        if (window.location.href.includes('menu')) {
             document.getElementById('cart-div').setAttribute('style', 'display: none;');
         }
     }
     else {
         document.getElementById('cart-div').removeAttribute('disabled');
-        if (window.location.href.includes('show-menu')) {
+        if (window.location.href.includes('menu')) {
             document.getElementById('cart-div').setAttribute('style', 'display: block');
         }
     }

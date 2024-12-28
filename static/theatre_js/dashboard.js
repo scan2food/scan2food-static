@@ -3,7 +3,6 @@ let orderComparisonChart;
 
 // Function to create or update the chart
 function createOrUpdateChart(newData) {
-    console.log('New data ==> ', newData)
     // If the chart already exists, update it
     if (orderComparisonChart) {
         // Update the chart's data
@@ -42,7 +41,7 @@ function createOrUpdateChart(newData) {
 // create all years in dropdown
 let year_dropdown = document.getElementById('year-dropdown');
 let running_year = document.getElementById('running-year').innerText;
-console.log(running_year);
+
 let drop_down_html = ''
 for (let i = 0; i < 6; i++) {
     drop_down_html += `
@@ -62,8 +61,6 @@ function createRevenueChart(data) {
     let monthlyRevenue = Object.values(data);
     let labels = Object.keys(data);
 
-    console.log(monthlyRevenue)
-    console.log(labels)
 
     if (revenueChart) {
         // Update the chart's data
@@ -114,8 +111,16 @@ function createRevenueChart(data) {
     }
 }
 
+async function get_volet_data() {
+    let url = '/theatre/api/get-volet-data'
+    let data = await getRequest(url)
+    document.getElementById('unsettled-amount').innerText = data['unsettled_payment']
+    
+}
+
+get_volet_data()
+
 async function ShowRevenueChart(year) {
-    console.log(year);
     let url = `/theatre/api/get-yearly-revenue/${year}`
     let data = await getRequest(url)
     createRevenueChart(data)
@@ -124,7 +129,6 @@ async function ShowRevenueChart(year) {
     for (let i = 0; i < all_active_tags.length; i++) {
         let tag = all_active_tags[i]
         if (tag.innerText == String(year)) {
-            console.log(tag)
             tag.setAttribute('class', 'dropdown-item active');
         }
         else {
@@ -142,7 +146,6 @@ ShowRevenueChart(document.getElementById('running-year').innerText)
 
 // function to get data using get request
 async function getRequest(url) {
-    console.log(url);
     return fetch(url)
         .then(function (response) {
             return response.json();
@@ -165,8 +168,6 @@ async function get_all_data() {
     const date = document.getElementById('daterange').value
     const complete_url = `${api_url}?daterange=${date}`
     all_data = await getRequest(complete_url);
-
-    console.log(all_data);
 
     let total_payment = parseFloat(all_data['Total Payment'].toFixed(2));
 

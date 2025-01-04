@@ -48,28 +48,30 @@ function showFoodItems(category_data, is_active) {
     else {
         div.setAttribute('class', 'tab-pane fade')
     }
-    
+
 
     // /////////////////////////////////////////////////////////////////////////////////////
     // New code start for new food view
     let window_location = window.location.href;
+    // if (window_location.includes('menu')) {
+    let menu_footer = document.getElementById('food-category-list');
+    let li = document.createElement('li');
+    li.setAttribute('class', 'nav-item col-lg-2 col col-md-2 category-type-column');
+
+    let col = document.createElement('a');
+
+    col.setAttribute('href', `#food-category-${category_data.id}`);
+    col.setAttribute('data-bs-toggle', "pill");
+    if (is_active == true) {
+        col.setAttribute('class', 'active show');
+    }
+    else {
+        col.setAttribute('class', 'col-lg-2 col col-md-2 category-type-column');
+    }
+
+    let html_data = '';
+
     if (window_location.includes('menu')) {
-        let menu_footer = document.getElementById('food-category-list');
-        let li = document.createElement('li');
-        li.setAttribute('class', 'nav-item col-lg-2 col col-md-2 category-type-column');
-
-        let col = document.createElement('a');
-
-        col.setAttribute('href', `#food-category-${category_data.id}`);
-        col.setAttribute('data-bs-toggle', "pill");
-        if (is_active == true) {
-            col.setAttribute('class', 'active show');
-        }
-        else {
-            col.setAttribute('class', 'col-lg-2 col col-md-2 category-type-column');
-        }
-
-
         html_data = `<div class="category-card-link">
                 <div class="category-type-card">
                     <div class="category-type-img-wrapper">
@@ -80,12 +82,16 @@ function showFoodItems(category_data, is_active) {
                     </div>
                 </div>
                 </div>`
-
-        col.innerHTML = html_data;
-        li.appendChild(col);
-        menu_footer.appendChild(li);
-
     }
+    else {
+        html_data = ``;
+    }
+
+    col.innerHTML = html_data;
+    li.appendChild(col);
+    menu_footer.appendChild(li);
+
+    // }
 
     // New code ends here
 

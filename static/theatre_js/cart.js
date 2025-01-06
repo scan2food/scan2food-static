@@ -193,8 +193,7 @@ async function createOrder() {
     
         localStorage.removeItem(seat_name);
         let redirect_url = data['url'];
-        alert(redirect_url)
-        
+
         if (window.location.href.includes('menu')){
             window.open(redirect_url, '_self')
         }

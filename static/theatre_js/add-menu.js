@@ -6,6 +6,7 @@ function OpenAddItem(id) {
     document.getElementById('id_food_image').value = '';
     document.getElementById('id_price').value = "";
     document.getElementById('id_description').value = "";
+    document.getElementById('id_priority_number').value = "";
 
     document.getElementById('item-form').action = add_url;
 
@@ -19,6 +20,7 @@ function EditItem(id, button, food_id) {
     food_name = div.getElementsByClassName('food-name')[0].innerText
     food_price = div.getElementsByClassName('food-price')[0].innerText;
     food_description = div.getElementsByClassName('food-description')[0].innerText;
+    priority_number = div.getElementsByClassName('priority-number')[0].innerText
 
     food_type = food_type.replaceAll('-icon food-type', '')
     console.log(food_type)
@@ -27,6 +29,7 @@ function EditItem(id, button, food_id) {
     document.getElementById('id_name').value = food_name
     document.getElementById('id_price').value = food_price;
     document.getElementById('id_description').value = food_description;
+    document.getElementById('id_priority_number').value = priority_number;
 
 
 }

@@ -62,11 +62,19 @@ function showFoodItems(category_data, is_active) {
 
     col.setAttribute('href', `#food-category-${category_data.id}`);
     col.setAttribute('data-bs-toggle', "pill");
-    if (is_active == true) {
-        col.setAttribute('class', 'active show');
+
+    if (window_location.includes('menu')) {
+
+        col.setAttribute('class', 'col-lg-2 col col-md-2 category-type-column');
     }
     else {
-        col.setAttribute('class', 'col-lg-2 col col-md-2 category-type-column');
+
+        col.setAttribute('class', 'd-flex align-items-center text-start mx-3 ms-0 pb-3')
+    }
+
+    if (is_active == true) {
+        col.classList.add('active');
+        col.classList.add('show');
     }
 
     let html_data = '';
@@ -84,7 +92,12 @@ function showFoodItems(category_data, is_active) {
                 </div>`
     }
     else {
-        html_data = ``;
+        li.setAttribute('class', 'nav-item');
+        html_data = `
+        <div class="ps-3">
+            <h6 class="mt-n1 mb-0">${category_data.name}</h6>
+        </div>
+        `;
     }
 
     col.innerHTML = html_data;

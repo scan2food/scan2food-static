@@ -74,16 +74,16 @@ function createOrderTab(order_data) {
     document.getElementById('order-time').innerText = order_data.order_detail.order_time;
     console.log(order_data)
     document.getElementById('phone-number').innerText = order_data.order_detail.phone_number;
-
+    
     if (order_data.order_detail.payment_pending === true) {
-        payment_status = '<i class="fa fas fa-clock text-danger mb-0 me-1"></i> Pending';
+        payment_status = `<i class="fa fas fa-clock text-danger mb-0 me-1"></i> ${order_data.order_detail.payment_status}`;
         document.getElementById('panding-amount-heading').innerText = 'Pending Amount';
         document.getElementById('payment-tab-panding-amount-heading').innerText = 'Pending Amount';
         document.getElementById('panding-amount-heading-value').innerText = 0;
         document.getElementById('payment-tab-panding-amount-value').setAttribute('class', 'amount-with-tax');
     }
     else {
-        payment_status = '<i class="fa fas fa-check-circle text-success mb-0 me-1"></i>  Done';
+        payment_status = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> ${order_data.order_detail.payment_status}`;
         document.getElementById('panding-amount-heading').innerText = 'Amount Paid';
         document.getElementById('payment-tab-panding-amount-heading').innerText = 'Amount Paid';
         document.getElementById('panding-amount-heading-value').innerText = order_data.order_detail.amount;
@@ -106,8 +106,13 @@ function createCartTab(order_data) {
                         <div class="row mb-2 order-item">
                             <div class="col-8">
                                 <h6 class="d-flex align-items-center">
-                                    <span class="">${item.name}</span>    <span class="text-muted ms-4 ps-2" style="font-size: 0.85rem;"> <span class="ms-2 me-3"> | </span>Quantity:
-                                    ${item.quantity}</span>
+                                    <span class="">${item.name}</span>
+                                    <span class="text-muted ms-4 ps-2" style="font-size: 0.85rem;">
+                                        <span class="ms-2 me-3"> | </span> Price: ₹ ${item['item-price']}
+                                    </span>
+                                    <span class="text-muted ms-4 ps-2" style="font-size: 0.85rem;">
+                                    <span class="ms-2 me-3"> | </span>Quantity: ${item.quantity}
+                                    </span>
                                 </h6>
                               
                             </div>
@@ -174,7 +179,7 @@ async function deliverOrder() {
     let url = `/theatre/api/deliver-order/${order_id}`
     let order_status = await getRequest(url)
 
-    
+
     if (order_status.message === 'Order Delivered Successfully') {
         document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> Order Delivered`
     }

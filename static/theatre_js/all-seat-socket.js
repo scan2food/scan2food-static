@@ -1,7 +1,8 @@
 let socket_url;
 
 let audio = new Audio('https://guru-sevak-singh.github.io/scan2food-static/static/sound/notification.wav');
-let order_received_audio = new Audio('https://guru-sevak-singh.github.io/scan2food-static/static/sound/ordr_recived.mp3')
+let order_received_audio = new Audio('https://guru-sevak-singh.github.io/scan2food-static/static/sound/order_received.wav')
+
 if (window.location.href.includes('https')) {
     socket_url = `wss://${window.location.host}/ws/all-seat-datasocket/`
 }

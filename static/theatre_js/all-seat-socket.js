@@ -2,7 +2,6 @@ let socket_url;
 
 let audio = new Audio('https://guru-sevak-singh.github.io/scan2food-static/static/sound/notification.wav');
 let order_received_audio = new Audio('https://guru-sevak-singh.github.io/scan2food-static/static/sound/order_received.wav')
-
 if (window.location.href.includes('https')) {
     socket_url = `wss://${window.location.host}/ws/all-seat-datasocket/`
 }
@@ -24,12 +23,7 @@ const sendNotification = (notification_title, message) => {
         }
     })
 
-    if (notification_title == "Order Received") {
-        order_received_audio.play()
-    }
-    else {
-        audio.play();
-    }
+    order_received_audio.play()
 }
 
 function RunWebSocket() {

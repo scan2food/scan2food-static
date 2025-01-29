@@ -23,7 +23,6 @@ const sendNotification = (notification_title, message) => {
         }
     })
 
-    order_received_audio.play()
 }
 
 function RunWebSocket() {
@@ -56,9 +55,16 @@ function RunWebSocket() {
                 sendNotification('Order Received Payment Pending', updated_data.message);
 
             }
+
             let order_status = updated_data.is_vacent
+            
             if (order_status == true) {
-                seat.setAttribute('class', 'seat')
+                seat.setAttribute('class', 'seat');
+                audio.play();
+            }
+
+            else {
+                order_received_audio.play();
             }
     
             showOrderData()

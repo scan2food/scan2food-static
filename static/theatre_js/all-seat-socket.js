@@ -9,14 +9,18 @@ else {
     socket_url = `ws://${window.location.host}/ws/all-seat-datasocket/`
 }
 
-const sendNotification = (message) => {
+const sendNotification = (notification_title, message) => {
     Notification.requestPermission().then(perm => {
         if (perm === 'denied') {
             console.error('Please allow notifications to receive notifications');
         }
         else if (perm === 'granted') {
             audio.play();
-            new Notification(message);
+            let notify = new Notification(notification_title, {
+                body: message,
+                icon: 'https://guru-sevak-singh.github.io/scan2food-static/static/assets/images/brand/Scan2FoodFabIcon.png',
+                vibrate: [200, 100, 200],
+            });
         }
     })
 }
@@ -43,15 +47,12 @@ function RunWebSocket() {
             if (payment_panding === false) {
                 seat.setAttribute('class', 'seat paymentreceived');
                 showToast(updated_data.type, updated_data.message);
-                sendNotification('Notification', {
-                    body: updated_data.message
-                });
+                sendNotification('Order Received', updated_data.message);
             }
             else if (payment_panding === true && updated_data.is_vacent === false) {
                 seat.setAttribute('class', 'seat orderreceived');
                 showToast(updated_data.type, updated_data.message);
-                sendNotification('Notification', {
-                    body: updated_data.message});
+                sendNotification('Order Received Payment Pending', updated_data.message);
 
             }
             let order_status = updated_data.is_vacent
@@ -70,45 +71,3 @@ function RunWebSocket() {
 }
 
 RunWebSocket()
-// allSeatSocket.onclose = (e) => {
-
-//     try {
-//         allSeatSocket = new WebSocket(socket_url);
-
-//         allSeatSocket.onmessage = (e) => {
-//             let theatre_id = JSON.parse(document.getElementById('theatre-id').innerText)
-
-//             let eventData = JSON.parse(e.data)
-//             let updated_data = JSON.parse(eventData.updated_table_data);
-
-//             let order_theatre_id = updated_data.theatre_id
-//             if (order_theatre_id == theatre_id) {
-
-//                 let seat_id = `seat-${updated_data.seat_id}`;
-//                 let seat = document.getElementById(seat_id)
-
-//                 let seat_status = updated_data.is_vacent
-
-//                 if (seat_status === true) {
-//                     seat.setAttribute('class', 'seat')
-//                 }
-//                 else {
-
-//                     let payment_panding = updated_data.payment_panding;
-//                     if (payment_panding === false) {
-//                         seat.setAttribute('class', 'seat paymentreceived')
-//                         showToast('bg-success', `New Order Come From ${updated_data.seat_name}`)
-//                     }
-//                 }
-//                 showOrderData()
-
-//             }
-
-//         }
-
-//     }
-//     catch (error) {
-//         console.log(error)
-//     }
-
-// }

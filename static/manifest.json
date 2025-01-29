@@ -1,5 +1,13 @@
 {
     "name": "Scan2Food",
+    "short_name": "Scan2Food",
+    "description": "With Scan2Food, enhance your customers' movie-going experience by offering a seamless way to order food and drinks right from their seats. Increase your concession sales and improve customer satisfaction with this modern solution tailored for theaters.",
+    "start_url": "/theatre/all-seats",
+    "orientation": "landscape-primary",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "prompt_message": "Add a home screen icon for easy access to Scan2Food",
     "icons": [
         {
             "src": "https://guru-sevak-singh.github.io/scan2food-static/static/assets/images/brand/Scan2FoodFabIcon.png",
@@ -37,5 +45,9 @@
             "type": "image/png",
             "density": "4.0"
         }
-    ]
+    ],
+    "edge_side_panel": {
+        "preferred_width": 496
+    },
+    "lang": "en-US"
 }

@@ -4,13 +4,8 @@
     "description": "With Scan2Food, enhance your customers' movie-going experience by offering a seamless way to order food and drinks right from their seats. Increase your concession sales and improve customer satisfaction with this modern solution tailored for theaters.",
     "orientation": "portrait-primary",
     "display": "standalone",
-<<<<<<< HEAD
     "background_color": "#0f172b",
     "theme_color": "#0f172b",
-=======
-    "background_color": "#11547d",
-    "theme_color": "#11547d",
->>>>>>> 58034aa0d9a106d3c9a2b54688e59fea55f4fd9c
     "prompt_message": "Add a home screen icon for easy access to Scan2Food",
     "icons": [
         {

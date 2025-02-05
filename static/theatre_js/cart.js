@@ -28,7 +28,7 @@ function openCart(a) {
     let table_name = a.getAttribute('selected-table-name');
     document.getElementById("cartPopUpLabel").innerText = table_name;
 
-    let items = localStorage.getItem(seat_name)
+    let items = localStorage.getItem(table_name)
     
     if (items == null) {
         localStorage.setItem('message', 'Oops, out bad! Please add items again ...')

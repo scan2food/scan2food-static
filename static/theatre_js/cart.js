@@ -31,7 +31,7 @@ function openCart(a) {
     let items = localStorage.getItem(seat_name)
     
     if (items == null) {
-        localStorage.setItem('message', 'Oops, out bad! Please once regenerate Your order')
+        localStorage.setItem('message', 'Oops, out bad! Please add items again ...')
         location.reload()
     }
 
@@ -185,7 +185,7 @@ async function createOrder() {
     let cart_data = localStorage.getItem(seat_name);
 
     if (cart_data == null) {
-        localStorage.setItem('message', 'Oops, out bad! Please once regenerate Your order')
+        localStorage.setItem('message', 'Oops, our bad! Please add items again ...')
         location.reload()
     }
 

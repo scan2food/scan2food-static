@@ -1,3 +1,8 @@
+let messag = localStorage.getItem('message')
+if (messag != null) {
+    showToast('bg-danger', messag)
+}
+
 localStorage.clear()
 
 let theatre_id = JSON.parse(document.getElementById('theatre-id').innerText)

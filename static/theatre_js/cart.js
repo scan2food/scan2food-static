@@ -28,6 +28,13 @@ function openCart(a) {
     let table_name = a.getAttribute('selected-table-name');
     document.getElementById("cartPopUpLabel").innerText = table_name;
 
+    let items = localStorage.getItem(seat_name)
+    
+    if (items == null) {
+        localStorage.setItem('message', 'Oops, out bad! Please once regenerate Your order')
+        location.reload()
+    }
+
     // minimize the existing modal [ Menu Modal ]
     $("#menuePopUp").modal('hide');
 
@@ -176,7 +183,14 @@ async function createOrder() {
     let order_data = {}
     let seat_name = document.getElementById('cartPopUpLabel').innerText;
     let cart_data = localStorage.getItem(seat_name);
-    
+
+    if (cart_data == null) {
+        localStorage.setItem('message', 'Oops, out bad! Please once regenerate Your order')
+        location.reload()
+    }
+
+    console.log(seat_name, cart_data)
+
     if (cart_data === '{}') {
         alert('Please Select Some Items first')
     }

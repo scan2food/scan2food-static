@@ -75,6 +75,7 @@ function EditItem(id, button, food_id) {
     document.getElementById('id_description').value = food_description;
     document.getElementById('id_priority_number').value = priority_number;
 
+    document.getElementById('sell-for-mrp').setAttribute('item-id', food_id);
 
 }
 
@@ -141,4 +142,11 @@ async function UploadImage(img) {
     }
 
     $('#imageModal').modal('hide');
+}
+
+async function sellOnMrp(button) {
+    let item_id = button.getAttribute('item-id');
+    let url = `/theatre/api/sell-on-mrp/${item_id}`;
+    let update_status = await getRequest(url);
+    showToast(update_status.type, update_status.message);
 }

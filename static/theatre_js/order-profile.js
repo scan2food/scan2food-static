@@ -72,8 +72,16 @@ function createOrderTab(order_data) {
     document.getElementById('seat-name').innerText = order_data.seat;
     document.getElementById('order-date').innerText = order_data.order_detail.order_date;
     document.getElementById('order-time').innerText = order_data.order_detail.order_time;
-    console.log(order_data)
-    document.getElementById('phone-number').innerText = order_data.order_detail.phone_number;
+    let phone_number = order_data.order_detail.phone_number
+    
+    if (phone_number == ""){
+        document.getElementById('phone-number').innerHTML = `
+        <button class="btn btn-success btn-sm" onclick="getPhonNumberByOrderId('${order_data.order_detail.order_id}')">Get PhoneNumber</button>`
+    }
+    else{
+        document.getElementById('phone-number').innerText = phone_number;
+    }
+
     
     if (order_data.order_detail.payment_pending === true) {
         payment_status = `<i class="fa fas fa-clock text-danger mb-0 me-1"></i> ${order_data.order_detail.payment_status}`;
@@ -189,4 +197,16 @@ async function deliverOrder() {
     if (window.location.href.includes('theatre/all-seats')) {
         $("#orderPopUp").modal('hide');
     }
+}
+
+async function getPhonNumberByOrderId(id) {
+    let api_url = `/theatre/api/get-phone-number-by-order-id/${id}`;
+    let data = await getRequest(api_url);
+    
+    if (data.status == false) {
+        showToast('bg-danger', "User Hasn't Provided There Phone Number Yet !");
+    }
+
+    let phone_number = data['phone_number'];
+    document.getElementById('phone-number').innerText = phone_number;
 }

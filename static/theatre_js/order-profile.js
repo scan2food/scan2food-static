@@ -111,22 +111,35 @@ function createCartTab(order_data) {
     for (let i = 0; i < cart_items.length; i++) {
         let item = cart_items[i];
         let item_row = `
-                        <div class="row mb-2 order-item">
-                            <div class="col-8">
+
+
+                    <div class="row mb-2 order-item order-item-small-device">
+                            <div class="col-3 col-lg-1 col-md-2">
+                               <img class="food-item" src="${item.food_image}" />
+                              
+                            </div>  
+                                   <div class="col-9 col-lg-11 col-md-10">    
+                                <div class="row">            
+                            <div class="col-7">
                                 <h6 class="d-flex align-items-center">
                                     <span class="">${item.name}</span>
-                                    <span class="text-muted ms-4 ps-2" style="font-size: 0.85rem;">
-                                        <span class="ms-2 me-3"> | </span> Price: ₹ ${item['item-price']}
-                                    </span>
-                                    <span class="text-muted ms-4 ps-2" style="font-size: 0.85rem;">
-                                    <span class="ms-2 me-3"> | </span>Quantity: ${item.quantity}
-                                    </span>
+
                                 </h6>
                               
                             </div>
-                            <div class="col-4 text-end">
+                            <div class="col-5 text-end">
                                 <h6 class="price"><span class="me-1-cust">₹</span>${item.price}</h6>
-                            </div>  
+                            </div> 
+                            <div class="col-12 m-0 align-items-left"> 
+                                    <span class="text-muted" style="font-size: 0.85rem;">
+                                       Price: <span class="text-dark fw-bold"> ₹ ${item['item-price']} </span>
+                                    </span>
+                                    <span class="text-muted ps-3" style="font-size: 0.85rem;">
+                                    <span class="ps-2 pe-2"> | </span>Quantity: <span class="text-dark fw-bold"> ${item.quantity}</span>
+                                    </span>
+                            </div>
+                            <div>
+                            <div>
                         </div>
                        
         `
@@ -210,3 +223,26 @@ async function getPhonNumberByOrderId(id) {
     let phone_number = data['phone_number'];
     document.getElementById('phone-number').innerText = phone_number;
 }
+
+{/* <div class="row mb-2 order-item order-item-large-device">
+<div class="col-lg-2 col-md-2">
+<img class="food-item" src="https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141352.jpg?semt=ais_hybrid" />
+
+</div>  
+<div class="col-lg-7 col-md-7">
+<h6 class="d-flex align-items-center">
+
+<span class="">${item.name}</span>
+<span class="text-muted ms-4 ps-2" style="font-size: 0.85rem;">
+<span class="ms-2 me-3"> | </span> Price: ₹ ${item['item-price']}
+</span>
+<span class="text-muted ms-4 ps-2" style="font-size: 0.85rem;">
+<span class="ms-2 me-3"> | </span>Quantity: ${item.quantity}
+</span>
+</h6>
+
+</div>
+<div class="col-lg-3 col-md-3 text-end">
+<h6 class="price"><span class="me-1-cust">₹</span>${item.price}</h6>
+</div>  
+</div> */}

@@ -143,7 +143,7 @@ body {
     margin-left: 50px;
 }
 #order-list table, .table-scrollable-sm {
-    min-width: 1000px;
+    min-width: 1200px;
 }
 .table-scrollable {
     min-width: 700px
@@ -749,3 +749,19 @@ background-color: #ffffff !important;
    .app-theatre-details {
     padding-top: 90px!important;
    }
+   .custom-pagination {
+    margin-top : 15px
+   }
+   /* @media (min-width: 1024px) {
+   .order-item-small-device {
+        display: none;
+   }
+}
+@media (max-width: 1023px) {
+    .order-item-large-device {
+        display: none;
+    }
+ } */
+ .food-item {
+    width: 60px
+ }

@@ -135,7 +135,7 @@ function createTopSellingChart(data) {
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'quantity',
+                    label: 'Quantity',
                     data: monthlyRevenue,
                     backgroundColor: 'rgb(254, 175, 57, 0.6)', // Bar color
                     borderColor: '#feaf39', // Border color

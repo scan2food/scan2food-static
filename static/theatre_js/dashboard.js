@@ -57,6 +57,9 @@ document.getElementById(`year-${document.getElementById('running-year').innerTex
 // function which change the graph and get data into the graph
 let revenueChart
 
+// function which change the top selling chart and get data into the chart
+let topSeelingChart
+
 function createRevenueChart(data) {
     let monthlyRevenue = Object.values(data);
     let labels = Object.keys(data);
@@ -111,11 +114,67 @@ function createRevenueChart(data) {
     }
 }
 
+function createTopSellingChart(data) {
+    let monthlyRevenue = Object.values(data);
+    let labels = Object.keys(data);
+
+
+    if (topSeelingChart) {
+        // Update the chart's data
+        topSeelingChart.data.datasets[0].data = monthlyRevenue;
+        topSeelingChart.data.labels = labels
+        topSeelingChart.update(); // Update the chart to reflect changes
+    }
+    else {
+        // Getting the canvas element
+        const ctx = document.getElementById('topSeelingChart').getContext('2d');
+
+        // Creating the chart
+        topSeelingChart = new Chart(ctx, {
+            type: 'bar', // Bar chart type
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'quantity',
+                    data: monthlyRevenue,
+                    backgroundColor: 'rgb(254, 175, 57, 0.6)', // Bar color
+                    borderColor: '#feaf39', // Border color
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true, // Ensures y-axis starts at 0
+                        grid: {
+                            display: false // Removes y-axis grid lines
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false // Removes x-axis grid lines
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: false,
+                        text: `Total Revenue for the Year`
+                    }
+                },
+                indexAxis: 'y',
+            }
+        });
+        // revenue chart end
+    }
+
+}
+
 async function get_volet_data() {
     let url = '/theatre/api/get-volet-data'
     let data = await getRequest(url)
     document.getElementById('unsettled-amount').innerText = data['unsettled_payment']
-    
+
 }
 
 get_volet_data()
@@ -177,6 +236,7 @@ async function get_all_data() {
     document.getElementById('running-orders').innerText = all_data['running_orders']
 
     createOrUpdateChart({ staff_orders: all_data.staff_orders, self_orders: all_data.self_orders });
+    createTopSellingChart(all_data.top_selling_items)
     return all_data
 
 }

@@ -2,7 +2,7 @@ const csrftoken = document.querySelector('[name=csrf-token]').content;
 
 // function to hit the post request
 async function PostRequest(url, data) {
-    
+
     return fetch(url, {
         method: 'POST',
         headers: {
@@ -29,7 +29,7 @@ function openCart(a) {
     document.getElementById("cartPopUpLabel").innerText = table_name;
 
     let items = localStorage.getItem(table_name)
-    
+
     if (items == null) {
         localStorage.setItem('message', 'Oops, out bad! Please add items again ...')
         location.reload()
@@ -133,7 +133,7 @@ function createItemCart(item_name, item_type, item_price, item_quantity, item_de
 }
 
 function getCartAmount(cart_data) {
-    
+
     // cart data get from old data
     let total_amount = 0;
     for (let cart_item in cart_data) {
@@ -141,8 +141,9 @@ function getCartAmount(cart_data) {
         total_amount += item_amount;
     }
 
-    calculateTax(total_amount)
-    document.getElementById('total-cart-amount').innerText = total_amount;
+    calculateConvinence(total_amount);
+
+
     document.getElementById('cart-amount').innerText = total_amount;
 
     totalPayBalance();
@@ -162,20 +163,53 @@ function totalPayBalance() {
     document.getElementById('total-amount').innerText = total_amount;
 }
 
-function calculateTax(amount) {
-    let all_taxes = document.querySelectorAll('.tax-perscantage');
-    let all_tax_amounts = document.querySelectorAll('.tax-amount');
 
-    for (let i = 0; i < all_taxes.length; i++) {
-        try {
-            let tax_perscantage = parseFloat(all_taxes[i].innerText);
-            let tax_amount = amount * (tax_perscantage / 100);
-            tax_amount = tax_amount.toFixed(2)
-            all_tax_amounts[i].innerText = tax_amount;
-        }
-        catch (error) {
-            console.log(error)
-        }
+function calculateConvinence(amount) {
+    convinence_amount = amount * (commission / 100);
+    convinence_amount = convinence_amount.toFixed(2)
+
+    document.getElementById('total-cart-amount').innerText = amount - convinence_amount;
+    document.getElementById('convenience-fees').innerText = convinence_amount;
+
+    // creating price break down
+    let price_break_down = document.getElementById('priceBreakdown');
+    let tex_amount = convinence_amount * (18/100);
+    tex_amount = tex_amount.toFixed(2);
+    let base_amount = (convinence_amount - tex_amount)
+    base_amount = base_amount.toFixed(2);
+
+    console.log(base_amount, tex_amount);
+
+    if (tax_type === "IGST") {
+        price_break_down.innerHTML = `<div class="d-flex justify-content-between mt-1">
+                                            <p class="text-muted mb-0 small">Base Amount</p>
+                                            <h6 class="price small"><span
+                                                    class="me-1-cust">₹</span><span>${base_amount}</span></h6>
+                                        </div>
+                                        <div class="d-flex justify-content-between mt-1">
+                                            <p class="text-muted mb-0 small">Integrated GST (IGST) @18%</p>
+                                            <h6 class="price small"><span
+                                                    class="me-1-cust">₹</span><span>${tex_amount}</span></h6>
+                                        </div>
+        `;
+    }
+    else {
+        price_break_down.innerHTML = `<div class="d-flex justify-content-between mt-1">
+                                        <p class="text-muted mb-0 small">Base Amount</p>
+                                        <h6 class="price small"><span
+                                                class="me-1-cust">₹</span><span>${base_amount}</span></h6>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <p class="text-muted mb-0 small">Central GST (CGST) @9%</p>
+                                        <h6 class="price small"><span
+                                                class="me-1-cust">₹</span><span>${tex_amount / 2}</span></h6>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <p class="text-muted mb-0 small">State GST (CGST) @9%</p>
+                                        <h6 class="price small"><span
+                                                class="me-1-cust">₹</span><span>${tex_amount / 2}</span></h6>
+                                    </div>
+                                    `;
     }
 }
 
@@ -196,19 +230,19 @@ async function createOrder() {
     }
     else {
         let theatre_id = JSON.parse(document.getElementById('theatre-id').innerText);
-        
+
         order_data['theatre_id'] = theatre_id;
         order_data['cart_data'] = JSON.parse(cart_data);
         order_data['seat'] = seat_name;
-    
+
         let url = "/theatre/api/create-order"
         let data;
         data = await PostRequest(url, order_data);
-    
+
         localStorage.removeItem(seat_name);
         let redirect_url = data['url'];
 
-        if (window.location.href.includes('menu')){
+        if (window.location.href.includes('menu')) {
             window.open(redirect_url, '_self')
         }
         else {

@@ -27,7 +27,6 @@ async function PostRequest(url, data) {
 function CheckPhoneNumber() {
     if (customer_phone_number.length === 0) {
         $("#detailBox").modal('show');
-
     }
     
 }

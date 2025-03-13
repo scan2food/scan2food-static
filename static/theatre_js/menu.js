@@ -24,9 +24,14 @@ async function getRequest(url) {
 }
 
 let menu_data = {}
+var commission = 0
+var tax_type = "IGST"
 async function loadMenu() {
     let menu_api_url = `/theatre/api/all-menu/${theatre_id}`;
     menu_data = await getRequest(menu_api_url);
+    commission = menu_data.commission;
+    tax_type = menu_data.tax_type;
+    menu_data = menu_data.all_category;
 
     for (let i = 0; i < menu_data.length; i++) {
         let data = menu_data[i];

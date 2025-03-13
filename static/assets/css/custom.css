@@ -213,7 +213,32 @@ body {
   padding: 15px;
   border-radius: 5px;
   margin-top: 10px;
-  border: 0px;
+  border: 1px solid #fea116;
+  background-color: #fdfbf8;
+}
+
+h6.price.small {
+  font-weight: normal;
+  color: #555;
+}
+
+.total-section .text-muted {
+  color: #555 !important;
+}
+
+.modal-footer {
+  border-top: 1px solid #fea116;
+}
+
+#food-category-list {
+  padding: 0px;
+}
+
+#paymentPage .card-body {
+  border: 1px solid #ccc;
+}
+#paymentPage .form-control {
+  border: 1.3px solid #666;
 }
 
 @media (min-width: 1100px) {
@@ -228,6 +253,7 @@ body {
 
 .item-name {
   font-size: 1rem;
+  text-transform: capitalize;
 }
 
 .veg-icon {
@@ -548,7 +574,7 @@ body {
 }
 .menuPageWrapper .category-types-wrapper.bg-dark .category-type-column .category-type-img {
   width: 80%;
-  max-width: 50px;
+  max-width: 45px;
 }
 .menuPageWrapper .category-types-wrapper.bg-dark .category-type-column:last-child {
   border-right: none !important;

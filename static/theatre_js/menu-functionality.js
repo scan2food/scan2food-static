@@ -13,6 +13,7 @@ function addToCart(btn) {
     item_type = item_type.replaceAll('-icon item-type', '');
     let item_price = card.getElementsByClassName('item-price')[0].innerText;
     let item_description = card.getElementsByClassName('item-description')[0].innerText;
+    let item_real_price = card.getElementsByClassName('item-real-price')[0].innerText
 
     // getting the food item id
     let pk = card.getElementsByClassName('item-pk')[0].innerText;
@@ -22,6 +23,7 @@ function addToCart(btn) {
     append_data['item_type'] = item_type
     append_data['name'] = item_name;
     append_data['item_price'] = item_price;
+    append_data['item_real_price'] = item_real_price
     append_data['item_description'] = item_description;
     append_data.quantity = 1;
     // make add box d-none

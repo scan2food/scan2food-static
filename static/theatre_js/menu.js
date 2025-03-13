@@ -134,6 +134,7 @@ function showFoodItems(category_data, is_active) {
                                                     src="${item_data.food_image}" alt="" style="width: 80px;">
                                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                                     <span class="item-pk" style="display: none;">${item_data.item_id}</span>
+                                                    <span class="item-real-price d-none">${item_data.real_price}</span>
                                                     <h5 class="d-flex justify-content-start border-bottom pb-2">
                                                         <span class="${item_data.food_type}-icon item-type"></span><span
                                                             class="item-name">${item_data.name}</span>

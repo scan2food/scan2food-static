@@ -136,12 +136,14 @@ function getCartAmount(cart_data) {
 
     // cart data get from old data
     let total_amount = 0;
+    let theatre_price = 0
     for (let cart_item in cart_data) {
         item_amount = cart_data[cart_item]['item_price'] * cart_data[cart_item]['quantity'];
         total_amount += item_amount;
+        theatre_price += cart_data[cart_item]['item_real_price'] * cart_data[cart_item]['quantity']
     }
 
-    calculateConvinence(total_amount);
+    calculateConvinence(theatre_price, total_amount);
 
 
     document.getElementById('cart-amount').innerText = total_amount;
@@ -164,11 +166,11 @@ function totalPayBalance() {
 }
 
 
-function calculateConvinence(amount) {
-    convinence_amount = amount * (commission / 100);
+function calculateConvinence(theatre_price, amount) {
+    convinence_amount = amount - theatre_price
     convinence_amount = convinence_amount.toFixed(2)
 
-    document.getElementById('total-cart-amount').innerText = amount - convinence_amount;
+    document.getElementById('total-cart-amount').innerText = theatre_price;
     document.getElementById('convenience-fees').innerText = convinence_amount;
 
     // creating price break down

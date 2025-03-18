@@ -1,7 +1,7 @@
 let user_type_select = document.getElementById('id_user_type');
 
 function createTypeSelect() {
-    const groups = {'waiter': 'Waiter', 'manager': 'Manager'}
+    const groups = {'Customer Associate': 'Customer Associate', 'manager': 'Manager'}
 
     for (let i in groups) {
         let option = document.createElement('option');

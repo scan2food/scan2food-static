@@ -93,7 +93,7 @@ function showFoodItems(category_data, is_active) {
         html_data = `<div class="category-card-link">
                 <div class="category-type-card">
                     <div class="category-type-img-wrapper">
-                        <img src="${category_data.category_image}" alt="" class=" category-type-img">
+                        <img loading="lazy" src="${category_data.category_image}" alt="" class=" category-type-img">
                     </div>
                     <div class="category-type-name  text-white p-2">
                         <p class="mb-0">${category_data.name}</p>
@@ -130,7 +130,7 @@ function showFoodItems(category_data, is_active) {
 
         let food_card_html = `
                                             <div class="d-flex align-items-center menu-item my-food-card">
-                                                <img class="flex-shrink-0 img-fluid rounded menu-img"
+                                                <img loading="lazy" class="flex-shrink-0 img-fluid rounded menu-img"
                                                     src="${item_data.food_image}" alt="" style="width: 80px;">
                                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                                     <span class="item-pk" style="display: none;">${item_data.item_id}</span>

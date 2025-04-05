@@ -107,7 +107,7 @@ async function openImagePopUp(img, id, food_name) {
         for (let i = 0; i < all_images.length; i++) {
             let img_src = all_images[i];
             div.innerHTML += `<div class="col-3">
-            <img src="${img_src}" class="img-thumbnail" alt="image" onclick="UploadImage(this)">
+            <img loading="lazy" src="${img_src}" class="img-thumbnail" alt="image" onclick="UploadImage(this)">
             </div>
             `
             galery.appendChild(div);

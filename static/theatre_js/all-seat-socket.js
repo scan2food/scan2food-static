@@ -46,7 +46,14 @@ function RunWebSocket() {
     
             if (payment_panding === false) {
                 seat.setAttribute('class', 'seat paymentreceived');
-                showToast(updated_data.type, updated_data.message);
+                try{
+                    const msg = updated_data.message.split("%0A%0A")[0];
+                    showToast(updated_data.type, msg);
+                }
+                catch {
+                    showToast(updated_data.type, updated_data.message);
+                }
+                
                 sendNotification('Order Received', updated_data.message);
             }
             else if (payment_panding === true && updated_data.is_vacent === false) {

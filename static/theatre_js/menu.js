@@ -138,8 +138,14 @@ function showFoodItems(category_data, is_active) {
                                                     <h5 class="d-flex justify-content-start border-bottom pb-2">
                                                         <span class="${item_data.food_type}-icon item-type"></span><span
                                                             class="item-name">${item_data.name}</span>
-                                                        <span class="text-primary float-end ms-auto">₹<span
-                                                                class="item-price">${item_data.price}</span></span>
+                                                        <span class="text-primary float-end ms-auto">
+                                                        ₹<span class="item-price d-none">
+                                                                ${item_data.price}
+                                                            </span>
+                                                            <span>
+                                                                ${Math.round(item_data.price)}
+                                                            </span>
+                                                        </span>
                                                     </h5>
                                                     <small class="fst-italic item-description">
                                                         ${item_data.description}

@@ -146,7 +146,7 @@ function getCartAmount(cart_data) {
     calculateConvinence(theatre_price, total_amount);
 
 
-    document.getElementById('cart-amount').innerText = total_amount;
+    document.getElementById('cart-amount').innerText = Math.round(total_amount);
 
     totalPayBalance();
 }

@@ -175,12 +175,11 @@ function calculateConvinence(theatre_price, amount) {
 
     // creating price break down
     let price_break_down = document.getElementById('priceBreakdown');
-    let tex_amount = convinence_amount * (18/100);
+    let base_amount = convinence_amount / 1.18
+    let tex_amount = convinence_amount - base_amount;
     tex_amount = tex_amount.toFixed(2);
-    let base_amount = (convinence_amount - tex_amount)
     base_amount = base_amount.toFixed(2);
 
-    console.log(base_amount, tex_amount);
 
     if (tax_type === "IGST") {
         price_break_down.innerHTML = `<div class="d-flex justify-content-between mt-1">
@@ -224,8 +223,6 @@ async function createOrder() {
         localStorage.setItem('message', 'Oops, our bad! Please add items again ...')
         location.reload()
     }
-
-    console.log(seat_name, cart_data)
 
     if (cart_data === '{}') {
         alert('Please Select Some Items first')

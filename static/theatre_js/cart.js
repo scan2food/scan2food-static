@@ -97,13 +97,13 @@ function createItemCart(item_name, item_type, item_price, item_quantity, item_de
                         <div class="cart-item">
                             <h1 class='item-id' style="display:none;">${item_id}</h1>
                             <div class="row">
-                                <div class="col-lg-8 col-md-6 col-9">
+                                <div class="col-lg-8 col-md-6 col-8">
                                     <h6 class="d-flex align-items-center">
                                         <span class="${item_type}-icon"></span>
                                         <span class="ms-2">${item_name}</span>
                                     </h6>
                                 </div>
-                                <div class="col-lg-4 col-md-6 col-3 text-end">
+                                <div class="col-lg-4 col-md-6 col-4 text-end">
                                     <h6 class="price"><span class="me-1-cust">₹</span>${item_price}</h6>
                                 </div>
                             </div>
@@ -144,7 +144,6 @@ function getCartAmount(cart_data) {
     }
 
     calculateConvinence(theatre_price, total_amount);
-
 
     document.getElementById('cart-amount').innerText = Math.round(total_amount);
 

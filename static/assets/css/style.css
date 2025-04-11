@@ -765,3 +765,10 @@ background-color: #ffffff !important;
  .food-item {
     width: 60px
  }
+ .item-price-new {
+    
+ }
+ .blank-div {
+    width: 100%;
+    height: 65px;
+ }

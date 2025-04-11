@@ -138,11 +138,11 @@ function showFoodItems(category_data, is_active) {
                                                     <h5 class="d-flex justify-content-start border-bottom pb-2">
                                                         <span class="${item_data.food_type}-icon item-type"></span><span
                                                             class="item-name">${item_data.name}</span>
-                                                        <span class="text-primary float-end ms-auto">
+                                                        <span class="text-primary float-end ms-auto d-flex">
                                                         ₹<span class="item-price d-none">
                                                                 ${item_data.price}
                                                             </span>
-                                                            <span>
+                                                            <span class="item-price-new">
                                                                 ${Math.round(item_data.price)}
                                                             </span>
                                                         </span>
@@ -184,9 +184,16 @@ function showFoodItems(category_data, is_active) {
         food_card.innerHTML = food_card_html;
         new_div.appendChild(food_card);
     }
+    // add blank div in bottom
+    food_card = document.createElement('div');
+    food_card.setAttribute('class', 'blank-div');
+    new_div.appendChild(food_card);
+
     div.appendChild(new_div);
     foodContent.appendChild(div);
 }
 
 loadMenu()
 
+// {/* <div class="blank-div"
+// "></div> */}

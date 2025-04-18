@@ -20,7 +20,6 @@ async function getRequest(url) {
 let socket_url;
 
 const selected_theatre_id = document.getElementById('selected-theatre-id').value;
-console.log('Theatre id ====>', selected_theatre_id);
 
 // load all theatres
 async function loadAllTheatres() {
@@ -89,7 +88,6 @@ function RunWebSocket() {
             }
 
             sendNotification('Order Received', updated_data.message);
-            alert('fudu...');
             console.log('updated data====>', updated_data);
 
         }

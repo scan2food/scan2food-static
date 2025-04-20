@@ -11,7 +11,7 @@ function addToCart(btn) {
     let item_name = card.getElementsByClassName('item-name')[0].innerText;
     let item_type = card.getElementsByClassName('item-type')[0].classList.value
     item_type = item_type.replaceAll('-icon item-type', '');
-    let item_price = card.getElementsByClassName('item-price')[0].innerText;
+    let item_price = JSON.parse(card.getElementsByClassName('item-price')[0].innerText);
     let item_description = card.getElementsByClassName('item-description')[0].innerText;
     let item_real_price = card.getElementsByClassName('item-real-price')[0].innerText
 

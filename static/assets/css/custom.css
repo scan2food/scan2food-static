@@ -230,7 +230,13 @@ h6.price.small {
   border-top: 1px solid #fea116;
 }
 
+.horizontal-scroll-wrapper {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
 #food-category-list {
+  flex-wrap: nowrap;
   padding: 0px;
 }
 
@@ -400,6 +406,12 @@ h6.price.small {
   background-color: #fea116 !important;
   color: #fff;
   border-color: #fea116;
+}
+
+.seat.seen {
+  background-color: #2382c8;
+  color: #fff;
+  border-color: #2382c8;
 }
 
 .seat:hover:not(.occupied) {

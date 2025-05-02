@@ -47,6 +47,7 @@ async function getRequest(url) {
 function printKot(btn) {
     let order_id = btn.getAttribute('order_id');
     window.open(`/theatre/print-kot/${order_id}`, "", "width=600, height=600");
+    UpdateSeatView(btn);
 }
 
 function printBill(btn) {
@@ -73,16 +74,16 @@ function createOrderTab(order_data) {
     document.getElementById('order-date').innerText = order_data.order_detail.order_date;
     document.getElementById('order-time').innerText = order_data.order_detail.order_time;
     let phone_number = order_data.order_detail.phone_number
-    
-    if (phone_number == ""){
+
+    if (phone_number == "") {
         document.getElementById('phone-number').innerHTML = `
         <button class="btn btn-success btn-sm" onclick="getPhonNumberByOrderId('${order_data.order_detail.order_id}')">Get PhoneNumber</button>`
     }
-    else{
+    else {
         document.getElementById('phone-number').innerText = phone_number;
     }
 
-    
+
     if (order_data.order_detail.payment_pending === true) {
         payment_status = `<i class="fa fas fa-clock text-danger mb-0 me-1"></i> ${order_data.order_detail.payment_status}`;
         document.getElementById('panding-amount-heading').innerText = 'Pending Amount';
@@ -97,6 +98,13 @@ function createOrderTab(order_data) {
         document.getElementById('panding-amount-heading-value').innerText = order_data.order_detail.amount;
         document.getElementById('payment-tab-panding-amount-value').innerText = order_data.order_detail.amount;
         document.getElementById('payment-method-value').innerHTML = order_data.order_detail.payment_method;
+    }
+
+    if (order_data.order_detail.is_shown == true) {
+        document.getElementById('order-shown').innerHTML = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> Order Seen`;
+    }
+    else {
+        document.getElementById('order-shown').innerHTML = `<i class="fa fas fa-clock text-danger mb-0 me-1"></i> Order Not Seen Yet !`;
     }
 
     document.getElementById('payment-status').innerHTML = payment_status
@@ -165,11 +173,8 @@ function createCartTab(order_data) {
     `
 }
 
-function paymentTab(order_data) {
 
-}
-
-async function openOrderProfile(order_id, page) {
+async function openOrderProfile(order_id, page, seat_id = null) {
     let order_data_url = "";
 
     if (page === "order-page") {
@@ -177,6 +182,8 @@ async function openOrderProfile(order_id, page) {
     }
     else {
         order_data_url = `/theatre/api/seat-last-order/${order_id}`
+        document.getElementById('items-tab').setAttribute('seat-id', seat_id);
+        document.getElementById('kot-button').setAttribute('seat-id', order_id);
     }
     let order_data = await getRequest(order_data_url)
 
@@ -215,7 +222,7 @@ async function deliverOrder() {
 async function getPhonNumberByOrderId(id) {
     let api_url = `/theatre/api/get-phone-number-by-order-id/${id}`;
     let data = await getRequest(api_url);
-    
+
     if (data.status == false) {
         showToast('bg-danger', "User Hasn't Provided There Phone Number Yet !");
     }
@@ -224,25 +231,20 @@ async function getPhonNumberByOrderId(id) {
     document.getElementById('phone-number').innerText = phone_number;
 }
 
-{/* <div class="row mb-2 order-item order-item-large-device">
-<div class="col-lg-2 col-md-2">
-<img class="food-item" src="https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141352.jpg?semt=ais_hybrid" />
+async function UpdateSeatView(element) {
+    seat_id = element.getAttribute('seat-id');
+    
+    seat = document.getElementById(`seat-${seat_id}`);
+    
+    if (seat.classList.contains('paymentreceived')) {
+        // hit the server api
+        let url = `/theatre/api/is-order-viewed/${seat_id}`
+        let data = await getRequest(url);
+        seat.setAttribute('class', 'seat seen');
+    }
+}
 
-</div>  
-<div class="col-lg-7 col-md-7">
-<h6 class="d-flex align-items-center">
-
-<span class="">${item.name}</span>
-<span class="text-muted ms-4 ps-2" style="font-size: 0.85rem;">
-<span class="ms-2 me-3"> | </span> Price: ₹ ${item['item-price']}
-</span>
-<span class="text-muted ms-4 ps-2" style="font-size: 0.85rem;">
-<span class="ms-2 me-3"> | </span>Quantity: ${item.quantity}
-</span>
-</h6>
-
-</div>
-<div class="col-lg-3 col-md-3 text-end">
-<h6 class="price"><span class="me-1-cust">₹</span>${item.price}</h6>
-</div>  
-</div> */}
+const itemsTab = document.getElementById('items-tab');
+document.querySelector('#items-tab').addEventListener('shown.bs.tab', function (event) {
+    UpdateSeatView(itemsTab);
+  });

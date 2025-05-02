@@ -96,11 +96,18 @@ function SetUpSeats(all_row, index, hall_name) {
             }
             else {
                 if (seat_data.payment_method == 'Cash' && seat_data.payment_status == 'Created') {
-                    console.log('order received');
                     seat.setAttribute('class', 'seat orderreceived')
                 }
                 else {
-                    seat.setAttribute('class', 'seat paymentreceived')
+                    if (seat_data.is_shown === true) {
+                        seat.setAttribute('class', 'seat seen')
+
+                    }
+                    else {
+                        seat.setAttribute('class', 'seat paymentreceived')
+                    }
+
+                    
                 }
             }
             seat.setAttribute('id', `seat-${seat_data.seat_id}`)
@@ -169,11 +176,11 @@ async function OpenPopUp(table_name, div = "") {
         loadExistingCart(table_name);
         $("#menuePopUp").modal('show');
     }
-    else if (seat_class === 'seat paymentreceived') {
+    else if (seat_class === 'seat paymentreceived' || seat_class === 'seat seen') {
         let seat_id = div.getAttribute('id');
         seat_id = seat_id.split("-")[1];
 
-        await openOrderProfile(seat_id, "last-seat");
+        await openOrderProfile(seat_id, "last-seat", seat_id);
         document.getElementById('orderPopUpLabel').innerText = table_name;
 
         $("#orderPopUp").modal('show');

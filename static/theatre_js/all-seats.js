@@ -141,7 +141,7 @@ function showOrderData() {
 
     for (let i = 0; i < allHalls.length; i++) {
         let hall = allHalls[i]
-        let running_orders = hall.getElementsByClassName('paymentreceived').length
+        let running_orders = hall.getElementsByClassName('paymentreceived').length + hall.getElementsByClassName('seen').length
         totalOrders += running_orders
         orderReceivedLabel[i].innerText = running_orders;
     }

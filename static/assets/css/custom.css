@@ -238,6 +238,7 @@ h6.price.small {
 #food-category-list {
   flex-wrap: nowrap;
   padding: 0px;
+  margin-bottom: 8px;
 }
 
 #paymentPage .card-body {
@@ -557,6 +558,16 @@ h6.price.small {
   text-transform: capitalize !important;
 }
 
+#paymentPage .text-danger {
+  color: #ff002f !important;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#paymentPage #getPhoneNumber.is-invalid {
+  border: 2px solid #ff002f !important;
+}
+
 .menuPageWrapper {
   padding-bottom: 80px;
   background-color: #eee;
@@ -564,6 +575,9 @@ h6.price.small {
 }
 .menuPageWrapper .cart-panel {
   bottom: 90px;
+}
+.menuPageWrapper #food-category-list li.category-type-column:nth-child(1) {
+  margin-left: 40% !important;
 }
 .menuPageWrapper .category-types-wrapper.bg-dark {
   position: fixed;
@@ -576,6 +590,7 @@ h6.price.small {
 .menuPageWrapper .category-types-wrapper.bg-dark .row {
   width: 100%;
   margin: 0 auto;
+  overflow-x: auto;
 }
 .menuPageWrapper .category-types-wrapper.bg-dark .category-type-column {
   flex: 0 0 auto;
@@ -585,8 +600,8 @@ h6.price.small {
   margin-bottom: 0px;
 }
 .menuPageWrapper .category-types-wrapper.bg-dark .category-type-column .category-type-img {
-  width: 80%;
-  max-width: 45px;
+  width: 70%;
+  max-width: 42px;
 }
 .menuPageWrapper .category-types-wrapper.bg-dark .category-type-column:last-child {
   border-right: none !important;

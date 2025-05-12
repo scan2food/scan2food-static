@@ -573,7 +573,8 @@ h6.price.small {
   min-height: calc(100vh - 95px);
 }
 .menuPageWrapper .cart-panel {
-  bottom: 90px;
+  top: 8px;
+  bottom: auto;
 }
 .menuPageWrapper #food-category-list li.category-type-column:nth-child(5), .menuPageWrapper #food-category-list li.category-type-column:nth-child(10) {
   border-right: none;

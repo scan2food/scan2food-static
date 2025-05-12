@@ -562,7 +562,12 @@ border-right: 1px solid #d9d8d8;
   background-color: #eee;
   min-height: calc(100vh - 95px);
   .cart-panel {
-    bottom: 90px;
+    // previous code
+    // bottom: 90px;
+    // new code to fix categrory overlap
+    top: 8px;
+    bottom: auto;
+
   }
   #food-category-list li.category-type-column:nth-child(5),  #food-category-list li.category-type-column:nth-child(10) {
     border-right: none;

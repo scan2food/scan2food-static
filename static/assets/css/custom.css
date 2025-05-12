@@ -236,9 +236,8 @@ h6.price.small {
 }
 
 #food-category-list {
-  flex-wrap: nowrap;
   padding: 0px;
-  margin-bottom: 8px;
+  justify-content: left !important;
 }
 
 #paymentPage .card-body {
@@ -576,8 +575,8 @@ h6.price.small {
 .menuPageWrapper .cart-panel {
   bottom: 90px;
 }
-.menuPageWrapper #food-category-list li.category-type-column:nth-child(1) {
-  margin-left: 40% !important;
+.menuPageWrapper #food-category-list li.category-type-column:nth-child(5), .menuPageWrapper #food-category-list li.category-type-column:nth-child(10) {
+  border-right: none;
 }
 .menuPageWrapper .category-types-wrapper.bg-dark {
   position: fixed;
@@ -597,7 +596,7 @@ h6.price.small {
   width: 20%;
   text-align: center;
   border-right: 1px solid #888888;
-  margin-bottom: 0px;
+  margin-bottom: 5px;
 }
 .menuPageWrapper .category-types-wrapper.bg-dark .category-type-column .category-type-img {
   width: 70%;

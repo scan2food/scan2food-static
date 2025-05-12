@@ -227,9 +227,10 @@ color: white;
   }
 
   #food-category-list {
-    flex-wrap: nowrap;
+    // flex-wrap: nowrap;
     padding: 0px;
-    margin-bottom: 8px;
+    // margin-bottom: 8px;
+    justify-content: left !important;
   }
   #paymentPage
   {
@@ -563,8 +564,8 @@ border-right: 1px solid #d9d8d8;
   .cart-panel {
     bottom: 90px;
   }
-  #food-category-list li.category-type-column:nth-child(1) {
-   margin-left: 40%!important;
+  #food-category-list li.category-type-column:nth-child(5),  #food-category-list li.category-type-column:nth-child(10) {
+    border-right: none;
   }
 .category-types-wrapper.bg-dark
 {
@@ -584,8 +585,10 @@ border-right: 1px solid #d9d8d8;
     flex: 0 0 auto;
     width: 20%;
     text-align: center;
+    // text-align: left;
     border-right: 1px solid #888888;
-    margin-bottom: 0px;
+    // margin-bottom: 0px;
+    margin-bottom: 5px;
 
     .category-type-img {
       width: 70%;

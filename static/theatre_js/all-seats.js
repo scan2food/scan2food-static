@@ -180,7 +180,7 @@ async function OpenPopUp(table_name, div = "") {
         let seat_id = div.getAttribute('id');
         seat_id = seat_id.split("-")[1];
 
-        await openOrderProfile(seat_id, "last-seat", seat_id);
+        await openOrderProfile(seat_id, "last-seat");
         document.getElementById('orderPopUpLabel').innerText = table_name;
 
         $("#orderPopUp").modal('show');

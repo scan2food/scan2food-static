@@ -61,16 +61,17 @@ function EditItem(id, button, food_id) {
     document.getElementById('id_catogary').value = id;
     div = button.parentElement.parentElement.parentElement;
     food_type = div.getElementsByClassName('food-type')[0].classList.value;
-    food_name = div.getElementsByClassName('food-name')[0].innerText
+    food_name = div.getElementsByClassName('food-name')[0].innerText;
+    made_by = div.getElementsByClassName('made-by')[0].innerText;
     food_price = div.getElementsByClassName('food-price')[0].innerText;
     food_description = div.getElementsByClassName('food-description')[0].innerText;
     priority_number = div.getElementsByClassName('priority-number')[0].innerText
 
     food_type = food_type.replaceAll('-icon food-type', '')
-    console.log(food_type)
 
     document.getElementById('id_food_type').value = food_type;
-    document.getElementById('id_name').value = food_name
+    document.getElementById('id_name').value = food_name;
+    document.getElementById('id_made_by').value = made_by;
     document.getElementById('id_price').value = food_price;
     document.getElementById('id_description').value = food_description;
     document.getElementById('id_priority_number').value = priority_number;
@@ -115,7 +116,7 @@ async function openImagePopUp(img, id, food_name) {
 
     }
     selected_food_id = id;
-    
+
     document.getElementById('imageModalLabel').innerText = `Select Image from galery for ${food_name}`;
     // show pupup
     $('#imageModal').modal('show');
@@ -132,7 +133,7 @@ async function UploadImage(img) {
     }
     console.l
     data = await PostRequest(url, upload_data);
-    
+
     if (data['message'] == 'Image Uploaded') {
         // update image
         old_food_image.src = img.src;
@@ -150,3 +151,130 @@ async function sellOnMrp(button) {
     let update_status = await getRequest(url);
     showToast(update_status.type, update_status.message);
 }
+
+function countMadeBy() {
+    let all_made_by = document.getElementsByClassName('made-by');
+    for (let i = 0; i < all_made_by.length; i++) {
+
+        let num = 0;
+
+        switch (all_made_by[i].innerText) {
+
+            case 'packaged':
+                num = document.getElementById('packaged-count').innerText
+                num = parseInt(num) + 1;
+                document.getElementById('packaged-count').innerText = num;
+                break;
+
+            case 'in-house':
+                num = document.getElementById('in-house-count').innerText
+                num = parseInt(num) + 1;
+                document.getElementById('in-house-count').innerText = num;
+                break;
+
+            case 'third-party':
+                num = document.getElementById('third-party-count').innerText
+                num = parseInt(num) + 1;
+                document.getElementById('third-party-count').innerText = num;
+                break;
+        }
+
+        // show the count value in all items
+        document.getElementById('total-count').innerText = all_made_by.length;
+
+    }
+}
+
+function openDeactivatePopUp(button) {
+    // show the poupup
+    const count_value = button.getElementsByClassName('count-value')[0].innerText;
+    document.getElementById('total-items').innerText = count_value;
+    const headingLabel = document.getElementById('DeactivateCategoryLabel');
+    let category_name = button.innerText;
+    category_list = category_name.split(" ");
+    category_list.pop();
+
+    category_name = String(category_list.join(" "));
+
+
+    headingLabel.innerText = `${category_name}`;
+    showItems()
+    const parentDiv = button.parentElement
+    const buttons = parentDiv.getElementsByClassName('btn')
+    for (let i = 0; i < buttons.length; i++) {
+        if (buttons[i] == button) {
+            buttons[i].setAttribute('class', 'btn btn-success ms-2');
+        }
+        else {
+            buttons[i].setAttribute('class', 'btn btn-primary ms-2');
+        }
+    }
+}
+
+function showItems() {
+    let category_name = document.getElementById('DeactivateCategoryLabel').innerText;
+    // hide all the items with class item-ids
+    const all_items = document.getElementsByClassName('item-ids');
+    category_name = category_name.replaceAll(' ', '-').toLowerCase();
+
+    let show_value = 0;
+    for (let i = 0; i < all_items.length; i++) {
+        const item = all_items[i];
+        const made_by = item.getElementsByClassName('made-by')[0].innerText;
+        if (category_name == 'all') {
+            item.classList.remove('d-none');
+            show_value += 1;
+        }
+        else if (made_by !== category_name) {
+            item.classList.add('d-none');
+        }
+
+        else {
+            show_value += 1;
+            item.classList.remove('d-none');
+        }
+    }
+    document.getElementById('item-count').innerText = show_value;
+}
+
+async function updateBulkStatus(button) {
+    // get the status
+    var status = ""
+    if (button.innerText == 'Deactivate Items') {
+        status = 'deactivate'
+    }
+    else {
+        status = 'activate'
+    }
+    // get the made by
+    const made_by = document.getElementById('DeactivateCategoryLabel').innerText.replaceAll(' ', '-').toLowerCase();
+    const url = `/theatre/api/update-bulk-status?made_by=${made_by}&status=${status}`;
+    const data = await getRequest(url);
+    
+    alert(data['message']);
+    window.location.reload();
+    
+
+}
+
+countMadeBy()
+
+function showActionPopup() {
+    // get the active button
+    const totalCount = document.getElementById('total-count');
+    parentElement = totalCount.parentElement.parentElement;
+    const all_buttons = parentElement.getElementsByClassName('btn');
+    for (let i = 0; i < all_buttons.length; i++) {
+        if (all_buttons[i].classList.contains('btn-success')) {
+            all_buttons[i].click();
+            break;
+        }
+        else {
+            continue;
+        }
+    }
+    $("#DeactivateCategory").modal('show')
+}
+
+const all_is = document.getElementsByClassName('item-ids');
+document.getElementById('item-count').innerText = all_is.length;

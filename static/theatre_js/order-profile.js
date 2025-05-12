@@ -71,6 +71,10 @@ function createOrderTab(order_data) {
     document.getElementById('order-deliver-button').setAttribute('order-id', order_data.order_detail.order_id)
     document.getElementById('order-id').innerText = `#${order_data.order_detail.order_id}`;
     document.getElementById('seat-name').innerText = order_data.seat;
+
+    document.getElementById('items-tab').setAttribute('seat-id', order_data.seat_id);
+    document.getElementById('kot-button').setAttribute('seat-id', order_data.seat_id);
+
     document.getElementById('order-date').innerText = order_data.order_detail.order_date;
     document.getElementById('order-time').innerText = order_data.order_detail.order_time;
     let phone_number = order_data.order_detail.phone_number
@@ -101,10 +105,10 @@ function createOrderTab(order_data) {
     }
 
     if (order_data.order_detail.is_shown == true) {
-        document.getElementById('order-shown').innerHTML = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> Order Seen`;
+        document.getElementById('order-shown').innerHTML = `Order Seen`;
     }
     else {
-        document.getElementById('order-shown').innerHTML = `<i class="fa fas fa-clock text-danger mb-0 me-1"></i> Order Not Seen Yet !`;
+        document.getElementById('order-shown').innerHTML = `Order Not Seen Yet !`;
     }
 
     document.getElementById('payment-status').innerHTML = payment_status
@@ -174,7 +178,7 @@ function createCartTab(order_data) {
 }
 
 
-async function openOrderProfile(order_id, page, seat_id = null) {
+async function openOrderProfile(order_id, page) {
     let order_data_url = "";
 
     if (page === "order-page") {
@@ -182,8 +186,6 @@ async function openOrderProfile(order_id, page, seat_id = null) {
     }
     else {
         order_data_url = `/theatre/api/seat-last-order/${order_id}`
-        document.getElementById('items-tab').setAttribute('seat-id', seat_id);
-        document.getElementById('kot-button').setAttribute('seat-id', order_id);
     }
     let order_data = await getRequest(order_data_url)
 
@@ -232,19 +234,34 @@ async function getPhonNumberByOrderId(id) {
 }
 
 async function UpdateSeatView(element) {
-    seat_id = element.getAttribute('seat-id');
+    let seen_status = document.getElementById('order-shown');
+    if (seen_status.innerText.includes('Not Seen')) {
+        if (window.location.href.includes('admin-portal')) {
+            console.log('admin portal')
+        }
+        else {
+            seat_id = element.getAttribute('seat-id');
+            let url = `/theatre/api/is-order-viewed/${seat_id}`
+            let data = await getRequest(url);
     
-    seat = document.getElementById(`seat-${seat_id}`);
+            seat = document.getElementById(`seat-${seat_id}`);
     
-    if (seat.classList.contains('paymentreceived')) {
-        // hit the server api
-        let url = `/theatre/api/is-order-viewed/${seat_id}`
-        let data = await getRequest(url);
-        seat.setAttribute('class', 'seat seen');
+            if (seat !== null) {
+                seat.setAttribute('class', 'seat seen');
+            }
+    
+    
+            seen_status.innerHTML = `Order Seen`;
+        }
     }
+
+    else {
+        alert('no need to update seat view')
+    }
+
 }
 
 const itemsTab = document.getElementById('items-tab');
 document.querySelector('#items-tab').addEventListener('shown.bs.tab', function (event) {
     UpdateSeatView(itemsTab);
-  });
+});

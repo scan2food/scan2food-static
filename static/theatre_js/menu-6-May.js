@@ -191,6 +191,8 @@ function showFoodItems(category_data, is_active) {
 
     div.appendChild(new_div);
     foodContent.appendChild(div);
+
+    // new code
 }
 
 loadMenu()

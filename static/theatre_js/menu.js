@@ -191,6 +191,51 @@ function showFoodItems(category_data, is_active) {
 
     div.appendChild(new_div);
     foodContent.appendChild(div);
+
+    // new code added by kanika for on sctroll activate new category
+// Identify the last item of this category
+let lastItem = new_div.lastElementChild.previousElementSibling; // skip blank-div
+if (lastItem) {
+    lastItem.classList.add('last-visible-item');
+}
+
+// Add scroll event listener once
+if (!foodContent.hasScrollListener) {
+    foodContent.hasScrollListener = true;
+
+    foodContent.addEventListener('scroll', function () {
+        let lastItems = document.querySelectorAll('.last-visible-item');
+        lastItems.forEach((item) => {
+            let rect = item.getBoundingClientRect();
+            let parentRect = foodContent.getBoundingClientRect();
+
+            // Check if last item is near bottom of visible scroll area
+            if (rect.top < parentRect.bottom && rect.bottom > parentRect.top) {
+                let categoryId = item.closest('.tab-pane').id.replace('food-category-', '');
+
+                let currentActive = document.querySelector('.category-type-column a.active');
+                let nextCategoryTab = document.querySelector(`.category-type-column a[href="#food-category-${categoryId}"]`)?.closest('li')?.nextElementSibling?.querySelector('a');
+
+                if (nextCategoryTab && currentActive !== nextCategoryTab) {
+                    // Switch active tab
+                    currentActive?.classList.remove('active', 'show');
+                    nextCategoryTab.classList.add('active', 'show');
+
+                    // Switch active content
+                    let currentPane = document.querySelector(currentActive?.getAttribute('href'));
+                    let nextPane = document.querySelector(nextCategoryTab.getAttribute('href'));
+                    currentPane?.classList.remove('active', 'show');
+                    nextPane?.classList.add('active', 'show');
+                }
+            }
+        });
+    });
+}
+
+
+
+
+    //end new code
 }
 
 loadMenu()

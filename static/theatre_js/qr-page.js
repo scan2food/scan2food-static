@@ -34,3 +34,17 @@ for (let i = 0; i < all_canvas.length; i++) {
     let url = `${protocol}//${host_name}/theatre/show-menu/${seat_id}`
     generateQRCode(`${seat_id}`, url)
 }
+
+function SmallQRCode() {
+    let url = window.location.href;
+    url = url.replace('new-seat-qr', 'seat-qr');
+    
+    window.open(url, '_self');
+}
+
+function LargeQRCode() {
+    let url = window.location.href;
+    url = url.replace('seat-qr', 'new-seat-qr');
+    window.open(url, '_self');
+}
+

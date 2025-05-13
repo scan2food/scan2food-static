@@ -255,10 +255,6 @@ async function UpdateSeatView(element) {
         }
     }
 
-    else {
-        alert('no need to update seat view')
-    }
-
 }
 
 const itemsTab = document.getElementById('items-tab');

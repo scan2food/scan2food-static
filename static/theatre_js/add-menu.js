@@ -131,7 +131,7 @@ async function UploadImage(img) {
         'food_id': food_id,
         'image_url': img.src
     }
-    console.l
+    
     data = await PostRequest(url, upload_data);
 
     if (data['message'] == 'Image Uploaded') {

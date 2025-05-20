@@ -45,70 +45,9 @@ async function loadMenu() {
     }
 
 }
-// Update view cart position as per the category size
-function updateCartPanelPosition() {
-    const ul = document.getElementById('food-category-list');
-    const cartPanel = document.querySelector('a.cart-panel');
-    const blankDiv = document.querySelector('.blank-div');
-
-    if (!ul || !cartPanel) return;
-
-    const liCount = ul.querySelectorAll('li').length;
-
-    cartPanel.classList.remove('PositionBottomless', 'PositionBottomMore');
-
-    if (liCount <= 5) {
-        cartPanel.classList.add('PositionBottomless');
-
-    } else {
-        cartPanel.classList.add('PositionBottomMore');
-        blankDiv.classList.add('more-margin_bottom');
-    }
-}
-// Call the function to update the cart panel position
-
-
-// draggable cart-Panel
-(function () {
-    const cart = document.getElementById('cart-div');
-    let isDragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    cart.addEventListener('mousedown', function (e) {
-        // Only drag when holding Shift key
-        if (!e.shiftKey) return;
-
-        isDragging = true;
-        offsetX = e.clientX - cart.getBoundingClientRect().left;
-        offsetY = e.clientY - cart.getBoundingClientRect().top;
-
-        // prevent default click
-        e.preventDefault();
-        cart.style.position = 'fixed';
-        cart.style.zIndex = 9999;
-    });
-
-    document.addEventListener('mousemove', function (e) {
-        if (!isDragging) return;
-
-        let x = e.clientX - offsetX;
-        let y = e.clientY - offsetY;
-
-        cart.style.left = `${x}px`;
-        cart.style.top = `${y}px`;
-        cart.style.right = 'auto';
-        cart.style.bottom = 'auto';
-    });
-
-    document.addEventListener('mouseup', function () {
-        isDragging = false;
-    });
-})();
-
-// draggable cart-panel end
 
 function showFoodItems(category_data, is_active) {
+
     // creating all food view
     let foodContent = document.getElementById('food-item-content');
     let div = document.createElement('div');
@@ -174,7 +113,6 @@ function showFoodItems(category_data, is_active) {
     col.innerHTML = html_data;
     li.appendChild(col);
     menu_footer.appendChild(li);
-    updateCartPanelPosition();
 
     // }
 
@@ -254,103 +192,53 @@ function showFoodItems(category_data, is_active) {
     div.appendChild(new_div);
     foodContent.appendChild(div);
 
+    // new code added by kanika for on sctroll activate new category
+// Identify the last item of this category
+let lastItem = new_div.lastElementChild.previousElementSibling; // skip blank-div
+if (lastItem) {
+    lastItem.classList.add('last-visible-item');
+}
+
+// Add scroll event listener once
+if (!foodContent.hasScrollListener) {
+    foodContent.hasScrollListener = true;
+
+    foodContent.addEventListener('scroll', function () {
+        let lastItems = document.querySelectorAll('.last-visible-item');
+        lastItems.forEach((item) => {
+            let rect = item.getBoundingClientRect();
+            let parentRect = foodContent.getBoundingClientRect();
+
+            // Check if last item is near bottom of visible scroll area
+            if (rect.top < parentRect.bottom && rect.bottom > parentRect.top) {
+                let categoryId = item.closest('.tab-pane').id.replace('food-category-', '');
+
+                let currentActive = document.querySelector('.category-type-column a.active');
+                let nextCategoryTab = document.querySelector(`.category-type-column a[href="#food-category-${categoryId}"]`)?.closest('li')?.nextElementSibling?.querySelector('a');
+
+                if (nextCategoryTab && currentActive !== nextCategoryTab) {
+                    // Switch active tab
+                    currentActive?.classList.remove('active', 'show');
+                    nextCategoryTab.classList.add('active', 'show');
+
+                    // Switch active content
+                    let currentPane = document.querySelector(currentActive?.getAttribute('href'));
+                    let nextPane = document.querySelector(nextCategoryTab.getAttribute('href'));
+                    currentPane?.classList.remove('active', 'show');
+                    nextPane?.classList.add('active', 'show');
+                }
+            }
+        });
+    });
+}
 
 
-    // scroll behaviour added by kanika -18 May-2024
-
-    // Assign last-visible-item
-    // let lastItem = new_div.lastElementChild.previousElementSibling; // skip blank-div
-    // if (lastItem) {
-    //     lastItem.classList.add('last-visible-item');
-    // }
-
-    // // Add scroll event listener once
-    // if (!foodContent.hasScrollListener) {
-    //     foodContent.hasScrollListener = true;
-
-    //     foodContent.addEventListener('scroll', function () {
-    //         let currentTabPane = document.querySelector('.tab-pane.active');
-    //         let lastItem = currentTabPane?.querySelector('.last-visible-item');
-
-    //         if (lastItem) {
-    //             let rect = lastItem.getBoundingClientRect();
-    //             let parentRect = foodContent.getBoundingClientRect();
-
-    //             if (rect.top < parentRect.bottom && rect.bottom > parentRect.top) {
-    //                 let currentActive = document.querySelector('.category-type-column a.active');
-    //                 let nextCategoryTab = currentActive?.closest('li')?.nextElementSibling?.querySelector('a');
-
-    //                 if (nextCategoryTab) {
-    //                     let tab = new bootstrap.Tab(nextCategoryTab);
-    //                     tab.show();
-    //                 }
-    //             }
-    //         }
-    //     });
-    // }
-
-    // end scroll behaviour added by kanika -18 May-2024
 
 
-
-
-
-
-    //    scroll behaviour second code
-    // // STEP 1: Assign last-visible-item to each category's last item (excluding blank div)
-    // document.querySelectorAll('.tab-pane').forEach((pane) => {
-    //     let items = pane.querySelectorAll('.col-lg-6'); // your actual item class
-    //     if (items.length > 0) {
-    //         let last = items[items.length - 1];
-    //         last.classList.add('last-visible-item');
-    //     }
-    // });
-
-    // // STEP 2: Add scroll handler once
-    // if (!foodContent.hasScrollListener) {
-    //     foodContent.hasScrollListener = true;
-
-    //     let isSwitching = false;
-
-    //     foodContent.addEventListener('scroll', function () {
-    //         if (isSwitching) return; // prevent multiple tab changes
-
-    //         let currentTabPane = document.querySelector('.tab-pane.active');
-    //         let lastItem = currentTabPane?.querySelector('.last-visible-item');
-
-    //         if (lastItem) {
-    //             let rect = lastItem.getBoundingClientRect();
-    //             let parentRect = foodContent.getBoundingClientRect();
-
-    //             // Ensure the item is fully visible or nearing bottom
-    //             if (rect.top < parentRect.bottom && rect.bottom > parentRect.top + 50) {
-    //                 isSwitching = true;
-
-    //                 let currentActive = document.querySelector('.category-type-column a.active');
-    //                 let currentLi = currentActive.closest('li');
-    //                 let nextLi = currentLi?.nextElementSibling;
-
-    //                 if (nextLi) {
-    //                     let nextTab = nextLi.querySelector('a');
-    //                     if (nextTab) {
-    //                         let bsTab = new bootstrap.Tab(nextTab);
-    //                         bsTab.show();
-
-    //                         // Wait a moment for transition before re-enabling scroll switch
-    //                         setTimeout(() => {
-    //                             isSwitching = false;
-    //                         }, 300); // Adjust if needed
-    //                     }
-    //                 } else {
-    //                     isSwitching = false;
-    //                 }
-    //             }
-    //         }
-    //     });
-    // }
-    // end
-
+    //end new code
 }
 
 loadMenu()
 
+// {/* <div class="blank-div"
+// "></div> */}

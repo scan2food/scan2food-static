@@ -696,6 +696,9 @@ margin-bottom: 15px!important;
 .fa-2x {
     font-size: 1.5em;
 }
+.smaller {
+    font-size:  0.75rem;
+}
 .order-item {
 border-bottom: 1px solid #bbb;
     padding: 10px;
@@ -764,7 +767,7 @@ background-color: #ffffff !important;
     max-width: 100%;
    }
    .app-theatre-details {
-    padding-top: 90px!important;
+    padding-top: 60px!important;
    }
    .custom-pagination {
     margin-top : 15px
@@ -788,4 +791,8 @@ background-color: #ffffff !important;
  .blank-div {
     width: 100%;
     height: 65px;
+ }
+  .blank-div.more-margin_bottom {
+    width: 100%;
+    height: 125px;
  }

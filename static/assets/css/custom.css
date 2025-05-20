@@ -135,10 +135,11 @@ body {
   border-radius: 10px;
   background-color: green;
   color: white;
-  padding: 15px 10px;
+  padding: 5px 10px;
   text-align: center;
   z-index: 100;
   margin: 0 auto;
+  cursor: move;
 }
 
 .cart-panel:hover {
@@ -572,9 +573,11 @@ h6.price.small {
   background-color: #eee;
   min-height: calc(100vh - 95px);
 }
-.menuPageWrapper .cart-panel {
-  top: 8px;
-  bottom: auto;
+.menuPageWrapper .cart-panel.PositionBottomMore {
+  bottom: 20vh;
+}
+.menuPageWrapper .cart-panel.PositionBottomless {
+  bottom: 12vh;
 }
 .menuPageWrapper #food-category-list li.category-type-column:nth-child(5), .menuPageWrapper #food-category-list li.category-type-column:nth-child(10) {
   border-right: none;

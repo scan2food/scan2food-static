@@ -109,10 +109,11 @@ body {
     border-radius: 10px;
     background-color: green;
     color: white;
-    padding: 15px 10px;
+    padding: 5px 10px;
     text-align: center;
     z-index: 100;
     margin: 0 auto;
+    cursor: move;
 
 }
 .cart-panel:hover  {
@@ -565,9 +566,15 @@ border-right: 1px solid #d9d8d8;
     // previous code
     // bottom: 90px;
     // new code to fix categrory overlap
-    top: 8px;
-    bottom: auto;
+    // top: 8px;
+    // bottom: auto;
 
+  }
+ .cart-panel.PositionBottomMore {
+        bottom: 20vh;
+  }
+   .cart-panel.PositionBottomless {
+        bottom: 12vh;
   }
   #food-category-list li.category-type-column:nth-child(5),  #food-category-list li.category-type-column:nth-child(10) {
     border-right: none;

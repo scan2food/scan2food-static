@@ -45,6 +45,46 @@ async function loadMenu() {
     }
 
 }
+// Update view cart position as per the category size
+// function updateCartPanelPosition() {
+//     const ul = document.getElementById('food-category-list');
+    
+//     const cartPanel = document.querySelector('a#cart-div');
+//      cartPanel.classList.add('PositionBottomless');
+//     // const blankDiv = document.querySelector('.blank-div');
+
+//     if (!ul || !cartPanel) return;
+
+//     const liCount = ul.querySelectorAll('li.category-type-column').length;
+
+//     cartPanel.classList.remove('PositionBottomless', 'PositionBottomMore');
+
+//     if (liCount <= 5) {
+//         cartPanel.classList.add('PositionBottomless');
+
+//     } else {
+//         cartPanel.classList.add('PositionBottomMore');
+//         // blankDiv.classList.add('more-margin_bottom');
+//     }
+// }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const categoryList = document.querySelectorAll('#food-category-list li');
+    const cartPanel = document.querySelector('a.cart-panel');
+
+    if (cartPanel) {
+        if (categoryList.length > 5) {
+            cartPanel.classList.add('PositionBottomMore');
+            cartPanel.classList.remove('PositionBottomLess');
+        } else {
+            cartPanel.classList.add('PositionBottomLess');
+            cartPanel.classList.remove('PositionBottomMore');
+        }
+    }
+});
+
+
+// Call the function to update the cart panel position
 
 function showFoodItems(category_data, is_active) {
 
@@ -52,12 +92,7 @@ function showFoodItems(category_data, is_active) {
     let foodContent = document.getElementById('food-item-content');
     let div = document.createElement('div');
     div.setAttribute('id', `food-category-${category_data.id}`);
-    if (is_active) {
-        div.setAttribute('class', 'tab-pane fade show active')
-    }
-    else {
-        div.setAttribute('class', 'tab-pane fade')
-    }
+    div.setAttribute('class', 'food-category');
 
 
     // /////////////////////////////////////////////////////////////////////////////////////
@@ -71,11 +106,10 @@ function showFoodItems(category_data, is_active) {
     let col = document.createElement('a');
 
     col.setAttribute('href', `#food-category-${category_data.id}`);
-    col.setAttribute('data-bs-toggle', "pill");
 
     if (window_location.includes('menu')) {
 
-        col.setAttribute('class', 'col-lg-2 col col-md-2 category-type-column');
+        col.setAttribute('class', 'col-lg-2 col col-md-2 category-type-column category-type-a-tag');
     }
     else {
 
@@ -102,6 +136,7 @@ function showFoodItems(category_data, is_active) {
                 </div>`
     }
     else {
+        col.setAttribute('data-bs-toggle', "pill");
         li.setAttribute('class', 'nav-item');
         html_data = `
         <div class="ps-3">
@@ -120,6 +155,15 @@ function showFoodItems(category_data, is_active) {
 
     let new_div = document.createElement('div');
     new_div.setAttribute('class', 'row g-3 mb-3')
+
+    new_div_html = `
+        <div class="col-lg-12 col-sm-12 text-start">
+            <h4>
+            ${category_data.name}
+            </h4>
+        </div>
+    `
+    new_div.innerHTML = new_div_html;
 
     let food_items = category_data.items
     for (let i = 0; i < food_items.length; i++) {
@@ -195,5 +239,51 @@ function showFoodItems(category_data, is_active) {
 
 loadMenu()
 
-// {/* <div class="blank-div"
-// "></div> */}
+setTimeout(() => {
+
+    const container = document.getElementById('food-item-content');
+
+    // get the all sections
+    let sections = Array.from(container.querySelectorAll('.food-category'));
+
+    // Function to get offsetTop of each section
+    function getSectionOffsets() {
+        return sections.map(section => ({
+            element: section,
+            offsetTop: section.offsetTop
+        }));
+    }
+
+    // Store initial offsets
+    let offsets = getSectionOffsets();
+
+    // Recalculate offsets on resize (important if layout changes)
+    window.addEventListener('resize', () => {
+        offsets = getSectionOffsets();
+    });
+
+    window.addEventListener('scroll', () => {
+        const bottomY = window.scrollY + window.innerHeight - 300;
+
+        for (let i = 0; i < offsets.length; i++) {
+            const current = offsets[i];
+            const next = offsets[i + 1];
+
+            if (
+                bottomY >= current.offsetTop &&
+                (!next || bottomY < next.offsetTop)
+            ) {
+                document.getElementsByClassName('category-type-a-tag active show')[0].classList.remove('active', 'show');
+                document.getElementsByClassName('category-type-a-tag')[i].classList.add('active', 'show');
+
+
+                // Optional: Add an active class to the current section
+                sections.forEach(s => s.classList.remove('active'));
+                current.element.classList.add('active');
+
+                break;
+            }
+        }
+    });
+
+}, 2000);

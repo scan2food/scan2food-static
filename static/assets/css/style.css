@@ -790,9 +790,21 @@ background-color: #ffffff !important;
  }
  .blank-div {
     width: 100%;
-    height: 65px;
+    height: 35px;
  }
+ /* .food-category.active {
+    margin-top: 50px;
+ } */
   .blank-div.more-margin_bottom {
     width: 100%;
     height: 125px;
  }
+ .food-category:last-child .blank-div:last-child {
+    height: 40px;
+ }
+ #food-item-content {
+    overflow-y: auto;
+    max-height: 600px;
+    position: relative;
+    overflow-x: hidden;
+}

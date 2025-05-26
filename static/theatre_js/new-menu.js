@@ -238,52 +238,278 @@ function showFoodItems(category_data, is_active) {
 }
 
 loadMenu()
+// guru's code
+// setTimeout(() => {
+
+//     const container = document.getElementById('food-item-content');
+
+//     // get the all sections
+//     let sections = Array.from(container.querySelectorAll('.food-category'));
+
+//     // Function to get offsetTop of each section
+//     function getSectionOffsets() {
+//         return sections.map(section => ({
+//             element: section,
+//             offsetTop: section.offsetTop
+//         }));
+//     }
+
+//     // Store initial offsets
+//     let offsets = getSectionOffsets();
+
+//     // Recalculate offsets on resize (important if layout changes)
+//     window.addEventListener('resize', () => {
+//         offsets = getSectionOffsets();
+//     });
+
+//     window.addEventListener('scroll', () => {
+//         const bottomY = window.scrollY + window.innerHeight - 300;
+
+//         for (let i = 0; i < offsets.length; i++) {
+//             const current = offsets[i];
+//             const next = offsets[i + 1];
+
+//             if (
+//                 bottomY >= current.offsetTop &&
+//                 (!next || bottomY < next.offsetTop)
+//             ) {
+//                 document.getElementsByClassName('category-type-a-tag active show')[0].classList.remove('active', 'show');
+//                 document.getElementsByClassName('category-type-a-tag')[i].classList.add('active', 'show');
+
+
+//                 // Optional: Add an active class to the current section
+//                 sections.forEach(s => s.classList.remove('active'));
+//                 current.element.classList.add('active');
+
+//                 break;
+//             }
+//         }
+//     });
+
+// }, 2000);
+
+
+// fixed code added by kanika
 
 setTimeout(() => {
-
     const container = document.getElementById('food-item-content');
+    const categoryLinks = document.querySelectorAll('.category-type-a-tag');
+    const sections = Array.from(container.querySelectorAll('.food-category'));
 
-    // get the all sections
-    let sections = Array.from(container.querySelectorAll('.food-category'));
+    // Helper to get offsetTop of section relative to container
+    function getOffsetTopRelativeToContainer(el, container) {
+        let offsetTop = 0;
+        while (el && el !== container) {
+            offsetTop += el.offsetTop;
+            el = el.offsetParent;
+        }
+        return offsetTop;
+    }
 
-    // Function to get offsetTop of each section
+    // Store all food-category section offsets
     function getSectionOffsets() {
         return sections.map(section => ({
             element: section,
-            offsetTop: section.offsetTop
+            offsetTop: getOffsetTopRelativeToContainer(section, container)
         }));
     }
 
-    // Store initial offsets
     let offsets = getSectionOffsets();
 
-    // Recalculate offsets on resize (important if layout changes)
     window.addEventListener('resize', () => {
         offsets = getSectionOffsets();
     });
 
-    window.addEventListener('scroll', () => {
-        const bottomY = window.scrollY + window.innerHeight - 300;
+    // --- Scroll Lock ---
+    let scrollLock = false;
 
-        for (let i = 0; i < offsets.length; i++) {
-            const current = offsets[i];
-            const next = offsets[i + 1];
+    // --- Scroll Event (only works when scrollLock = false) ---
+    // container.addEventListener('scroll', () => {
+    //     if (scrollLock) return;
 
-            if (
-                bottomY >= current.offsetTop &&
-                (!next || bottomY < next.offsetTop)
-            ) {
-                document.getElementsByClassName('category-type-a-tag active show')[0].classList.remove('active', 'show');
-                document.getElementsByClassName('category-type-a-tag')[i].classList.add('active', 'show');
+    //     const scrollTop = container.scrollTop;
 
+    //     // Adjust based on how much margin you want above heading
+    //     const threshold = scrollTop + 100;
 
-                // Optional: Add an active class to the current section
-                sections.forEach(s => s.classList.remove('active'));
-                current.element.classList.add('active');
+    //     for (let i = 0; i < offsets.length; i++) {
+    //         const current = offsets[i];
+    //         const next = offsets[i + 1];
 
-                break;
-            }
+    //         if (
+    //             threshold >= current.offsetTop &&
+    //             (!next || threshold < next.offsetTop)
+    //         ) {
+    //             // Remove all active tags
+    //             document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+    //             categoryLinks[i].classList.add('active');
+
+    //             // Remove all active sections
+    //             sections.forEach(s => s.classList.remove('active'));
+    //             current.element.classList.add('active');
+    //             break;
+    //         }
+    //     }
+    // });
+
+//     container.addEventListener('scroll', () => {
+//     if (scrollLock) return;
+
+//     const scrollTop = container.scrollTop;
+//     const containerHeight = container.clientHeight;
+//     const scrollHeight = container.scrollHeight;
+
+//     // Adjust based on how much margin you want above heading
+//     const threshold = scrollTop + 100;
+
+//     // Special case: If near the bottom, activate last category
+//     if (scrollTop + containerHeight >= scrollHeight - 10) {
+//         // Remove all active tags
+//         document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+//         categoryLinks[categoryLinks.length - 1].classList.add('active');
+
+//         // Remove all active sections
+//         sections.forEach(s => s.classList.remove('active'));
+//         sections[sections.length - 1].classList.add('active');
+
+//         return;
+//     }
+
+//     for (let i = 0; i < offsets.length; i++) {
+//         const current = offsets[i];
+//         const next = offsets[i + 1];
+
+//         if (
+//             threshold >= current.offsetTop &&
+//             (!next || threshold < next.offsetTop)
+//         ) {
+//             // Remove all active tags
+//             document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+//             categoryLinks[i].classList.add('active');
+
+//             // Remove all active sections
+//             sections.forEach(s => s.classList.remove('active'));
+//             current.element.classList.add('active');
+//             break;
+//         }
+//     }
+// });
+
+// --- Scroll Event (only works when scrollLock = false) ---
+container.addEventListener('scroll', () => {
+    if (scrollLock) return;
+
+    const scrollTop = container.scrollTop;
+    const containerHeight = container.clientHeight;
+    const scrollHeight = container.scrollHeight;
+
+    // Adjust based on how much margin you want above heading
+    const threshold = scrollTop + 100;
+
+    // Special case: If near the bottom, activate last category
+    if (scrollTop + containerHeight >= scrollHeight - 10) {
+        document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+        categoryLinks[categoryLinks.length - 1].classList.add('active');
+
+        sections.forEach(s => s.classList.remove('active'));
+        sections[sections.length - 1].classList.add('active');
+
+        return;
+    }
+
+    for (let i = 0; i < offsets.length; i++) {
+        const current = offsets[i];
+        const next = offsets[i + 1];
+
+        if (
+            threshold >= current.offsetTop &&
+            (!next || threshold < next.offsetTop)
+        ) {
+            document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+            categoryLinks[i].classList.add('active');
+
+            sections.forEach(s => s.classList.remove('active'));
+            current.element.classList.add('active');
+            break;
         }
-    });
+    }
+});
 
+// --- Click Event ---
+categoryLinks.forEach((link, index) => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // Lock scroll updates
+        scrollLock = true;
+
+        // Remove all active states and set clicked active
+        document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+        link.classList.add('active');
+
+        sections.forEach(s => s.classList.remove('active'));
+        sections[index].classList.add('active');
+
+        // Scroll to the food category (with offset)
+        const targetScrollTop = getOffsetTopRelativeToContainer(sections[index], container) - 20;
+
+        container.scrollTo({
+            top: targetScrollTop < 0 ? 0 : targetScrollTop,
+            behavior: 'smooth'
+        });
+
+        // After scrolling completes, release scrollLock so manual scroll updates active class again
+        setTimeout(() => {
+            scrollLock = false;
+        }, 600);
+
+        // Also, listen for manual scrolls to release lock immediately
+        const onManualScroll = () => {
+            scrollLock = false;
+            container.removeEventListener('scroll', onManualScroll);
+        };
+        container.addEventListener('scroll', onManualScroll);
+    });
+});
+
+
+    // --- Click Event ---
+    categoryLinks.forEach((link, index) => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Lock scroll updates
+            scrollLock = true;
+
+            // Remove all active states
+            document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+            link.classList.add('active');
+
+            sections.forEach(s => s.classList.remove('active'));
+            sections[index].classList.add('active');
+
+            // Scroll to the food category (with offset)
+            const targetScrollTop = getOffsetTopRelativeToContainer(sections[index], container) - 20;
+
+            container.scrollTo({
+                top: targetScrollTop < 0 ? 0 : targetScrollTop,
+                behavior: 'smooth'
+            });
+
+            // Release lock after scrolling completes (approx 500ms)
+            setTimeout(() => {
+                scrollLock = false;
+            }, 600);
+        });
+    });
 }, 2000);
+
+
+
+
+
+
+
+
+
+

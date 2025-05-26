@@ -129,7 +129,7 @@ body {
 
 .cart-panel {
   position: fixed;
-  bottom: 20px;
+  bottom: 20vh;
   left: 20px;
   right: 20px;
   border-radius: 10px;

@@ -188,7 +188,7 @@ async function openOrderProfile(order_id, page) {
         order_data_url = `/theatre/api/seat-last-order/${order_id}`
     }
     let order_data = await getRequest(order_data_url)
-
+    document.getElementById('order-tab').click();
     order_id = order_data.order_detail.order_id;
     document.getElementById('bill-button').setAttribute('order_id', order_id);
     document.getElementById('kot-button').setAttribute('order_id', order_id);

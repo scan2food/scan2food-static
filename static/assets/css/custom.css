@@ -315,8 +315,12 @@ h6.price.small {
 }
 
 .custom-table th, .custom-table td {
-  padding-left: 20px !important;
-  padding-right: 20px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  font-size: 14px;
+}
+.custom-table .min-w-110 {
+  min-width: 110px;
 }
 
 .dashboard .border-left-info {
@@ -639,4 +643,23 @@ h6.price.small {
 }
 #menuePopUp .modal-body {
   background-color: #eee !important;
+}
+
+.tabs-button .btn-success {
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  border-bottom: 2px solid #fea116;
+  font-family: "Nunito", sans-serif;
+  color: #0F172B;
+}
+.tabs-button .btn-primary {
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  font-family: "Nunito", sans-serif;
+  color: #0F172B;
+}
+.tabs-button .border-bottom {
+  border-bottom: 1px solid #dee2e6 !important;
 }/*# sourceMappingURL=custom.css.map */

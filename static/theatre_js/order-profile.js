@@ -197,6 +197,9 @@ async function openOrderProfile(order_id, page) {
     // creating Cart Tab
     createCartTab(order_data);
 
+    // refund form
+    document.getElementById('refudn-form').setAttribute('action', `/theatre/refund-order/${order_id}`)
+
     // show tax
     showTax()
 
@@ -260,4 +263,31 @@ async function UpdateSeatView(element) {
 const itemsTab = document.getElementById('items-tab');
 document.querySelector('#items-tab').addEventListener('shown.bs.tab', function (event) {
     UpdateSeatView(itemsTab);
+});
+
+
+async function generateOTP(status) {
+    const orderId = document.getElementById('order-id').innerText.replace('#', '');
+    let optUrl = `/theatre/api/generate-otp/${orderId}/${status}`
+
+    response = await getRequest(optUrl);
+
+    if (response.status == 'sent') {
+        showToast('bg-success', response.message);
+    }
+    else if (response.status == 'error') {
+        showToast('bg-danger', response.message);
+    }
+    
+}
+
+const refundButton = document.getElementById('refund-button');
+const regenerateOtp = document.getElementById('resend-otp-button');
+
+regenerateOtp.addEventListener('click', async function () {
+    await generateOTP("resend");
+});
+
+refundButton.addEventListener('click', async function () {
+    await generateOTP("first");
 });

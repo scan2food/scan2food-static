@@ -1,7 +1,7 @@
 let socket_url;
 
-let audio = new Audio('https://guru-sevak-singh.github.io/scan2food-static/static/sound/notification.wav');
-let order_received_audio = new Audio('https://guru-sevak-singh.github.io/scan2food-static/static/sound/order_received.wav')
+let audio = new Audio('/static/sound/notification.wav');
+let order_received_audio = new Audio('/static/sound/order_received.wav')
 if (window.location.href.includes('https')) {
     socket_url = `wss://${window.location.host}/ws/all-seat-datasocket/`
 }
@@ -17,7 +17,7 @@ const sendNotification = (notification_title, message) => {
         else if (perm === 'granted') {
             let notify = new Notification(notification_title, {
                 body: message,
-                icon: 'https://guru-sevak-singh.github.io/scan2food-static/static/assets/images/brand/Scan2FoodFabIcon.png',
+                icon: '/static/assets/images/brand/Scan2FoodFabIcon.png',
                 vibrate: [200, 100, 200],
             });
         }
@@ -71,7 +71,9 @@ function RunWebSocket() {
             }
 
             else {
-                order_received_audio.play();
+                if (updated_data.msg_typ === 'confirmation') {
+                    order_received_audio.play();
+                }
             }
     
             showOrderData()

@@ -72,7 +72,7 @@ function loadSingleOrder(order_detail) {
 
     // all the time of last order
     const last_order_time_label = theatre_li.querySelector('.last-order-time-label');
-    
+
     if (last_order_time_label.innerText.replaceAll(" ", "") === "") {
         last_order_time_label.innerText = payment_time;
     }
@@ -142,12 +142,12 @@ function showTheatreOrder(theatre_data) {
 }
 
 function delete_order(order_id, theatre_id) {
-    const task = {task: 'delete-order', order_id: order_id, theatre_id: theatre_id};
+    const task = { task: 'delete-order', order_id: order_id, theatre_id: theatre_id };
     worker.postMessage(task);
 }
 
 function updateSeenOrder(order_id, theatre_id) {
-    const task = {task: 'order-seen', order_id: order_id, theatre_id: theatre_id};
+    const task = { task: 'order-seen', order_id: order_id, theatre_id: theatre_id };
     worker.postMessage(task);
 }
 
@@ -173,15 +173,15 @@ worker.onmessage = (e) => {
         const last_order_time = data.last_order_time;
         const theatre_id = data.theatre_id
         const seen_orders = data.seen_orders
-        
+
         // get the theatre li
         const theatre_li = document.getElementById(`theatre-id-${theatre_id}`)
-        
+
         if (order_count === 0) {
             // remove the theatre
             theatre_li.remove();
         }
-        
+
         else if (last_order_time !== undefined) {
 
             const tym = last_order_time.split("|")[1]
@@ -306,7 +306,9 @@ function formatCurrentTime() {
 // connect with the socket...
 let socket_url;
 
-let audio = new Audio('/static/sound/delivered.wav');
+const seen_audio = new Audio('/static/sound/delivered.wav');
+const new_order_audio = new Audio('/static/sound/order_received.wav');
+const delivery_sound = new Audio('/static/sound/notification.wav')
 
 // let order_received_audio = new Audio('https://guru-sevak-singh.github.io/scan2food-static/static/sound/order_received.wav')
 
@@ -341,18 +343,20 @@ function RunWebSocket() {
 
         let eventData = JSON.parse(e.data)
         let updated_data = JSON.parse(eventData.updated_table_data);
-        try {
-            audio.play();
-        }
-        catch {
-            console.log('error')
-        }
+
         const msg_typ = updated_data.msg_typ;
 
 
         if (msg_typ === 'confirmation') {
             // create order data and save to the order data to worker page...
             // create the order data
+
+            try {
+                new_order_audio.play();
+            }
+            catch {
+                console.log('error')
+            }
 
 
             const order_data = {
@@ -371,6 +375,12 @@ function RunWebSocket() {
         }
 
         else if (msg_typ === 'Delivered') {
+            try {
+                delivery_sound.play();
+            }
+            catch {
+                console.log('error')
+            }
             // ṛemote the order from the order data in worker script
             const order_id = updated_data.order_id;
             const theatre_id = updated_data.theatre_id;
@@ -379,6 +389,12 @@ function RunWebSocket() {
         }
 
         else if (msg_typ === "order_seen") {
+            try {
+                seen_audio.play();
+            }
+            catch {
+                console.log('error')
+            }
             const order_id = updated_data.order_id;
             const theatre_id = updated_data.theatre_id;
 

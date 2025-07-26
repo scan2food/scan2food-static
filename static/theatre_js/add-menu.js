@@ -145,13 +145,6 @@ async function UploadImage(img) {
     $('#imageModal').modal('hide');
 }
 
-async function sellOnMrp(button) {
-    let item_id = button.getAttribute('item-id');
-    let url = `/theatre/api/sell-on-mrp/${item_id}`;
-    let update_status = await getRequest(url);
-    showToast(update_status.type, update_status.message);
-}
-
 function countMadeBy() {
     let all_made_by = document.getElementsByClassName('made-by');
     for (let i = 0; i < all_made_by.length; i++) {

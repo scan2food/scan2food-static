@@ -1,0 +1,395 @@
+const worker_script_url = '/static/dashboard/live-order-worker.js';
+
+const worker = new Worker(worker_script_url);
+
+// It Load All the Orders
+function loadAllOrders() {
+    task_name = 'get-all-orders';
+    worker.postMessage({ task: task_name });
+}
+
+// It Updates the UI as per Every Order
+function loadSingleOrder(order_detail) {
+    const theatre_id = order_detail.theatre_id;
+    const theatre_name = order_detail.theatre_name;
+    const order_id = order_detail.id;
+    const order_amount = order_detail.amount;
+
+    let payment_time = order_detail.payment_time;
+    const view_status = order_detail.view_status;
+
+    payment_time = payment_time.split('|')[1]
+
+    let theatre_li = document.getElementById(`theatre-id-${theatre_id}`);
+
+    if (theatre_li === null) {
+        // create a new li
+        theatre_li = document.createElement('li');
+        theatre_li.setAttribute('class', 'nav-item py-2');
+        theatre_li.setAttribute('id', `theatre-id-${theatre_id}`);
+
+        // cosnt anchor tag
+        const theatre_li_html = `
+                    <a href="#" class="d-flex align-items-center text-start mx-3 ms-0">
+                        <div class="shadow p-3">
+                            <h6 class="mt-n1 mb-0 theatre-name-label">${theatre_name}</h6>
+                            <p class="mb-0 text-muted">Pending Orders:
+                                <strong class="text-primary fw-bold order-count-label">
+                                    0
+                                </strong>
+                            </p>
+                            <p class="mb-0 text-muted">Last Order Time:
+                                <strong class="text-primary fw-bold last-order-time-label">
+                                    
+                                </strong>
+                            </p>
+                            <p class="mb-0 text-muted">Unseen Orders:
+                                <strong class="text-primary fw-bold unseen-orders-label">
+                                    0
+                                </strong>
+                            </p>
+                            
+                        </div>
+                    </a>
+        `
+        theatre_li.innerHTML = theatre_li_html;
+
+        const all_theatre_box = document.getElementById('all-theatres');
+        all_theatre_box.appendChild(theatre_li);
+
+        // add Event Listener to show This Theatre Orders;
+        theatre_li.addEventListener('click', function () {
+            loadTheatreOrders(theatre_id);
+        })
+    }
+
+    // add the order count
+    const order_count_label = theatre_li.querySelector('.order-count-label');
+    let order_count = parseInt(order_count_label.innerText);
+
+    order_count += 1;
+    order_count_label.innerText = order_count;
+
+    // all the time of last order
+    const last_order_time_label = theatre_li.querySelector('.last-order-time-label');
+    
+    if (last_order_time_label.innerText.replaceAll(" ", "") === "") {
+        last_order_time_label.innerText = payment_time;
+    }
+
+    if (view_status === false) {
+        // unseen orders
+        const unseen_orders_label = theatre_li.querySelector('.unseen-orders-label');
+        let unseen_orders_count = parseInt(unseen_orders_label.innerText);
+        unseen_orders_count += 1;
+        unseen_orders_label.innerText = unseen_orders_count;
+    }
+
+
+}
+
+function loadTheatreOrders(theatre_id) {
+
+    // get all orders of single Theatre by Id
+    worker.postMessage({
+        task: 'get-all-orders-of-theatre',
+        theatre_id: theatre_id
+    })
+}
+
+function showTheatreOrder(theatre_data) {
+    // show the modal
+    document.getElementById('orderListPopUpLabel').innerText = theatre_data.theatre_name;
+
+    // empty all the orders
+    const order_list = document.getElementById('all-orders-list');
+    order_list.innerHTML = '';
+    const orders = theatre_data.orders;
+
+    for (let i = 0; i < orders.length; i++) {
+        const order = orders[i];
+        const tr = document.createElement('tr');
+        const seat = order.seat;
+        const order_time = order.payment_time.split('|')[1];
+        const amount = order.order_amount;
+        const view_status = order.view_status
+
+        const tr_html = `
+            <td class="text-center">${seat}</td>
+            <td class="text-center">${order_time}</td>
+            <td class="text-center">${amount}</td>
+            <td class="text-center">${view_status ? '<span class="badge bg-success"> Seen <span>' : '<span class="badge bg-danger"> Unseen </span>'}</td>
+            <td class="text-center">
+                <button class="btn btn-primary btn-sm">
+                    View
+                </button>
+            </td>
+            `
+        tr.innerHTML = tr_html;
+        const view_btn = tr.querySelector('button');
+        view_btn.addEventListener('click', async function () {
+
+            await openOrderProfile(order.id);
+            document.getElementById('orderPopUpLabel').innerText = seat;
+
+            $("#orderPopUp").modal('show');
+
+        })
+        order_list.appendChild(tr);
+    }
+
+    $("#orderListPopUp").modal('show');
+}
+
+function delete_order(order_id, theatre_id) {
+    const task = {task: 'delete-order', order_id: order_id, theatre_id: theatre_id};
+    worker.postMessage(task);
+}
+
+function updateSeenOrder(order_id, theatre_id) {
+    const task = {task: 'order-seen', order_id: order_id, theatre_id: theatre_id};
+    worker.postMessage(task);
+}
+
+loadAllOrders();
+
+
+worker.onmessage = (e) => {
+    const data = e.data;
+    const task_name = data.task;
+
+    if (task_name === 'add-order') {
+        const order_data = data.order_data;
+        loadSingleOrder(order_data);
+    }
+
+    else if (task_name === 'theatre-orders') {
+        const theatre_data = data.order_data;
+        showTheatreOrder(theatre_data);
+    }
+
+    else if (task_name === 'update-deleted-order') {
+        const order_count = data.order_count;
+        const last_order_time = data.last_order_time;
+        const theatre_id = data.theatre_id
+        const seen_orders = data.seen_orders
+        
+        // get the theatre li
+        const theatre_li = document.getElementById(`theatre-id-${theatre_id}`)
+        
+        if (order_count === 0) {
+            // remove the theatre
+            theatre_li.remove();
+        }
+        
+        else if (last_order_time !== undefined) {
+
+            const tym = last_order_time.split("|")[1]
+            theatre_li.getElementsByClassName('last-order-time-label')[0].innerText = tym;
+
+            theatre_li.getElementsByClassName('order-count-label')[0].innerText = order_count;
+        }
+
+        else if (seen_orders !== undefined) {
+            const seen_order_label = theatre_li.getElementsByClassName('unseen-orders-label')[0]
+            seen_order_label.innerText = seen_orders
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function formatCurrentTime() {
+    const now = new Date();
+
+    const day = String(now.getDate()).padStart(2, '0');
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = monthNames[now.getMonth()];
+    const year = now.getFullYear();
+
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;  // convert to 12-hour format
+
+    const formatted = `${day}-${month}-${year}|${String(hours).padStart(2, '0')}:${minutes} ${ampm}`;
+    return formatted;
+}
+
+
+
+// connect with the socket...
+let socket_url;
+
+let audio = new Audio('/static/sound/delivered.wav');
+
+// let order_received_audio = new Audio('https://guru-sevak-singh.github.io/scan2food-static/static/sound/order_received.wav')
+
+if (window.location.href.includes('https')) {
+    socket_url = `wss://${window.location.host}/ws/all-seat-datasocket/`
+}
+else {
+    socket_url = `ws://${window.location.host}/ws/all-seat-datasocket/`
+}
+
+const sendNotification = (notification_title, message) => {
+    Notification.requestPermission().then(perm => {
+        if (perm === 'denied') {
+            console.error('Please allow notifications to receive notifications');
+        }
+        else if (perm === 'granted') {
+            let notify = new Notification(notification_title, {
+                body: message,
+                icon: 'https://guru-sevak-singh.github.io/scan2food-static/static/assets/images/brand/Scan2FoodFabIcon.png',
+                vibrate: [200, 100, 200],
+            });
+        }
+    })
+
+}
+
+function RunWebSocket() {
+
+    let allSeatSocket = new WebSocket(socket_url)
+
+    allSeatSocket.onmessage = (e) => {
+
+        let eventData = JSON.parse(e.data)
+        let updated_data = JSON.parse(eventData.updated_table_data);
+        try {
+            audio.play();
+        }
+        catch {
+            console.log('error')
+        }
+        const msg_typ = updated_data.msg_typ;
+
+
+        if (msg_typ === 'confirmation') {
+            // create order data and save to the order data to worker page...
+            // create the order data
+
+
+            const order_data = {
+                id: updated_data.order_id,
+                theatre_id: updated_data.theatre_id,
+                payment_time: formatCurrentTime(),
+                seat: updated_data.seat_name.replace(' | ', ', '),
+                amount: updated_data.amount,
+                view_status: false,
+                theatre_name: updated_data.theatre_name,
+                order_amount: updated_data.amount,
+            }
+
+            const task = { task: 'add-new-order', order_data: order_data };
+            worker.postMessage(task)
+        }
+
+        else if (msg_typ === 'Delivered') {
+            // ṛemote the order from the order data in worker script
+            const order_id = updated_data.order_id;
+            const theatre_id = updated_data.theatre_id;
+
+            delete_order(order_id, theatre_id)
+        }
+
+        else if (msg_typ === "order_seen") {
+            const order_id = updated_data.order_id;
+            const theatre_id = updated_data.theatre_id;
+
+            updateSeenOrder(order_id, theatre_id)
+        }
+
+    }
+
+    allSeatSocket.onclose = (e) => {
+        RunWebSocket()
+    }
+}
+
+RunWebSocket()

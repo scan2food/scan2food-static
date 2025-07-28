@@ -122,6 +122,9 @@ body {
         overflow-y: auto;
         position: relative;
     }
+    .fs-5 {
+        font-size: 0.9rem!important;
+    }
     .row-label {
     border: 1px solid #aaa;
     border-radius: 5px;
@@ -807,4 +810,12 @@ background-color: #ffffff !important;
     max-height: 600px;
     position: relative;
     overflow-x: hidden;
+}
+.brdr-left-2px {
+    border-left: 2px solid;
+}
+#chat-box .bg-primary {
+    background-color: #fef1dd !important;
+    color: #555 !important;
+
 }

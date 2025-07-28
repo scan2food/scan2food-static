@@ -31,19 +31,20 @@ function loadSingleOrder(order_detail) {
         // cosnt anchor tag
         const theatre_li_html = `
                     <a href="#" class="d-flex align-items-center text-start mx-3 ms-0">
-                        <div class="shadow p-3">
-                            <h6 class="mt-n1 mb-0 theatre-name-label">${theatre_name}</h6>
-                            <p class="mb-0 text-muted">Pending Orders:
+                        <div class="shadow p-3 brdr-left-2px">
+                            <h6 class="mt-n1 mb-0 theatre-name-label border-bottom pb-2 mb-2">${theatre_name}  </h6>
+                            
+                            <p class="mb-0 text-muted small">Pending Orders:
                                 <strong class="text-primary fw-bold order-count-label">
                                     0
                                 </strong>
                             </p>
-                            <p class="mb-0 text-muted">Last Order Time:
+                            <p class="mb-0 text-muted small">Last Order Time:
                                 <strong class="text-primary fw-bold last-order-time-label">
                                     
                                 </strong>
                             </p>
-                            <p class="mb-0 text-muted">Unseen Orders:
+                            <p class="mb-0 text-muted small">Unseen Orders:
                                 <strong class="text-primary fw-bold unseen-orders-label">
                                     0
                                 </strong>

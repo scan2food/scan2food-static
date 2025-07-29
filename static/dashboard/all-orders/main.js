@@ -225,9 +225,9 @@ function updatePaginationUI(currentPage, totalPages) {
 
         // Highlight current page based on URL or click
         if (i === parseInt(currentPage)) {
-            btn.classList.add('btn', 'btn-sm', 'btn-primary m-2');
+            btn.classList.add('btn', 'btn-sm', 'btn-primary', 'm-2');
         } else {
-            btn.classList.add('btn', 'btn-sm', 'btn-secondary m-2');
+            btn.classList.add('btn', 'btn-sm', 'btn-secondary',  'm-2');
         }
 
         btn.addEventListener('click', () => {

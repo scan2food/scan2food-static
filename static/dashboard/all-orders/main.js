@@ -52,6 +52,17 @@ if (page === undefined) {
 }
 
 
+function downloadReport() {
+    const theatre_id = selectedTheatre;
+    const order_status = document.getElementById('order-status').value
+    date_range = document.getElementById('daterange').value;
+    let report_url = `/admin-portal/download-all-orders?theatre-id=${theatre_id}&order-status=${order_status}&daterange=${daterange}`
+    // open the download report url
+    window.open(report_url);
+}
+
+
+
 function showOrders(order_list) {
     const tbody = document.getElementById('all-orders-tbody');
     tbody.innerHTML = ""
@@ -227,7 +238,7 @@ function updatePaginationUI(currentPage, totalPages) {
         if (i === parseInt(currentPage)) {
             btn.classList.add('btn', 'btn-sm', 'btn-primary', 'm-2');
         } else {
-            btn.classList.add('btn', 'btn-sm', 'btn-secondary',  'm-2');
+            btn.classList.add('btn', 'btn-sm', 'btn-secondary', 'm-2');
         }
 
         btn.addEventListener('click', () => {

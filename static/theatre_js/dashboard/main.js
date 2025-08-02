@@ -225,7 +225,7 @@ get_volet_data()
 function ShowRevenueChart(year) {
 
     // const sse_url = `/theatre/api/get-yearly-revenue/${year}`
-    const date_range = `09/Jan/${current_year} - 10/Jan/${current_year + 1}`
+    const date_range = `09/Jan/${year} - 10/Jan/${year + 1}`
     const theatre_id = document.getElementById('theatre-id').innerText
     const sse_url = `/theatre/api/all-orders-sse?daterange=${date_range}&order-status=Success&selected-theatre=${theatre_id}`
     const eventSource = new EventSource(sse_url);

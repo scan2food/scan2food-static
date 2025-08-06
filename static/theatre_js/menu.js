@@ -149,12 +149,17 @@ function showFoodItems(category_data, is_active) {
     }
 
     let html_data = '';
+    let image_url = category_data.category_image
+
+    if (window.location.href.includes('https')) {
+        image_url = image_url.replace('http', 'https');
+    }
 
     if (window_location.includes('menu')) {
         html_data = `<div class="category-card-link">
                 <div class="category-type-card">
                     <div class="category-type-img-wrapper">
-                        <img loading="lazy" src="${category_data.category_image}" alt="" class=" category-type-img">
+                        <img loading="lazy" src="${image_url}" alt="" class=" category-type-img">
                     </div>
                     <div class="category-type-name  text-white p-2">
                         <p class="mb-0">${category_data.name}</p>
@@ -190,10 +195,15 @@ function showFoodItems(category_data, is_active) {
         food_card.setAttribute('class', 'col-lg-6 col-sm-6');
         food_card.setAttribute('id', `food-id-${item_data.item_id}`)
 
+        let food_image_url = item_data.food_image
+        if (window.location.href.includes('https')) {
+            food_image_url = food_image_url.replace('http', 'https');
+        }
+
         let food_card_html = `
                                             <div class="d-flex align-items-center menu-item my-food-card">
                                                 <img loading="lazy" class="flex-shrink-0 img-fluid rounded menu-img"
-                                                    src="${item_data.food_image}" alt="" style="width: 80px;">
+                                                    src="${food_image_url}" alt="" style="width: 80px;">
                                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                                     <span class="item-pk" style="display: none;">${item_data.item_id}</span>
                                                     <span class="item-real-price d-none">${item_data.real_price}</span>

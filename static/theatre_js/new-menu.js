@@ -48,7 +48,7 @@ async function loadMenu() {
 // Update view cart position as per the category size
 // function updateCartPanelPosition() {
 //     const ul = document.getElementById('food-category-list');
-    
+
 //     const cartPanel = document.querySelector('a#cart-div');
 //      cartPanel.classList.add('PositionBottomless');
 //     // const blankDiv = document.querySelector('.blank-div');
@@ -122,12 +122,17 @@ function showFoodItems(category_data, is_active) {
     }
 
     let html_data = '';
+    let image_url = category_data.category_image
+
+    if (window.location.href.includes('https')) {
+        image_url = image_url.replace('http', 'https');
+    }
 
     if (window_location.includes('menu')) {
         html_data = `<div class="category-card-link">
                 <div class="category-type-card">
                     <div class="category-type-img-wrapper">
-                        <img loading="lazy" src="${category_data.category_image}" alt="" class=" category-type-img">
+                        <img loading="lazy" src="${image_url}" alt="" class=" category-type-img">
                     </div>
                     <div class="category-type-name  text-white p-2">
                         <p class="mb-0">${category_data.name}</p>
@@ -172,10 +177,15 @@ function showFoodItems(category_data, is_active) {
         food_card.setAttribute('class', 'col-lg-6 col-sm-6');
         food_card.setAttribute('id', `food-id-${item_data.item_id}`)
 
+        let food_image_url = item_data.food_image
+        if (window.location.href.includes('https')) {
+            food_image_url = food_image_url.replace('http', 'https');
+        }
+
         let food_card_html = `
                                             <div class="d-flex align-items-center menu-item my-food-card">
                                                 <img loading="lazy" class="flex-shrink-0 img-fluid rounded menu-img"
-                                                    src="${item_data.food_image}" alt="" style="width: 80px;">
+                                                    src="${food_image_url}" alt="" style="width: 80px;">
                                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                                     <span class="item-pk" style="display: none;">${item_data.item_id}</span>
                                                     <span class="item-real-price d-none">${item_data.real_price}</span>
@@ -352,125 +362,125 @@ setTimeout(() => {
     //     }
     // });
 
-//     container.addEventListener('scroll', () => {
-//     if (scrollLock) return;
+    //     container.addEventListener('scroll', () => {
+    //     if (scrollLock) return;
 
-//     const scrollTop = container.scrollTop;
-//     const containerHeight = container.clientHeight;
-//     const scrollHeight = container.scrollHeight;
+    //     const scrollTop = container.scrollTop;
+    //     const containerHeight = container.clientHeight;
+    //     const scrollHeight = container.scrollHeight;
 
-//     // Adjust based on how much margin you want above heading
-//     const threshold = scrollTop + 100;
+    //     // Adjust based on how much margin you want above heading
+    //     const threshold = scrollTop + 100;
 
-//     // Special case: If near the bottom, activate last category
-//     if (scrollTop + containerHeight >= scrollHeight - 10) {
-//         // Remove all active tags
-//         document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
-//         categoryLinks[categoryLinks.length - 1].classList.add('active');
+    //     // Special case: If near the bottom, activate last category
+    //     if (scrollTop + containerHeight >= scrollHeight - 10) {
+    //         // Remove all active tags
+    //         document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+    //         categoryLinks[categoryLinks.length - 1].classList.add('active');
 
-//         // Remove all active sections
-//         sections.forEach(s => s.classList.remove('active'));
-//         sections[sections.length - 1].classList.add('active');
+    //         // Remove all active sections
+    //         sections.forEach(s => s.classList.remove('active'));
+    //         sections[sections.length - 1].classList.add('active');
 
-//         return;
-//     }
+    //         return;
+    //     }
 
-//     for (let i = 0; i < offsets.length; i++) {
-//         const current = offsets[i];
-//         const next = offsets[i + 1];
+    //     for (let i = 0; i < offsets.length; i++) {
+    //         const current = offsets[i];
+    //         const next = offsets[i + 1];
 
-//         if (
-//             threshold >= current.offsetTop &&
-//             (!next || threshold < next.offsetTop)
-//         ) {
-//             // Remove all active tags
-//             document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
-//             categoryLinks[i].classList.add('active');
+    //         if (
+    //             threshold >= current.offsetTop &&
+    //             (!next || threshold < next.offsetTop)
+    //         ) {
+    //             // Remove all active tags
+    //             document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+    //             categoryLinks[i].classList.add('active');
 
-//             // Remove all active sections
-//             sections.forEach(s => s.classList.remove('active'));
-//             current.element.classList.add('active');
-//             break;
-//         }
-//     }
-// });
+    //             // Remove all active sections
+    //             sections.forEach(s => s.classList.remove('active'));
+    //             current.element.classList.add('active');
+    //             break;
+    //         }
+    //     }
+    // });
 
-// --- Scroll Event (only works when scrollLock = false) ---
-container.addEventListener('scroll', () => {
-    if (scrollLock) return;
+    // --- Scroll Event (only works when scrollLock = false) ---
+    container.addEventListener('scroll', () => {
+        if (scrollLock) return;
 
-    const scrollTop = container.scrollTop;
-    const containerHeight = container.clientHeight;
-    const scrollHeight = container.scrollHeight;
+        const scrollTop = container.scrollTop;
+        const containerHeight = container.clientHeight;
+        const scrollHeight = container.scrollHeight;
 
-    // Adjust based on how much margin you want above heading
-    const threshold = scrollTop + 100;
+        // Adjust based on how much margin you want above heading
+        const threshold = scrollTop + 100;
 
-    // Special case: If near the bottom, activate last category
-    if (scrollTop + containerHeight >= scrollHeight - 10) {
-        document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
-        categoryLinks[categoryLinks.length - 1].classList.add('active');
-
-        sections.forEach(s => s.classList.remove('active'));
-        sections[sections.length - 1].classList.add('active');
-
-        return;
-    }
-
-    for (let i = 0; i < offsets.length; i++) {
-        const current = offsets[i];
-        const next = offsets[i + 1];
-
-        if (
-            threshold >= current.offsetTop &&
-            (!next || threshold < next.offsetTop)
-        ) {
+        // Special case: If near the bottom, activate last category
+        if (scrollTop + containerHeight >= scrollHeight - 10) {
             document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
-            categoryLinks[i].classList.add('active');
+            categoryLinks[categoryLinks.length - 1].classList.add('active');
 
             sections.forEach(s => s.classList.remove('active'));
-            current.element.classList.add('active');
-            break;
+            sections[sections.length - 1].classList.add('active');
+
+            return;
         }
-    }
-});
 
-// --- Click Event ---
-categoryLinks.forEach((link, index) => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
+        for (let i = 0; i < offsets.length; i++) {
+            const current = offsets[i];
+            const next = offsets[i + 1];
 
-        // Lock scroll updates
-        scrollLock = true;
+            if (
+                threshold >= current.offsetTop &&
+                (!next || threshold < next.offsetTop)
+            ) {
+                document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+                categoryLinks[i].classList.add('active');
 
-        // Remove all active states and set clicked active
-        document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
-        link.classList.add('active');
-
-        sections.forEach(s => s.classList.remove('active'));
-        sections[index].classList.add('active');
-
-        // Scroll to the food category (with offset)
-        const targetScrollTop = getOffsetTopRelativeToContainer(sections[index], container) - 20;
-
-        container.scrollTo({
-            top: targetScrollTop < 0 ? 0 : targetScrollTop,
-            behavior: 'smooth'
-        });
-
-        // After scrolling completes, release scrollLock so manual scroll updates active class again
-        setTimeout(() => {
-            scrollLock = false;
-        }, 600);
-
-        // Also, listen for manual scrolls to release lock immediately
-        const onManualScroll = () => {
-            scrollLock = false;
-            container.removeEventListener('scroll', onManualScroll);
-        };
-        container.addEventListener('scroll', onManualScroll);
+                sections.forEach(s => s.classList.remove('active'));
+                current.element.classList.add('active');
+                break;
+            }
+        }
     });
-});
+
+    // --- Click Event ---
+    categoryLinks.forEach((link, index) => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Lock scroll updates
+            scrollLock = true;
+
+            // Remove all active states and set clicked active
+            document.querySelectorAll('.category-type-a-tag.active').forEach(el => el.classList.remove('active'));
+            link.classList.add('active');
+
+            sections.forEach(s => s.classList.remove('active'));
+            sections[index].classList.add('active');
+
+            // Scroll to the food category (with offset)
+            const targetScrollTop = getOffsetTopRelativeToContainer(sections[index], container) - 20;
+
+            container.scrollTo({
+                top: targetScrollTop < 0 ? 0 : targetScrollTop,
+                behavior: 'smooth'
+            });
+
+            // After scrolling completes, release scrollLock so manual scroll updates active class again
+            setTimeout(() => {
+                scrollLock = false;
+            }, 600);
+
+            // Also, listen for manual scrolls to release lock immediately
+            const onManualScroll = () => {
+                scrollLock = false;
+                container.removeEventListener('scroll', onManualScroll);
+            };
+            container.addEventListener('scroll', onManualScroll);
+        });
+    });
 
 
     // --- Click Event ---

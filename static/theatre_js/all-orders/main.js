@@ -101,7 +101,7 @@ function showOrders(order_list) {
                 </span>
             </td>
             <td>
-                <a class="me-3" href="/admin-portal/order-profile/${order_data.id}">
+                <a class="me-3" href="/theatre/order-profile/${order_data.id}">
                     <i class="fas fa-eye text-primary"></i>
                 </a>
             </td>

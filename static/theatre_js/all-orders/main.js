@@ -41,10 +41,7 @@ if (orderStatus === undefined) {
     orderStatus = "Success";
 }
 
-let selectedTheatre = all_parimeters['selected-theatre']
-if (selectedTheatre === undefined) {
-    selectedTheatre = "";
-}
+const selectedTheatre = document.getElementById('selected-theatre-id').value;
 
 let page = all_parimeters['page']
 if (page === undefined) {
@@ -81,19 +78,22 @@ function showOrders(order_list) {
 
         tr_html = `
             <th>
-                ${order_data.theatre_name}
+                ${order_data.seat}
             </th>
             <td>
                 ${order_data.payment_time.replace("|", " , ")}
             </td>
             <td class="text-center">
-                ${order_data.total_amount}
+                ₹ ${order_data.order_amount}
             </td>
             <td class="text-center">
-                ${order_data.order_amount}
+                ${order_data.quantity}
             </td>
             <td>
-                ${order_data.quantity}
+                ${order_data.taken_by}
+            </td>
+            <td>
+                ${order_data.deliverd_by}
             </td>
             <td>
                 <span class="${payment_status.class}">
@@ -101,18 +101,8 @@ function showOrders(order_list) {
                 </span>
             </td>
             <td>
-                <span class="${view_status.class}">
-                    ${view_status.status}
-                </span>
-            </td>
-            <td>
                 <a class="me-3" href="/admin-portal/order-profile/${order_data.id}">
                     <i class="fas fa-eye text-primary"></i>
-                </a>
-            </td>
-            <td>
-                <a href="/theatre/invoice/${order_data.id}">
-                    <i class="fa fa-file"></i>
                 </a>
             </td>
         `
@@ -122,7 +112,7 @@ function showOrders(order_list) {
 }
 
 
-const worker = new Worker('/static/dashboard/all-orders/worker.js');
+const worker = new Worker('/static/theatre_js/all-orders/worker.js');
 
 function downloadReport() {
     task = { task_name: 'get-order-data' }
@@ -139,8 +129,6 @@ getAllOrders(daterange, orderStatus, selectedTheatre, page);
 // It will show the card data...
 function showCardData(theatre_amount, total_amount, net_profit, order_count) {
     document.getElementById('theatre_amount').innerText = theatre_amount;
-    document.getElementById('total_amount').innerText = total_amount;
-    document.getElementById('net_profit').innerText = net_profit;
     document.getElementById('order_count').innerText = order_count;
 }
 
@@ -162,42 +150,6 @@ async function getRequest(url) {
             throw new Error('Failed to fetch data');
         });
 }
-
-
-
-// load all theatres
-async function loadAllTheatres() {
-    const all_theatre_url = `/theatre/api/get-all-theatres`
-    all_theatres = await getRequest(all_theatre_url);
-    all_theatres = all_theatres.all_theatres;
-
-    const sel = document.getElementById('selected-theatre');
-    // create the select in the order
-    for (let i = 0; i < all_theatres.length; i++) {
-        const theatre_detail = all_theatres[i];
-        const opt = document.createElement('option');
-        opt.setAttribute('value', theatre_detail.theatre_id);
-        opt.innerText = theatre_detail.name
-        sel.appendChild(opt);
-    }
-
-    sel.value = selectedTheatre;
-
-    if (daterange === "") {
-    }
-    else {
-        dt_inp = document.getElementById('daterange');
-        dt_inp.value = daterange
-
-    }
-
-    document.getElementById('order-status').value = orderStatus;
-
-}
-
-loadAllTheatres()
-
-
 
 
 
@@ -264,3 +216,12 @@ function updateURLParam(key, value) {
     url.searchParams.set(key, value);
     return url.toString();
 }
+
+
+setTimeout(() => {
+    if (daterange !== "") {
+        document.getElementById('daterange').value = daterange;
+    }
+    document.getElementById('order-status').value = orderStatus;
+
+}, 200);

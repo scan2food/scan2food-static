@@ -86,31 +86,48 @@ onmessage = (e) => {
     }
 
     else if (task_name === 'get-order-data') {
-        const all_orders = all_order_data.orders
+        const all_orders = all_order_data.orders;
+        var duration = "";
+
+        if (all_orders.length > 0) {
+            var duration_st = all_orders[0].payment_time
+            var duration_end = all_orders[all_orders.length - 1].payment_time
+            duration = `${duration_st.split("|")[0]} 6:00 AM - ${duration_end.split("|")[0]} 6:00 AM`
+        }
         var excel_data = [
             [
-                "id",
+                "Duration",
+                duration
+            ],
+            [
+                "Total Amount",
+                theatre_amount
+            ],
+            [
+                "",
+                ""
+            ],
+            [
+                "s_no",
+                "Seat",
+                "order id",
+                "Item List",
                 "Payment Time",
                 "Delivery Time",
-                "Order Amount",
-                "Total Amount",
-                "Items",
-                "Seat",
-                "Theatre Name"
+                "Amount",
             ],
         ]
 
         for (let i = 0; i < all_orders.length; i++) {
             const order = all_orders[i]
             const append_data = [
+                i + 1,
+                order.seat,
                 order.id,
+                order.items,
                 order.payment_time,
                 order.delivery_time,
                 order.order_amount,
-                order.total_amount,
-                order.quantity,
-                order.seat,
-                order.theatre_name
             ]
             excel_data.push(append_data);
         }

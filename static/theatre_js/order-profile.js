@@ -30,6 +30,7 @@ function showTax() {
 }
 
 async function getRequest(url) {
+    console.log('url===>', url);
     return fetch(url)
         .then(function (response) {
             return response.json();
@@ -220,6 +221,10 @@ async function deliverOrder() {
     document.getElementById('order-deliver-button').style.display = 'none'
 
     if (window.location.href.includes('theatre/all-seats')) {
+        $("#orderPopUp").modal('hide');
+    }
+
+    else if (window.location.href.includes('theatre/live-orders')) {
         $("#orderPopUp").modal('hide');
     }
 }

@@ -114,7 +114,6 @@ function runWebSocket(socket_url) {
 
         if (order_theatre_id === theatre_id) {
             const msg_typ = updated_data.msg_typ
-            console.log('msg type ===>', msg_typ)
             
             if (msg_typ === "confirmation") {
                 // new order received...

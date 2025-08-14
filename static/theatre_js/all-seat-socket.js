@@ -76,7 +76,6 @@ function RunWebSocket() {
 
         let eventData = JSON.parse(e.data)
         let updated_data = JSON.parse(eventData.updated_table_data);
-        console.log('updated data ====>', updated_data);
 
         let order_theatre_id = updated_data.theatre_id
 

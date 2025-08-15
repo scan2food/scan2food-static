@@ -6,7 +6,7 @@ $(document).ready(function () {
             format: 'DD/MMM/YYYY'
         },
         startDate: new Date(moment()), // Set start date to today
-        endDate: new Date(moment()),   // Set end date to today
+        endDate: new Date(moment(), moment().add(1, 'days')),   // Set end date to today
         showDropdowns: true,
         opens: 'right',
         ranges: {

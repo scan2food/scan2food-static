@@ -34,7 +34,7 @@ function addToCart(btn) {
     card.getElementsByClassName('quantity')[0].innerText = 1
 
     // getting the data from local storage
-    let table_cart_data = localStorage.getItem(table_name)
+    let table_cart_data = local_storage.getItem(table_name)
 
     // making the data readbale
     table_cart_data = JSON.parse(table_cart_data)
@@ -44,7 +44,7 @@ function addToCart(btn) {
     json_data = JSON.stringify(table_cart_data)
 
     // saving new data to local storage
-    localStorage.setItem(table_name, json_data)
+    local_storage.setItem(table_name, json_data)
     // updating the cart lenght
 
     UpdateCart(table_name)
@@ -72,7 +72,7 @@ function IncreseQuantity(btn) {
     quantity_box.innerText = quantity;
 
     // get data from local storage
-    let table_cart_data = localStorage.getItem(table_name);
+    let table_cart_data = local_storage.getItem(table_name);
 
     // convert local data into dictionary
     table_cart_data = JSON.parse(table_cart_data);
@@ -84,7 +84,7 @@ function IncreseQuantity(btn) {
     table_cart_data = JSON.stringify(table_cart_data)
 
     // save cart data in local storage
-    localStorage.setItem(table_name, table_cart_data)
+    local_storage.setItem(table_name, table_cart_data)
 
     // updating the cart lenght
     UpdateCart(table_name)
@@ -110,7 +110,7 @@ function DecreseQuantity(btn) {
         quantity_box.innerText = quantity;
 
         // get data from local storage
-        let table_cart_data = localStorage.getItem(table_name);
+        let table_cart_data = local_storage.getItem(table_name);
 
         // convert local data into dictionary
         table_cart_data = JSON.parse(table_cart_data);
@@ -122,7 +122,7 @@ function DecreseQuantity(btn) {
         table_cart_data = JSON.stringify(table_cart_data)
 
         // save cart data in local storage
-        localStorage.setItem(table_name, cart_data)
+        local_storage.setItem(table_name, cart_data)
     }
 
     else {
@@ -146,7 +146,7 @@ function removeItem(btn) {
     let pk = parentDiv.getElementsByClassName('item-pk')[0].innerText;
 
     // get cart_data from local storage
-    let table_cart_data = localStorage.getItem(table_name);
+    let table_cart_data = local_storage.getItem(table_name);
 
     // convert from json to dictionary
     table_cart_data = JSON.parse(table_cart_data);
@@ -156,7 +156,7 @@ function removeItem(btn) {
 
     // save in cart data
     table_cart_data = JSON.stringify(table_cart_data)
-    localStorage.setItem(table_name, table_cart_data)
+    local_storage.setItem(table_name, table_cart_data)
 
     // remove remove-box d-none
     parentDiv.getElementsByClassName('remove-box')[0].classList.add('d-none');
@@ -171,7 +171,7 @@ function removeItem(btn) {
 function UpdateCart(table_name) {
 
     // getting the data of this table
-    let table_cart_data = localStorage.getItem(table_name);
+    let table_cart_data = local_storage.getItem(table_name);
     table_cart_data = JSON.parse(table_cart_data);
     let cart_length = Object.keys(table_cart_data).length;
 
@@ -199,7 +199,7 @@ function loadExistingCart(table_name) {
 
     let myFoodCards = document.getElementsByClassName('my-food-card');
 
-    let table_cart_data = localStorage.getItem(table_name);
+    let table_cart_data = local_storage.getItem(table_name);
     table_cart_data = JSON.parse(table_cart_data);
 
 

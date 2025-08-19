@@ -28,10 +28,10 @@ function openCart(a) {
     let table_name = a.getAttribute('selected-table-name');
     document.getElementById("cartPopUpLabel").innerText = table_name;
 
-    let items = localStorage.getItem(table_name)
+    let items = local_storage.getItem(table_name)
 
     if (items == null) {
-        localStorage.setItem('message', 'Oops, out bad! Please add items again ...')
+        local_storage.setItem('message', 'Oops, out bad! Please add items again ...')
         location.reload()
     }
 
@@ -58,7 +58,7 @@ function backCart() {
 function generateOrder() {
     let table_name = document.getElementById('cartPopUpLabel').innerText;
 
-    let table_cart_data = localStorage.getItem(table_name)
+    let table_cart_data = local_storage.getItem(table_name)
     table_cart_data = JSON.parse(table_cart_data);
 
 }
@@ -68,7 +68,7 @@ function loadCart(table_name) {
     let cart_box = document.getElementById('cart-items');
     cart_box.innerHTML = ""
 
-    let table_cart_data = localStorage.getItem(table_name)
+    let table_cart_data = local_storage.getItem(table_name)
     table_cart_data = JSON.parse(table_cart_data);
 
 
@@ -216,10 +216,10 @@ function calculateConvinence(theatre_price, amount) {
 async function createOrder() {
     let order_data = {}
     let seat_name = document.getElementById('cartPopUpLabel').innerText;
-    let cart_data = localStorage.getItem(seat_name);
+    let cart_data = local_storage.getItem(seat_name);
 
     if (cart_data == null) {
-        localStorage.setItem('message', 'Oops, our bad! Please add items again ...')
+        local_storage.setItem('message', 'Oops, our bad! Please add items again ...')
         location.reload()
     }
 
@@ -237,7 +237,7 @@ async function createOrder() {
         let data;
         data = await PostRequest(url, order_data);
 
-        localStorage.removeItem(seat_name);
+        local_storage.removeItem(seat_name);
         let redirect_url = data['url'];
 
         if (window.location.href.includes('menu')) {
@@ -261,7 +261,7 @@ function IncreseQuantityInCart(button) {
     let item_id = parentDiv.getElementsByClassName('item-id')[0].innerText;
 
     // getting the cart data
-    let table_cart_data = localStorage.getItem(table_name);
+    let table_cart_data = local_storage.getItem(table_name);
     table_cart_data = JSON.parse(table_cart_data);
 
     // getting the Exact Item
@@ -284,7 +284,7 @@ function IncreseQuantityInCart(button) {
     table_cart_data = JSON.stringify(table_cart_data);
 
     // update_data in local storage
-    localStorage.setItem(table_name, table_cart_data);
+    local_storage.setItem(table_name, table_cart_data);
 
 }
 
@@ -299,7 +299,7 @@ function DecreseQuantityInCart(button) {
     let item_id = parentDiv.getElementsByClassName('item-id')[0].innerText;
 
     // getting the cart data
-    let cart_data = localStorage.getItem(table_name);
+    let cart_data = local_storage.getItem(table_name);
     cart_data = JSON.parse(cart_data);
 
     // getting the Exact Item
@@ -330,7 +330,7 @@ function DecreseQuantityInCart(button) {
         cart_data = JSON.stringify(cart_data);
 
         // update_data in local storage
-        localStorage.setItem(table_name, cart_data);
+        local_storage.setItem(table_name, cart_data);
     }
 
 }
@@ -345,7 +345,7 @@ function removeItemInCart(button) {
     let pk = parentDiv.getElementsByClassName('item-id')[0].innerText;
 
     // get cart_data from local storage
-    let cart_data = localStorage.getItem(table_name);
+    let cart_data = local_storage.getItem(table_name);
 
     // convert from json to dictionary
     cart_data = JSON.parse(cart_data);
@@ -358,7 +358,7 @@ function removeItemInCart(button) {
 
     // save in cart data
     cart_data = JSON.stringify(cart_data);
-    localStorage.setItem(table_name, cart_data);
+    local_storage.setItem(table_name, cart_data);
 
     // remove cart ddiv
     parentDiv.remove();

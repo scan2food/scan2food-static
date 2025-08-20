@@ -15,7 +15,7 @@ function saveOrderData(order_data) {
     all_order_data[`theatre-id-${theatre_id}`].orders.push(order_data);
 
     const orders = all_order_data[`theatre-id-${theatre_id}`].orders
-    const sorted_data = orders.sort((a,b) => b.payment_time - a.payment_time)
+    const sorted_data = orders.sort((a, b) => b.payment_time - a.payment_time)
 
     all_order_data[`theatre-id-${theatre_id}`].orders = sorted_data;
     const task = { 'task': 'add-order', 'order_data': order_data }
@@ -29,8 +29,7 @@ function removeOrderData(order_id, theatre_id) {
         // filter out the order with the given order_id;
         const orders = all_order_data[theatre_key].orders;
         const new_orders = orders.filter(order => order.id !== order_id);
-        
-        const sorted_data = new_orders.sort((a,b) => b.payment_time - a.payment_time);
+        const sorted_data = new_orders.sort((a, b) => b.payment_time - a.payment_time);
 
         all_order_data[theatre_key].orders = sorted_data;
 
@@ -46,7 +45,7 @@ function removeOrderData(order_id, theatre_id) {
         else {
             last_order_time = sorted_data[0].payment_time
         }
-        const task = {task: 'update-deleted-order', order_count: order_count, last_order_time: last_order_time, theatre_id : theatre_id };
+        const task = { task: 'update-deleted-order', order_count: order_count, last_order_time: last_order_time, theatre_id: theatre_id };
         postMessage(task);
     }
 
@@ -86,7 +85,7 @@ function updateSeenOrder(order_id, theatre_id) {
         const order_count = orders.length;
 
         let seen_orders = 0
-        for (let i = 0; i < orders.length; i++){
+        for (let i = 0; i < orders.length; i++) {
             const element = orders[i];
             new_orders.push(element);
             if (element.id == order_id) {
@@ -98,11 +97,11 @@ function updateSeenOrder(order_id, theatre_id) {
             }
         };
 
-        const sorted_data = new_orders.sort((a,b) => b.payment_time - a.payment_time);
+        const sorted_data = new_orders.sort((a, b) => b.payment_time - a.payment_time);
 
         all_order_data[theatre_key].orders = sorted_data;
 
-        const task = {task: 'update-deleted-order', order_count: order_count, theatre_id : theatre_id, seen_orders: seen_orders };
+        const task = { task: 'update-deleted-order', order_count: order_count, theatre_id: theatre_id, seen_orders: seen_orders };
         postMessage(task);
     }
 }

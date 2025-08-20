@@ -116,7 +116,7 @@ function renderSingleOrder(order) {
                             <p class="mb-0 text-muted small">Order Time:
                                 <strong class="text-primary fw-bold order-time-label">${order.payment_time.split('|')[1]}</strong>
                             </p>
-                            <p class="mb-0 text-muted small d-none">Pending Time:
+                            <p class="mb-0 text-muted small">Pending Time:
                                 <strong class="text-primary fw-bold timer">
                                     
                                 </strong>
@@ -138,6 +138,7 @@ function renderSingleOrder(order) {
 
     const paymentDate = parsePaymentTime(order.payment_time);
     const maxTime = order.max_time * 60; // in seconds
+    const minTime = order.min_time * 60 // in seconds
 
     const timerSpan = li.querySelector('.timer');
 
@@ -156,10 +157,19 @@ function renderSingleOrder(order) {
             return;
         }
 
+        else if (remaining <= minTime) {
+            const a_tag = li.getElementsByTagName('a')[0];
+            if (!a_tag.classList.contains('blinking')) {
+                a_tag.classList.add('blinking');
+            }
+        }
+        
+        
         const mins = Math.floor(remaining / 60).toString().padStart(2, '0');
         const secs = (remaining % 60).toString().padStart(2, '0');
 
         timerSpan.textContent = `${mins}:${secs}`;
+        
     }, 1000);
 
 

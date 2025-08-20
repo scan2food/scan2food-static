@@ -64,6 +64,8 @@ function EditItem(id, button, food_id) {
     food_name = div.getElementsByClassName('food-name')[0].innerText;
     made_by = div.getElementsByClassName('made-by')[0].innerText;
     food_price = div.getElementsByClassName('food-price')[0].innerText;
+    min_time = JSON.parse(div.getElementsByClassName('min-time')[0].innerText);
+    max_time = JSON.parse(div.getElementsByClassName('max-time')[0].innerText);
     food_description = div.getElementsByClassName('food-description')[0].innerText;
     priority_number = div.getElementsByClassName('priority-number')[0].innerText
 
@@ -73,6 +75,8 @@ function EditItem(id, button, food_id) {
     document.getElementById('id_name').value = food_name;
     document.getElementById('id_made_by').value = made_by;
     document.getElementById('id_price').value = food_price;
+    document.getElementById('id_min_time').value = min_time;
+    document.getElementById('id_max_time').value = max_time;
     document.getElementById('id_description').value = food_description;
     document.getElementById('id_priority_number').value = priority_number;
 

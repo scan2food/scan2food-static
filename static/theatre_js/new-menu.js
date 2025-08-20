@@ -201,6 +201,7 @@ function showFoodItems(category_data, is_active) {
                                                             </span>
                                                         </span>
                                                     </h5>
+                                                    <small class="d-none">min time: ${item_data.min_time} - max time: ${item_data.max_time}</small>
                                                     <small class="fst-italic item-description">
                                                         ${item_data.description}
                                                     </small>

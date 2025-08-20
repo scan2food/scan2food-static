@@ -8,6 +8,12 @@ function loadAllOrders() {
     worker.postMessage({ task: task_name });
 }
 
+// Parse payment_time to Date
+function parsePaymentTime(str) {
+    const [datePart, timePart] = str.split('|');
+    return new Date(`${datePart} ${timePart}`);
+}
+
 // It Updates the UI as per Every Order
 function loadSingleOrder(order_detail) {
     const theatre_id = order_detail.theatre_id;
@@ -46,6 +52,11 @@ function loadSingleOrder(order_detail) {
                             </p>
                             <p class="mb-0 text-muted small">Unseen Orders:
                                 <strong class="text-primary fw-bold unseen-orders-label">
+                                    0
+                                </strong>
+                            </p>
+                            <p class="mb-0 text-muted small">Time Remaint:
+                                <strong class="text-primary fw-bold timer">
                                     0
                                 </strong>
                             </p>

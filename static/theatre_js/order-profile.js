@@ -30,7 +30,7 @@ function showTax() {
 }
 
 async function getRequest(url) {
-    console.log('url===>', url);
+    
     return fetch(url)
         .then(function (response) {
             return response.json();

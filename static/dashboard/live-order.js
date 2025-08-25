@@ -18,11 +18,8 @@ function parsePaymentTime(str) {
 function loadSingleOrder(order_detail) {
     const theatre_id = order_detail.theatre_id;
     const theatre_name = order_detail.theatre_name;
-    const order_id = order_detail.id;
-    const order_amount = order_detail.amount;
 
     let payment_time = order_detail.payment_time;
-    const view_status = order_detail.view_status;
 
     payment_time = payment_time.split('|')[1]
 
@@ -55,7 +52,7 @@ function loadSingleOrder(order_detail) {
                                     0
                                 </strong>
                             </p>
-                            <p class="mb-0 text-muted small">Time Remaint:
+                            <p class="mb-0 text-muted small d-none">Time Remaint:
                                 <strong class="text-primary fw-bold timer">
                                     0
                                 </strong>
@@ -89,13 +86,9 @@ function loadSingleOrder(order_detail) {
         last_order_time_label.innerText = payment_time;
     }
 
-    if (view_status === false) {
-        // unseen orders
-        const unseen_orders_label = theatre_li.querySelector('.unseen-orders-label');
-        let unseen_orders_count = parseInt(unseen_orders_label.innerText);
-        unseen_orders_count += 1;
-        unseen_orders_label.innerText = unseen_orders_count;
-    }
+    // unseen orders
+    const unseen_orders_label = theatre_li.querySelector('.unseen-orders-label');
+    unseen_orders_label.innerText = order_detail.unseen_orders;
 
 
 }
@@ -121,15 +114,19 @@ function showTheatreOrder(theatre_data) {
     for (let i = 0; i < orders.length; i++) {
         const order = orders[i];
         const tr = document.createElement('tr');
-        const seat = order.seat;
+        const seat = `${order.hall_name} (${order.seat_name})`;
+        const payment_method = order.payment_method;
+        const payment_status = order.payment_status;
         const order_time = order.payment_time.split('|')[1];
-        const amount = order.order_amount;
-        const view_status = order.view_status
+        const amount = order.amount;
+        const view_status = order.is_shown;
 
         const tr_html = `
             <td class="text-center">${seat}</td>
             <td class="text-center">${order_time}</td>
             <td class="text-center">${amount}</td>
+            <td class="text-center">${payment_method}</td>
+            <td class="text-center">${payment_status}</td>
             <td class="text-center">${view_status ? '<span class="badge bg-success"> Seen <span>' : '<span class="badge bg-danger"> Unseen </span>'}</td>
             <td class="text-center">
                 <button class="btn btn-primary btn-sm">
@@ -141,7 +138,7 @@ function showTheatreOrder(theatre_data) {
         const view_btn = tr.querySelector('button');
         view_btn.addEventListener('click', async function () {
 
-            await openOrderProfile(order.id);
+            await openOrderProfile(order.order_id);
             document.getElementById('orderPopUpLabel').innerText = seat;
 
             $("#orderPopUp").modal('show');
@@ -291,7 +288,18 @@ worker.onmessage = (e) => {
 
 
 
+function updateConnectionStatus() {
 
+    for (let i = 0; i < connected_theatres.length; i++) {
+        const theatre_id = connected_theatres[i];
+        const theatre_li = document.getElementById(`theatre-id-${theatre_id}`);
+        if (theatre_li !== null) {
+            const badge = theatre_li.querySelector('.connection-status-badge');
+            badge.className = "badge bg-success text-white connection-status-badge";
+            badge.innerText = "Connected";
+        }
+    }
+}
 
 
 
@@ -372,14 +380,18 @@ function RunWebSocket() {
 
 
             const order_data = {
-                id: updated_data.order_id,
+                order_id: updated_data.order_id,
                 theatre_id: updated_data.theatre_id,
                 payment_time: formatCurrentTime(),
-                seat: updated_data.seat_name.replace(' | ', ', '),
+                hall_name: updated_data.seat_name.split("|")[0],
+                seat_name: updated_data.seat_name.split("|")[1],
+                seat_id: updated_data.seat_id,
                 amount: updated_data.amount,
-                view_status: false,
+                is_shown: false,
                 theatre_name: updated_data.theatre_name,
                 order_amount: updated_data.amount,
+                payment_method: updated_data.payment_method,
+                payment_status: updated_data.payment_status,
             }
 
             const task = { task: 'add-new-order', order_data: order_data };
@@ -393,7 +405,15 @@ function RunWebSocket() {
             catch {
                 console.log('error')
             }
-            // ṛemote the order from the order data in worker script
+            // ṛemove the order from the order data in worker script
+            const order_id = updated_data.order_id;
+            const theatre_id = updated_data.theatre_id;
+
+            delete_order(order_id, theatre_id)
+        }
+
+        else if (msg_typ === 'Cancelation') {
+            // remove the order from the order data in worker script
             const order_id = updated_data.order_id;
             const theatre_id = updated_data.theatre_id;
 

@@ -81,6 +81,12 @@ function renderSingleOrder(order) {
     // get all seats UL
     const all_seats = document.getElementById('all-seats');
     // create the seat LI
+
+    const old_li = document.getElementById(`seat-id-${order.seat_id}`);
+    if (old_li != null) {
+        old_li.remove();
+    }
+
     const li = document.createElement('li');
     // adding the class and id
     li.setAttribute('class', 'nav-item py-2 ')
@@ -94,12 +100,43 @@ function renderSingleOrder(order) {
         visible_class = "badge bg-success"
         visible_text = "Seen"
     }
+    var cash_detail = {
+        cash_class: 'd-none',
+        cash_text: 'Cash',
+        status: 'Not Collected',
+        status_class: 'bg-danger',
+        text_class: 'd-none',
+    }
+
+    var payment_method = order.payment_method
+    if (payment_method === 'Cash') {
+        cash_detail.cash_class = 'badge bg-warning text-dark cash';
+        cash_detail.text_class = 'badge bg-danger text-dark ms-2 cash text-white';
+    }
+
+    if (order.payment_status == 'Success') {
+        cash_detail.status = 'Collected';
+        cash_detail.text_class = 'badge bg-info text-dark ms-2 cash';
+    }
+
+    var cash_html = ''
+    if (payment_method === 'Cash'){
+        cash_html = `
+                            <span class="${cash_detail.cash_class} cash-text">
+                                ${cash_detail.cash_text}
+                            </span>
+                            <span class="${cash_detail.text_class} cash-status">
+                                ${cash_detail.status}
+                            </span>
+                            `
+    }
+
 
     const li_html = `
                     <a href="#" class="d-flex align-items-center text-start mx-3 ms-0" id="order-id-${order.order_id}">
                     
                         <div class="shadow p-3 brdr-left-2px">
-
+                            ${cash_html}
                             <h6 class="mt-n1 mb-0 theatre-name-label border-bottom pb-2 mb-2">
                                 ${order.hall_name}, ${order.seat_name}
                                 <span class="${visible_class}">
@@ -129,11 +166,25 @@ function renderSingleOrder(order) {
     all_seats.appendChild(li);
 
     li.addEventListener('click', async function () {
-        await openOrderProfile(order.seat_id);
+
+        // check whether the order is cash or not
+        const cashClass = li.getElementsByClassName('cash')[0];
+        if (cashClass != undefined) {
+            const cash_status = li.getElementsByClassName('cash-status')[0].innerText;
+
+            if (cash_status === 'Not Collected') {
+                let url = `/theatre/get-seat-last-order/${order.seat_id}`
+                window.open(url, "", "width=600, height=600");
+                return;
+            }
+        }
+
+        await openOrderProfile(order.order_id, 'order-page');
 
         document.getElementById('orderPopUpLabel').innerText = `${order.hall_name}, ${order.seat_name}`;
 
         $("#orderPopUp").modal('show');
+
     })
 
     const paymentDate = parsePaymentTime(order.payment_time);
@@ -163,13 +214,13 @@ function renderSingleOrder(order) {
                 a_tag.classList.add('blinking');
             }
         }
-        
-        
+
+
         const mins = Math.floor(remaining / 60).toString().padStart(2, '0');
         const secs = (remaining % 60).toString().padStart(2, '0');
 
         timerSpan.textContent = `${mins}:${secs}`;
-        
+
     }, 1000);
 
 
@@ -227,6 +278,6 @@ worker.onmessage = (e) => {
 
 }
 
-runWebSocket()
-
 get_all_orders();
+
+runWebSocket()

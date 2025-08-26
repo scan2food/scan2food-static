@@ -4,7 +4,7 @@
 // FUNCTION TO SEND ALL PHONE NUMBER ONE BY ONE TO
 function getAllPhoneNumber() {
     // URL TO GET ALL THE PHONE NUMBERS
-    const sse_url = '/chat-bot/sse-chat-users-stream'
+    const sse_url = '/chat-box/sse-chat-users-stream'
     // start the sse connection
     const eventSource = new EventSource(sse_url);
     
@@ -27,7 +27,7 @@ function getAllPhoneNumber() {
 
 function loadChat(phone_number){
     // url to get all chats
-    const sse_url = `/chat-bot/sse-user-chat?phone_number=${phone_number}`
+    const sse_url = `/chat-box/sse-user-chat?phone_number=${phone_number}`
     const eventSource = new EventSource(sse_url);
 
     eventSource.onmessage = (e) => {

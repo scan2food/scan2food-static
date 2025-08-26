@@ -108,6 +108,13 @@ async function getAllRunningOrders(t_id) {
 // all the socket functions...
 function runWebSocket(socket_url) {
     let allSeatSocket = new WebSocket(socket_url)
+
+    allSeatSocket.onopen = (e) => {
+        const connected_data = {'theatre_id': theatre_id}
+        allSeatSocket.send(JSON.stringify(connected_data))
+
+    }
+
     allSeatSocket.onmessage = (e) => {
         // get the event data
         const eventData = JSON.parse(e.data);

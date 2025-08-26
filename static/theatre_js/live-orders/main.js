@@ -97,7 +97,7 @@ function renderSingleOrder(order) {
     var visible_class = "badge bg-danger blinking"
     var visible_text = "Not Seen"
     if (seen_status) {
-        visible_class = "badge bg-success"
+        visible_class = "badge bg-success float-en"
         visible_text = "Seen"
     }
     var cash_detail = {

@@ -2,6 +2,8 @@ const worker_script_url = '/static/dashboard/live-order-worker.js';
 
 const worker = new Worker(worker_script_url);
 
+var connected_theatres = []
+
 // It Load All the Orders
 function loadAllOrders() {
     task_name = 'get-all-orders';
@@ -35,6 +37,9 @@ function loadSingleOrder(order_detail) {
         const theatre_li_html = `
                     <a href="#" class="d-flex align-items-center text-start mx-3 ms-0">
                         <div class="shadow p-3 brdr-left-2px">
+                            <span class="badge bg-danger connection-status-badge">
+                                Not Connected
+                            </span>
                             <h6 class="mt-n1 mb-0 theatre-name-label border-bottom pb-2 mb-2">${theatre_name}  </h6>
                             
                             <p class="mb-0 text-muted small">Pending Orders:
@@ -62,6 +67,13 @@ function loadSingleOrder(order_detail) {
                     </a>
         `
         theatre_li.innerHTML = theatre_li_html;
+
+        if (order_detail.live_connection) {
+            const connectionBadge = theatre_li.getElementsByClassName('connection-status-badge')[0];
+
+            connectionBadge.setAttribute('class', 'badge bg-success connection-status-badge');
+            connectionBadge.innerText = 'Connected';
+        }
 
         const all_theatre_box = document.getElementById('all-theatres');
         all_theatre_box.appendChild(theatre_li);
@@ -285,22 +297,21 @@ worker.onmessage = (e) => {
 
 
 
+function updateLiveConnection(theatres) {
+    for (let i = 0; i < theatres.length; i++) {
+        try {
+            const theatre_id = `theatre-id-${theatres[i]}`
+            const theatreLi = document.getElementById(theatre_id);
+            const connectionBadge = theatreLi.getElementsByClassName('connection-status-badge')[0];
 
-
-
-function updateConnectionStatus() {
-
-    for (let i = 0; i < connected_theatres.length; i++) {
-        const theatre_id = connected_theatres[i];
-        const theatre_li = document.getElementById(`theatre-id-${theatre_id}`);
-        if (theatre_li !== null) {
-            const badge = theatre_li.querySelector('.connection-status-badge');
-            badge.className = "badge bg-success text-white connection-status-badge";
-            badge.innerText = "Connected";
+            connectionBadge.setAttribute('class', 'badge bg-success connection-status-badge');
+            connectionBadge.innerText = 'Connected';
+        }   
+        catch (error) {
+            
         }
     }
 }
-
 
 
 function formatCurrentTime() {
@@ -359,6 +370,11 @@ function RunWebSocket() {
 
     let allSeatSocket = new WebSocket(socket_url)
 
+    allSeatSocket.onopen = (e) => {
+        const connected_data = { 'theatre_id': 'admin' }
+        allSeatSocket.send(JSON.stringify(connected_data))
+    }
+
     allSeatSocket.onmessage = (e) => {
 
         let eventData = JSON.parse(e.data)
@@ -366,8 +382,40 @@ function RunWebSocket() {
 
         const msg_typ = updated_data.msg_typ;
 
+        if (msg_typ === 'all-connected-theatres') {
+            const all_connected_theatres = updated_data.connected_theatres;
 
-        if (msg_typ === 'confirmation') {
+            const theatres = [...new Set(all_connected_theatres)];
+            connected_theatres = theatres;
+            
+            setTimeout(() => {
+                updateLiveConnection(theatres);
+            }, 2000);
+        }
+
+        else if (msg_typ === 'connected_theatre') {
+            const theatre_id = updated_data.connected_theatre_id
+            const theatreLi = document.getElementById(`theatre-id-${theatre_id}`);
+            const connectionBadge = theatreLi.getElementsByClassName('connection-status-badge')[0];
+
+            connectionBadge.setAttribute('class', 'badge bg-success connection-status-badge');
+            connectionBadge.innerText = 'Connected';
+        }
+
+        else if (msg_typ === 'disconnected_theatre') {
+            const theatre_id = updated_data.disconnected_theatre_id;
+            const theatreLi = document.getElementById(`theatre-id-${theatre_id}`)
+
+            const connectionBadge = theatreLi.getElementsByClassName('connection-status-badge')[0];
+            
+            connectionBadge.setAttribute('class', 'badge bg-danger connection-status-badge');
+            connectionBadge.innerText = 'Not Connected';
+            
+            connected_theatres.splice(connected_theatres.indexOf(theatre_id), 1);
+
+        }
+
+        else if (msg_typ === 'confirmation') {
             // create order data and save to the order data to worker page...
             // create the order data
 
@@ -378,7 +426,11 @@ function RunWebSocket() {
                 console.log('error')
             }
 
+            var live_connection = false
 
+            if (connected_theatres.includes(updated_data.theatre_id)) {
+                live_connection = true
+            }
             const order_data = {
                 order_id: updated_data.order_id,
                 theatre_id: updated_data.theatre_id,
@@ -392,6 +444,7 @@ function RunWebSocket() {
                 order_amount: updated_data.amount,
                 payment_method: updated_data.payment_method,
                 payment_status: updated_data.payment_status,
+                live_connection: live_connection
             }
 
             const task = { task: 'add-new-order', order_data: order_data };

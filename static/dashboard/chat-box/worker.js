@@ -192,6 +192,7 @@ function LoadChats(phone_number) {
         hall_name: data_value['hall_name'],
         seat_name: data_value['seat_name'],
         messages: data_value['user_messages'],
+        theatre_name: data_value['theatre_name'],
     };
 
     postMessage(task);

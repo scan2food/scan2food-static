@@ -113,7 +113,7 @@ function connectWebsocket(socket_url) {
                     hall_name: eventData['hall_name'],
                     phone_number: phone_number,
                     pk: eventData['pk'],
-                    reply_required: true,
+                    reply_required: false,
                     seat_id: eventData['seat_id'],
                     seat_name: eventData['seat_name'],
                     theatre_id: theatre_id,

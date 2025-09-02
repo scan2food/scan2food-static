@@ -148,10 +148,14 @@ function loadUsers(all_users) {
             span_html = '<span class="badge bg-danger chat-badge">...</span>'
         }
 
+        var complete_seat_name = `${user_data.theatre_name},${user_data.hall_name}, ${user_data.seat_name}`
+        if (complete_seat_name.replaceAll(' ', '') === ',,'){
+            complete_seat_name = 'unknown'
+        }
         li.innerHTML = `
             <div>
                 <div>
-                    ${user_data.hall_name}, ${user_data.seat_name}
+                    ${complete_seat_name}
                     ${span_html}
                 </div>
                 <div class="text-end">
@@ -277,7 +281,7 @@ chatWorker.onmessage = (e) => {
         PhoneNumber = phone_number;
         PhoneNumberLabel.innerText = PhoneNumber;
 
-        SeatNameLabel.innerText = `${eventData.hall_name}, ${eventData.seat_name}`
+        SeatNameLabel.innerText = `${eventData.theatre_name}, ${eventData.hall_name}, ${eventData.seat_name}`
 
 
         for (let i = 0; i < messages.length; i++) {

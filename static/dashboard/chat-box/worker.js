@@ -106,26 +106,8 @@ function connectWebsocket(socket_url) {
 
             const msg_type = message_data.msg_type;
 
-            if (Object.keys(AllChatUsers).includes(phone_key)) {
+            if (!Object.keys(AllChatUsers).includes(phone_key)) {
 
-                if (AllChatUsers[phone_key]['reply_required']) {
-                    if (msg_type === 'OUTGOING') {
-                        ChatCount -= 1;
-                        AllChatUsers[phone_key]['reply_required'] = false;
-                        UpdateChatButtonCount();
-                    }
-                }
-
-                else {
-                    if (msg_type === 'INCOMING') {
-                        ChatCount += 1;
-                        AllChatUsers[phone_key]['reply_required'] = true;
-                        UpdateChatButtonCount();
-                    }
-                }
-            }
-
-            else {
                 const new_phne_data = {
                     continue_chat: true,
                     hall_name: eventData['hall_name'],
@@ -142,6 +124,21 @@ function connectWebsocket(socket_url) {
                 AllChatUsers[phone_key] = new_phne_data;
             }
 
+            if (AllChatUsers[phone_key]['reply_required']) {
+                if (msg_type === 'OUTGOING') {
+                    ChatCount -= 1;
+                    AllChatUsers[phone_key]['reply_required'] = false;
+                    UpdateChatButtonCount();
+                }
+            }
+
+            else {
+                if (msg_type === 'INCOMING') {
+                    ChatCount += 1;
+                    AllChatUsers[phone_key]['reply_required'] = true;
+                    UpdateChatButtonCount();
+                }
+            }
 
             AllChatUsers[phone_key]['msg_time'] = msg_time;
             // UPDATE THE MESSAGE ON UI AND SAVE IN ALL CHAT USERS

@@ -1,19 +1,18 @@
 function SortAllChatUsers() {
 
-    // Function to normalize and parse date string
+    // Function to parse "02-Sep-2025 10:34 AM" into Date
     function parseDate(str) {
-        // Ensure AM/PM is consistent (remove spaces, uppercase)
-        str = str.replace(/\s+/g, "").toUpperCase();
-        return new Date(Date.parse(str));
+        return new Date(str);
     }
 
-    // Convert object to array, sort, then back to object
+    // Sort by msg_time
     let sortedEntries = Object.entries(AllChatUsers).sort((a, b) => {
         return parseDate(a[1].msg_time) - parseDate(b[1].msg_time);
     });
 
+    // Convert back to object
     let sortedData = Object.fromEntries(sortedEntries);
-    AllChatUsers = sortedData
+    return sortedData
 }
 
 
@@ -232,8 +231,8 @@ self.onmessage = (e) => {
     }
 
     else if (task === 'load-all-users') {
-        SortAllChatUsers();
-        console.log(AllChatUsers);
+        AllChatUsers = SortAllChatUsers();
+
         const new_task = {
             task: 'load-all-users',
             chat_users: AllChatUsers

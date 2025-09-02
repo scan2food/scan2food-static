@@ -1,3 +1,19 @@
+function SortAllChatUsers() {
+    // Function to parse "02-Sep-2025 10:34 AM" into Date
+    function parseDate(str) {
+        return new Date(str);
+    }
+
+    // Sort by msg_time
+    let sortedEntries = Object.entries(AllChatUsers).sort((a, b) => {
+        return parseDate(a[1].msg_time) - parseDate(b[1].msg_time);
+    });
+
+    // Convert back to object
+    let sortedData = Object.fromEntries(sortedEntries);
+    return sortedData
+}
+
 
 var CSRF_TOKEN;
 // function to hit the post request
@@ -202,6 +218,7 @@ self.onmessage = (e) => {
     }
 
     else if (task === 'load-all-users') {
+        AllChatUsers = SortAllChatUsers();
         const new_task = {
             task: 'load-all-users',
             chat_users: AllChatUsers

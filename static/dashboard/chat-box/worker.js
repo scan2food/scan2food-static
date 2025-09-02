@@ -1,5 +1,4 @@
 function SortAllChatUsers() {
-
     // Function to parse "02-Sep-2025 10:34 AM" into Date
     function parseDate(str) {
         return new Date(str);

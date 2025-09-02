@@ -121,7 +121,6 @@ function runWebSocket(socket_url) {
         // get exect data of event "seen", "order_confirmed", "order-deliverd"
         let updated_data = JSON.parse(eventData.updated_table_data)
 
-
         // upcomming order and it's order id and seat id
         let order_theatre_id = updated_data.theatre_id;
 
@@ -148,7 +147,7 @@ function runWebSocket(socket_url) {
                     payment_time: getFormattedDateTime(),
                     amount: updated_data.amount,
                     order_id: order_id,
-                    max_time: 30,
+                    max_time: updated_data.max_time,
                     payment_method: updated_data.payment_method,
                     payment_status: updated_data.payment_status,
                 }

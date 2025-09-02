@@ -2,13 +2,12 @@
 let audio = new Audio('/static/sound/notification.wav');
 
 function playAudio() {
-    while (true) {
+    for (let i = 0; i < 10; i++) {
         try {
             audio.play();
             break;
         }
         catch (error) {
-            console.log(e)
             continue;
         }
     }
@@ -17,13 +16,12 @@ function playAudio() {
 let order_received_audio = new Audio('/static/sound/order_received.wav')
 
 function playOrderAudio() {
-    while (true) {
+    for (let i = 0; i < 10; i++) {
         try {
             order_received_audio.play()
             break;
         }
         catch (error) {
-            console.log(error);
             continue;
         }
     }
@@ -32,7 +30,7 @@ function playOrderAudio() {
 let simple_audio = new Audio('/static/sound/no-sound.mp3')
 
 function simpleAudioPlay() {
-    while (true) {
+    for (let i = 0; i < 10; i++) {
         try {
             simple_audio.play()
             break;

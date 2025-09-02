@@ -233,7 +233,7 @@ self.onmessage = (e) => {
 
     else if (task === 'load-all-users') {
         SortAllChatUsers();
-        
+        console.log(AllChatUsers);
         const new_task = {
             task: 'load-all-users',
             chat_users: AllChatUsers

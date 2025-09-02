@@ -226,7 +226,7 @@ function AddSingleMessage(message, new_msg = false) {
                                 ${timeAgo(message.msg_time)}
                             </div>
                         </div>
-                        <img src="/static/assets/images/brand/favicon.png" class="message-avatar" alt="Me">' : '<img class="message-avatar">
+                        <img src="/static/assets/images/brand/favicon.png" class="message-avatar" alt="Me">
                     </div>
         `
     }

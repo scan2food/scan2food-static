@@ -1,5 +1,18 @@
 function NotifyUser() {
-    const audio = "/static/sound/door-bell.wav"
+    const audio = new Audio("/static/sound/notification.wav");
+    for (let i = 0; i < 10; i++) {
+        try {
+            audio.play();
+            break;
+        }
+        catch (error) {
+            continue;
+        }
+    }
+}
+
+function NotifyIncomingMessage() {
+    const audio = new Audio("/static/sound/msg_recived_from_custmer.mp3")
     for (let i = 0; i < 10; i++) {
         try {
             audio.play();
@@ -298,7 +311,13 @@ chatWorker.onmessage = (e) => {
     else if (task_name === "update-new-message") {
         const message = eventData.message
         const phone_number = eventData.phone_number
-        NotifyUser()
+        
+        if (message.msg_type === 'INCOMING') {
+            NotifyIncomingMessage()
+        }
+        else {
+            NotifyUser()
+        }
 
         if (PhoneNumber === phone_number) {
             AddSingleMessage(message, true)

@@ -1,3 +1,21 @@
+function SortAllChatUsers() {
+
+    // Function to normalize and parse date string
+    function parseDate(str) {
+        // Ensure AM/PM is consistent (remove spaces, uppercase)
+        str = str.replace(/\s+/g, "").toUpperCase();
+        return new Date(Date.parse(str));
+    }
+
+    // Convert object to array, sort, then back to object
+    let sortedEntries = Object.entries(AllChatUsers).sort((a, b) => {
+        return parseDate(a[1].msg_time) - parseDate(b[1].msg_time);
+    });
+
+    let sortedData = Object.fromEntries(sortedEntries);
+    AllChatUsers = sortedData
+}
+
 
 var CSRF_TOKEN;
 // function to hit the post request
@@ -214,6 +232,8 @@ self.onmessage = (e) => {
     }
 
     else if (task === 'load-all-users') {
+        SortAllChatUsers();
+        
         const new_task = {
             task: 'load-all-users',
             chat_users: AllChatUsers

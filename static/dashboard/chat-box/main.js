@@ -150,7 +150,7 @@ function loadUsers(all_users) {
 
         var complete_seat_name = `${user_data.theatre_name},${user_data.hall_name}, ${user_data.seat_name}`
         if (complete_seat_name.replaceAll(' ', '') === ',,'){
-            complete_seat_name = 'unknown'
+            complete_seat_name = user_data.phone_number
         }
         li.innerHTML = `
             <div>

@@ -121,43 +121,53 @@ function createCartTab(order_data) {
     let cart_items = order_data.order_items;
     let all_tax_area_html = document.getElementById('all-tax-area').innerHTML
     document.getElementById('order-items').innerHTML = ""
+
+    // ADDING NOTES SECTION
+    document.getElementById('order-items').innerHTML += `
+                <div class="row mb-2 order-item order-item-small-device">
+                    <div class="col-3 col-lg-1 col-md-2">
+                        Notes:
+                    </div>
+                    <div class="col-9 col-lg-11 col-md-10 text-dark">
+                        ${order_data.order_detail.notes}
+                    </div>
+                </div>
+    `
+
     for (let i = 0; i < cart_items.length; i++) {
         let item = cart_items[i];
         let item_row = `
-
-
-                    <div class="row mb-2 order-item order-item-small-device">
+                        <div class="row mb-2 order-item order-item-small-device">
                             <div class="col-3 col-lg-1 col-md-2">
                                <img class="food-item" src="${item.food_image}" />
                               
-                            </div>  
-                                   <div class="col-9 col-lg-11 col-md-10">    
+                            </div>
+                            <div class="col-9 col-lg-11 col-md-10">    
                                 <div class="row">            
-                            <div class="col-7">
-                                <h6 class="d-flex align-items-center">
-                                    <span class="">${item.name}</span>
-
-                                </h6>
-                              
-                            </div>
-                            <div class="col-5 text-end">
-                                <h6 class="price"><span class="me-1-cust">₹</span>${item.price}</h6>
-                            </div> 
-                            <div class="col-12 m-0 align-items-left"> 
-                                    <span class="text-muted" style="font-size: 0.85rem;">
-                                       Price: <span class="text-dark fw-bold"> ₹ ${item['item-price']} </span>
-                                    </span>
-                                    <span class="text-muted ps-3" style="font-size: 0.85rem;">
-                                    <span class="ps-2 pe-2"> | </span>Quantity: <span class="text-dark fw-bold"> ${item.quantity}</span>
-                                    </span>
-                            </div>
-                            <div>
+                                    <div class="col-7">
+                                        <h6 class="d-flex align-items-center">
+                                            <span class="">${item.name}</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-5 text-end">
+                                        <h6 class="price"><span class="me-1-cust">₹</span>${item.price}</h6>
+                                    </div> 
+                                    <div class="col-12 m-0 align-items-left"> 
+                                        <span class="text-muted" style="font-size: 0.85rem;">
+                                        Price: <span class="text-dark fw-bold"> ₹ ${item['item-price']} </span>
+                                        </span>
+                                        <span class="text-muted ps-3" style="font-size: 0.85rem;">
+                                            <span class="ps-2 pe-2"> | </span>Quantity: <span class="text-dark fw-bold"> ${item.quantity}</span>
+                                        </span>
+                                    </div>
+                                <div>
                             <div>
                         </div>
                        
         `
         document.getElementById('order-items').innerHTML += item_row;
     }
+    // ADDING TOTAL SECTION
     document.getElementById('order-items').innerHTML += `
                         <div class="d-flex justify-content-between mt-3">
                             <p class="text-muted">Sub Total</p>

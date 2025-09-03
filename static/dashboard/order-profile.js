@@ -55,7 +55,7 @@ function printBill(btn) {
 }
 
 function createOrderTab(order_data) {
-    
+
     document.getElementById('order-id').innerText = `#${order_data.order_detail.order_id}`;
     document.getElementById('seat-name').innerText = order_data.seat;
 
@@ -107,11 +107,22 @@ function createCartTab(order_data) {
     let cart_items = order_data.order_items;
     let all_tax_area_html = document.getElementById('all-tax-area').innerHTML
     document.getElementById('order-items').innerHTML = ""
+
+    // ADDING NOTES SECTION
+    document.getElementById('order-items').innerHTML += `
+                <div class="row mb-2 order-item order-item-small-device">
+                    <div class="col-3 col-lg-1 col-md-2">
+                        Notes:
+                    </div>
+                    <div class="col-9 col-lg-11 col-md-10 text-dark">
+                        ${order_data.order_detail.notes}
+                    </div>
+                </div>
+    `
+
     for (let i = 0; i < cart_items.length; i++) {
         let item = cart_items[i];
         let item_row = `
-
-
                     <div class="row mb-2 order-item order-item-small-device">
                             <div class="col-3 col-lg-1 col-md-2">
                                <img class="food-item" src="${item.food_image}" />

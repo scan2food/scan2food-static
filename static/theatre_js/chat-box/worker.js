@@ -59,6 +59,7 @@ async function getRequest(url) {
 var socket;
 // FUNCTION CONNECT THE WEBSOCKET AND PERFORM ALL THE SOCKET RELATED CODE
 function connectWebsocket(socket_url) {
+    ChatCount = 0;
     socket = new WebSocket(socket_url);
     socket.onopen = (e) => {
         AllChatUsers = []

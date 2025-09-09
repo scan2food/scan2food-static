@@ -56,17 +56,35 @@ async function getRequest(url) {
         });
 }
 
+async function getAllChatUsers() {
+    AllChatUsers = [];
+    // LOAD ALL THE CUSTOMERS IN UI LAVEL
+    const all_user_api = '/chat-box/chat-users'
+    const all_chat_users = await getRequest(all_user_api)
+    AllChatUsers = all_chat_users;
+
+    for (let i in AllChatUsers) {
+        const chat_user = AllChatUsers[i]
+        if (chat_user.theatre_id === TheatreId) {
+            if (chat_user.reply_required) {
+                ChatCount += 1
+            }
+
+            all_chat_users[i] = AllChatUsers[i]
+        }
+    }
+    AllChatUsers = all_chat_users;
+
+    UpdateChatButtonCount();
+}
+
 var socket;
 // FUNCTION CONNECT THE WEBSOCKET AND PERFORM ALL THE SOCKET RELATED CODE
 function connectWebsocket(socket_url) {
     ChatCount = 0
     socket = new WebSocket(socket_url);
-    socket.onopen = (e) => {
-        AllChatUsers = []
-        const task = {
-            task: 'get-all-users',
-        }
-        socket.send(JSON.stringify(task));
+    socket.onopen = async (e) => {
+        await getAllChatUsers();
     }
 
     socket.onmessage = async (e) => {
@@ -74,37 +92,8 @@ function connectWebsocket(socket_url) {
         const eventData = JSON.parse(e.data);
 
         const dataContains = eventData['data-contains']
-        if (dataContains === "all-chat-users") {
-            // LOAD ALL THE CUSTOMERS IN UI LAVEL
-            const chatUsers = eventData['chat-users']
 
-            if (chatUsers.length === 0) {
-                const all_user_api = '/chat-box/chat-users'
-                const all_chat_users = await getRequest(all_user_api)
-                AllChatUsers = all_chat_users;
-            }
-            else {
-                AllChatUsers = chatUsers;
-            }
-
-            const all_chat_users = {}
-
-            for (let i in AllChatUsers) {
-                const chat_user = AllChatUsers[i]
-
-                if (chat_user.reply_required) {
-                    ChatCount += 1
-                }
-
-                all_chat_users[i] = AllChatUsers[i]
-            }
-
-            AllChatUsers = all_chat_users;
-
-            UpdateChatButtonCount();
-        }
-
-        else if (dataContains === "phone-number-messages") {
+        if (dataContains === "phone-number-messages") {
             const messages = eventData['messages'];
             const phone_number = eventData['phone-number'];
 

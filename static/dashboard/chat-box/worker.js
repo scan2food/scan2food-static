@@ -60,19 +60,21 @@ async function getAllChatUsers() {
     AllChatUsers = [];
     // LOAD ALL THE CUSTOMERS IN UI LAVEL
     const all_user_api = '/chat-box/chat-users'
-    const all_chat_users = await getRequest(all_user_api)
+    let all_chat_users = await getRequest(all_user_api)
+
     AllChatUsers = all_chat_users;
+    all_chat_users = {}
 
     for (let i in AllChatUsers) {
         const chat_user = AllChatUsers[i]
-        if (chat_user.theatre_id === TheatreId) {
-            if (chat_user.reply_required) {
-                ChatCount += 1
-            }
 
-            all_chat_users[i] = AllChatUsers[i]
+        if (chat_user.reply_required) {
+            ChatCount += 1
         }
+
+        all_chat_users[i] = AllChatUsers[i]
     }
+
     AllChatUsers = all_chat_users;
 
     UpdateChatButtonCount();
@@ -83,8 +85,12 @@ var socket;
 function connectWebsocket(socket_url) {
     ChatCount = 0
     socket = new WebSocket(socket_url);
-    socket.onopen = async (e) => {
-        await getAllChatUsers();
+    socket.onopen = (e) => {
+        AllChatUsers = []
+        const task = {
+            task: 'get-all-users',
+        }
+        socket.send(JSON.stringify(task));
     }
 
     socket.onmessage = async (e) => {

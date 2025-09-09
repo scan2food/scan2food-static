@@ -85,12 +85,8 @@ var socket;
 function connectWebsocket(socket_url) {
     ChatCount = 0
     socket = new WebSocket(socket_url);
-    socket.onopen = (e) => {
-        AllChatUsers = []
-        const task = {
-            task: 'get-all-users',
-        }
-        socket.send(JSON.stringify(task));
+    socket.onopen = async (e) => {
+        await getAllChatUsers();
     }
 
     socket.onmessage = async (e) => {

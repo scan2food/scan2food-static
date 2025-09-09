@@ -60,7 +60,7 @@ async function getAllChatUsers() {
     AllChatUsers = [];
     // LOAD ALL THE CUSTOMERS IN UI LAVEL
     const all_user_api = '/chat-box/chat-users'
-    const all_chat_users = await getRequest(all_user_api)
+    let all_chat_users = await getRequest(all_user_api)
     AllChatUsers = all_chat_users;
 
     for (let i in AllChatUsers) {

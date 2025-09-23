@@ -16,8 +16,8 @@ async function getRequest(url) {
         });
 }
 
-
 const selected_theatre_id = document.getElementById('selected-theatre-id').value;
+
 
 // load all theatres
 async function loadAllTheatres() {
@@ -40,23 +40,3 @@ async function loadAllTheatres() {
 }
 
 loadAllTheatres()
-
-
-function makeWhatsappUrl() {
-    whatsappNumbers = document.getElementsByClassName('whatsapp-numbers');
-    for (let i = 0; i < whatsappNumbers.length; i++) {
-        td = whatsappNumbers[i]
-        phone_numbers = td.innerText.split(',');
-        td.innerText = ""
-        // run the loop 2 time and create the url for whatsapp reply message
-        for (let num = 0; num < phone_numbers.length; num ++) {
-            let a = document.createElement('a')
-            a.innerText = `${phone_numbers[num]} , `
-            a.href = `https://web.whatsapp.com/send?phone=${phone_numbers[num]}`
-            a.target = "_blank"
-            td.appendChild(a);
-        }
-    }
-}
-
-makeWhatsappUrl()

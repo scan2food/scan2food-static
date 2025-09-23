@@ -30,7 +30,7 @@ function showTax() {
 }
 
 async function getRequest(url) {
-    
+
     return fetch(url)
         .then(function (response) {
             return response.json();
@@ -146,18 +146,19 @@ function createCartTab(order_data) {
                                 <div class="row">            
                                     <div class="col-7">
                                         <h6 class="d-flex align-items-center">
-                                            <span class="">${item.name}</span>
+                                            <span class="item-name">${item.name}</span>
                                         </h6>
                                     </div>
                                     <div class="col-5 text-end">
                                         <h6 class="price"><span class="me-1-cust">₹</span>${item.price}</h6>
+                                        <span class="item-id d-none">${item.id}</span>
                                     </div> 
                                     <div class="col-12 m-0 align-items-left"> 
                                         <span class="text-muted" style="font-size: 0.85rem;">
                                         Price: <span class="text-dark fw-bold"> ₹ ${item['item-price']} </span>
                                         </span>
                                         <span class="text-muted ps-3" style="font-size: 0.85rem;">
-                                            <span class="ps-2 pe-2"> | </span>Quantity: <span class="text-dark fw-bold"> ${item.quantity}</span>
+                                            <span class="ps-2 pe-2"> | </span>Quantity: <span class="text-dark fw-bold item-qty"> ${item.quantity}</span>
                                         </span>
                                     </div>
                                 <div>
@@ -261,14 +262,14 @@ async function UpdateSeatView(element) {
             seat_id = element.getAttribute('seat-id');
             let url = `/theatre/api/is-order-viewed/${seat_id}`
             let data = await getRequest(url);
-    
+
             seat = document.getElementById(`seat-${seat_id}`);
-    
+
             if (seat !== null) {
                 seat.setAttribute('class', 'seat seen');
             }
-    
-    
+
+
             seen_status.innerHTML = `Order Seen`;
         }
     }
@@ -293,7 +294,7 @@ async function generateOTP(status) {
     else if (response.status == 'error') {
         showToast('bg-danger', response.message);
     }
-    
+
 }
 
 const refundButton = document.getElementById('refund-button');
@@ -306,3 +307,151 @@ regenerateOtp.addEventListener('click', async function () {
 refundButton.addEventListener('click', async function () {
     await generateOTP("first");
 });
+
+const partialRefundBtn = document.getElementById('partial-refund-button')
+partialRefundBtn.addEventListener('click', () => {
+    const ul = document.getElementById('refunded-item-list');
+    ul.innerHTML = "";
+
+    // GET THE ORDER ITEMS
+    const orderItems = document.getElementById('order-items');
+    const all_food_images = orderItems.getElementsByClassName('food-item')
+
+    for (let i = 0; i < all_food_images.length; i++) {
+        const img = all_food_images[i]
+
+        const itemDetail = img.parentElement.parentElement;
+        const itemName = itemDetail.getElementsByClassName('item-name')[0].innerText;
+        const itemQty = parseInt(itemDetail.getElementsByClassName('item-qty')[0].innerText);
+        const item_id = itemDetail.getElementsByClassName('item-id')[0].innerText
+
+        const li = document.createElement('li');
+        li.setAttribute('class', 'list-group-item');
+        li.innerHTML = `
+        <div class="row">
+            <div class="col-2">
+                <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+            </div>
+            <div class="col-5 text-start">
+                ${itemName}
+            </div>
+            <span class="item-id d-none">
+                ${item_id}
+            </span>
+
+            <div class="col-5 text-end">
+                <div class="quantity">
+                    <button class="btn btn-primary decrese-btn">-</button>
+                    <input type="number" class="quantity-box" value="${itemQty}" readonly="" />
+                    <button class="btn btn-primary increse-btn">+</button>
+                </div>
+            </div>
+        
+        </div>
+        `
+        const increseButton = li.getElementsByClassName('increse-btn')[0]
+        increseButton.addEventListener('click', () => {
+            IncreseQty(itemQty, increseButton)
+        })
+
+        const decreseButton = li.getElementsByClassName('decrese-btn')[0]
+        decreseButton.addEventListener('click', () => {
+            decreseQty(decreseButton);
+        })
+        ul.appendChild(li);
+    }
+
+    $("#refund-items").modal('show');
+})
+
+function IncreseQty(maxQty, btn) {
+    if (!is_checked(btn)) {
+        alert('Please first check the item CheckBox')
+        return
+    }
+    const parentElement = btn.parentElement;
+    const quantityInput = parentElement.getElementsByClassName('quantity-box')[0];
+
+    var quantity = parseInt(quantityInput.value);
+    quantity += 1;
+
+    if (quantity > maxQty) {
+        alert(`Customer has order only ${maxQty} item you can't exceed it`)
+    }
+    else {
+        quantityInput.setAttribute('value', quantity);
+    }
+}
+
+function decreseQty(btn) {
+    if (!is_checked(btn)) {
+        alert('Please first check the item CheckBox')
+        return
+    }
+    const parentElement = btn.parentElement;
+    const quantityInput = parentElement.getElementsByClassName('quantity-box')[0];
+
+    var quantity = parseInt(quantityInput.value);
+
+    quantity -= 1;
+    if (quantity <= 0) {
+        alert(`Quantity can never be 0`)
+    }
+    else {
+        quantityInput.setAttribute('value', quantity)
+    }
+}
+
+function is_checked(btn) {
+    const dt = btn.parentElement.parentElement.parentElement
+    return dt.getElementsByTagName('input')[0].checked
+}
+
+
+async function getRefund() {
+    // generate the OTP
+    await generateOTP("resend");
+    
+    
+    // change the form url
+    const orderId = document.getElementById('order-id').innerText.replace('#', '');
+    document.getElementById('refudn-form').setAttribute('action', `/theatre/partial-refund-order/${orderId}`)
+    
+    // make the updated data in the field
+    var refundData = []
+    
+    const ul = document.getElementById('refunded-item-list');
+    
+    const lis = ul.getElementsByTagName('li');
+    
+    for (let i = 0; i < lis.length; i++) {
+        const li = lis[i]
+        const item_id = parseInt(li.getElementsByClassName('item-id')[0].innerText);
+        const item_qty = parseInt(li.getElementsByClassName('quantity-box')[0].value);
+        
+        const checkBox = li.getElementsByTagName('input')[0];
+        
+        if (checkBox.checked) {
+            let append_data = {
+                "id": item_id,
+                "quantity": item_qty
+            }
+            refundData.push(append_data);
+        }
+    }
+    
+    const refindItemInput = document.getElementById('items-to-refund');
+    refindItemInput.value = ""
+    refindItemInput.value = JSON.stringify(refundData);
+    
+    // SHOW THE REFUND OTP POPUP
+    $("#refund-order").modal('show');
+    
+    
+}
+
+const refundOtpPopupBtn = document.getElementById('partial-refund-btn-otp-popup');
+
+refundOtpPopupBtn.addEventListener('click', async ()=> {
+    await getRefund()
+})

@@ -81,7 +81,7 @@ function LoadButtons() {
     buttonArea.appendChild(call_button);
 
     const whatsappButton = document.createElement('a');
-    whatsappButton.setAttribute('href', 'https://api.whatsapp.com/send?phone=+918708999872');
+    whatsappButton.setAttribute('href', 'https://wa.me/+918708999872');
     whatsappButton.setAttribute('target', '_blank');
     whatsappButton.setAttribute('class', 'refund-button mx-1 my-1');
     whatsappButton.innerHTML = '<i class="fab fa-whatsapp"></i> Start Chat';

@@ -35,7 +35,7 @@ document.getElementById('submit').addEventListener('click', async () => {
 
     if (rating == 0 && c.replaceAll(' ', '') === '') {
         document.getElementById('msg').innerText = 'Plese Gave some rattig or Write a comment !'
-        setTimeout(() => { document.getElementById('msg').style.display = 'none'; }, 3000);
+        setTimeout(() => { document.getElementById('msg').style.display = 'none'; }, 1000);
     }
 
     else {

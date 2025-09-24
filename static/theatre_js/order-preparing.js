@@ -75,12 +75,12 @@ function timeup() {
 
     const par = document.createElement('p')
     par.setAttribute('class', 'refund-copy mb-2')
-    par.innerText = "If You want to commect to theatre manager, or chat with ur or raise the Refund you can do this"
+    par.innerText = ""
     buttonArea.appendChild(par);
 
     const phoneNumber = JSON.parse(document.getElementById('query-number').textContent)
 
-const call_button = document.createElement('a');
+    const call_button = document.createElement('a');
     call_button.setAttribute('href', `tel:${phoneNumber}`);
     call_button.setAttribute('class', 'refund-button mx-1 my-1');
     call_button.innerHTML = '<i class="fas fa-phone-alt"></i> Call Manager';
@@ -102,7 +102,7 @@ const call_button = document.createElement('a');
 
     const refundButton = document.createElement('a');
     refundButton.setAttribute('class', 'refund-button mx-1 my-1');
-    refundButton.innerHTML= '<i class="fas fa-wallet"></i> Raise Refund Request';
+    refundButton.innerHTML = '<i class="fas fa-wallet"></i> Raise Refund Request';
     refundButton.addEventListener('click', () => {
         openModal()
     })
@@ -137,9 +137,9 @@ function submitPhone() {
         }
     }
 
-    
+
     const phone = document.getElementById('phone-number').value;
-    
+
     if (phone === customerMobileNumber) {
         const form = document.getElementById('phone-number-form')
         form.submit()

@@ -69,7 +69,7 @@ function LoadButtons() {
 
     const par = document.createElement('p')
     par.setAttribute('class', 'refund-copy mt-1')
-    par.innerText = "You can contact the theatre manager, chat with support, or request a refund."
+    par.innerText = ""
     buttonArea.appendChild(par);
 
     const phoneNumber = JSON.parse(document.getElementById('query-number').textContent)

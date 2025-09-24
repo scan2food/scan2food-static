@@ -56,6 +56,19 @@ function printBill(btn) {
 
 function createOrderTab(order_data) {
 
+    document.getElementById('delivery-detail-box').setAttribute('class', 'd-none');
+    if (order_data.order_detail.food_delivered === false) {
+        document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-clock text-danger mb-0 me-1"></i>Delivery Pending`;
+        document.getElementById('order-deliver-button').setAttribute('style', '');
+    }
+    else {
+        document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> Order Delivered`;
+        document.getElementById('order-deliver-button').style.display = 'none';
+        document.getElementById('delivery-detail-box').setAttribute('class', 'd-flex justify-content-between');
+        document.getElementById('delivery-detail-box-value').innerText = order_data.order_detail.delivery_time;
+    }
+    document.getElementById('order-deliver-button').setAttribute('order-id', order_data.order_detail.order_id)
+
     document.getElementById('order-id').innerText = `#${order_data.order_detail.order_id}`;
     document.getElementById('seat-name').innerText = order_data.seat;
 

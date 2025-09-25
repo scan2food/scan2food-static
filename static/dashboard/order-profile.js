@@ -247,6 +247,7 @@ async function getPhonNumberByOrderId(id) {
 
     let phone_number = data['phone_number'];
     document.getElementById('phone-number').innerText = phone_number;
+    
 }
 
 async function UpdateSeatView(element) {

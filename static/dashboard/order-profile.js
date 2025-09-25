@@ -56,17 +56,24 @@ function printBill(btn) {
 
 function createOrderTab(order_data) {
 
-    document.getElementById('delivery-detail-box').setAttribute('class', 'd-none');
-    if (order_data.order_detail.food_delivered === false) {
-        document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-clock text-danger mb-0 me-1"></i>Delivery Pending`;
-        document.getElementById('order-deliver-button').setAttribute('style', '');
+    try {
+
+        if (order_data.order_detail.food_delivered === false) {
+            document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-clock text-danger mb-0 me-1"></i>Delivery Pending`;
+            document.getElementById('order-deliver-button').setAttribute('style', '');
+            document.getElementById('delivery-detail-box').setAttribute('class', 'd-none');
+        }
+        else {
+            document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> Order Delivered`;
+            document.getElementById('order-deliver-button').style.display = 'none';
+            document.getElementById('delivery-detail-box').setAttribute('class', 'd-flex justify-content-between');
+            document.getElementById('delivery-detail-box-value').innerText = order_data.order_detail.delivery_time;
+        }
     }
-    else {
-        document.getElementById('delivery-status').innerHTML = `<i class="fa fas fa-check-circle text-success mb-0 me-1"></i> Order Delivered`;
-        document.getElementById('order-deliver-button').style.display = 'none';
-        document.getElementById('delivery-detail-box').setAttribute('class', 'd-flex justify-content-between');
-        document.getElementById('delivery-detail-box-value').innerText = order_data.order_detail.delivery_time;
+    catch (error) {
+
     }
+
     document.getElementById('order-deliver-button').setAttribute('order-id', order_data.order_detail.order_id)
 
     document.getElementById('order-id').innerText = `#${order_data.order_detail.order_id}`;
@@ -245,10 +252,8 @@ async function getPhonNumberByOrderId(id) {
 async function UpdateSeatView(element) {
     let seen_status = document.getElementById('order-shown');
     if (seen_status.innerText.includes('Not Seen')) {
-        if (window.location.href.includes('admin-portal')) {
-            console.log('admin portal')
-        }
-        else {
+        if (!window.location.href.includes('admin-portal')) {
+
             seat_id = element.getAttribute('seat-id');
             let url = `/theatre/api/is-order-viewed/${seat_id}`
             let data = await getRequest(url);
@@ -263,7 +268,6 @@ async function UpdateSeatView(element) {
             seen_status.innerHTML = `Order Seen`;
         }
     }
-
 }
 
 const itemsTab = document.getElementById('items-tab');

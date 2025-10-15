@@ -697,3 +697,6 @@ border-right: 1px solid #d9d8d8;
       background-color: #fff6e9!important;
     }
   }
+#seat-modal .form-control:disabled, #seat-modal .form-control:read-only {
+    background-color: #e9ecef!important;
+  }

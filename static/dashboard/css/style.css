@@ -196,10 +196,6 @@ body {
     background-size: cover;
 }
 
-.hero-header img {
-    /* animation: imgRotate 50s linear infinite; */
-}
-
 @keyframes imgRotate {
     100% {
         transform: rotate(360deg);
@@ -751,3 +747,5 @@ html, body { overflow-x: hidden; }
 .tab-content-cust { margin-bottom: 25px; }
 
 /* Dashboard css */
+
+

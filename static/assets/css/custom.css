@@ -686,4 +686,12 @@ h6.price.small {
 }
 .nav-item.dropup .list-group-item.contact {
   background-color: #fff6e9 !important;
+}
+
+#seat-modal .form-control:-moz-read-only {
+  background-color: #e9ecef !important;
+}
+
+#seat-modal .form-control:disabled, #seat-modal .form-control:read-only {
+  background-color: #e9ecef !important;
 }/*# sourceMappingURL=custom.css.map */

@@ -481,4 +481,8 @@ body {
 .tooltip:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
+}
+
+.bg-wrapper {
+  min-height: calc(100vh - 80px);
 }/*# sourceMappingURL=custom.css.map */

@@ -236,7 +236,6 @@ async function createOrder() {
         let url = "/theatre/api/create-order"
         let data;
         data = await PostRequest(url, order_data);
-        console.log(data)
         
         local_storage.removeItem(seat_name);
         let redirect_url = data['url'];

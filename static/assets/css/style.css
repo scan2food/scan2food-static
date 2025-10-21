@@ -1051,3 +1051,6 @@ background-color: #ffffff !important;
     }
 
 /* admin dashboard cs */
+.border-1px-primary {
+    border: 1px solid #fff !important;
+}

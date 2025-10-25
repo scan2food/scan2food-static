@@ -2,7 +2,6 @@
 const CSRF_TOKEN = document.getElementsByName('csrf-token')[0].content;
 
 const selected_hall = document.getElementById('selected-hall');
-const selected_row = document.getElementById('selected-row');
 const selected_seat_input = document.getElementById('selected-seat');
 const suggestions = document.getElementById("suggestions");
 // Ensure 'show' class is removed by default
@@ -34,30 +33,24 @@ async function PostRequest(url, data) {
         });
 }
 
-function loadRowAndSeat(hall_name) {
-    const hall_data = SEATING_DATA[hall_name];
-    selected_row.innerHTML = ""
-    selected_row.innerHTML = `<option value="">Select Row</option>`
-    for (let i in hall_data) {
-        selected_row.innerHTML += `<option value="${i}">${i}</option>`
-    }
-    selected_row.value = "";
-}
-
-function loadSeats(seats) {
-    selected_seat_input.innerHTML = '<option vlaue="">Select Seat</option>'
-    
-    for (let i in seats) {
-        selected_seat_input.innerHTML += `<option value="${seats[i].seat_id}">${seats[i].seat_name}</option>`
-    }
-}
-
 function CreateHalls(seating) {
     const hall_box = document.getElementById('hall-box');
 
-    SEATING_DATA = seating;
 
     for (let hall in seating) {
+        SEATING_DATA[hall] = [];
+        // ADD ALLTHE SEATS IN SEATING DATA LIST
+        const row = seating[hall]
+
+        for (let i in row) {
+            for (let seat_indx in row[i]) {
+                const seat = row[i][seat_indx]
+                const seat_name = seat.seat_name;
+
+                // APPEND THE SEAT NAME INTO THE SEATING DATA
+                SEATING_DATA[hall].push(seat_name);
+            }
+        }
 
         // CREATE THE MAIN DIV
         const colDiv = document.createElement('div');
@@ -87,9 +80,6 @@ function CreateHalls(seating) {
         card.addEventListener('click', () => {
             // SET THE SEATING PLAN ACCORDING TO THE HALL
             selected_hall.value = hall;
-
-            // Load All The Rows and Seats
-            loadRowAndSeat(hall)
             selected_seat_input.value = "";
             document.getElementById("suggestions").innerText = "";
             // OPEN THE POPUP
@@ -129,27 +119,35 @@ async function loadData() {
     CreateHalls(seating);
 }
 
-selected_row.addEventListener('change', function (event) {
+selected_seat_input.addEventListener('input', function () {
     const hall_name = selected_hall.value;
-    const row_name = event.target.value;
-
-    selected_seat_input.value = "";
-
-    if (row_name === "") {
-        selected_seat_input.setAttribute('readonly', '');
-    }
-    else {
-        try {
-            selected_seat_input.removeAttribute('readonly');
-        }
-        catch (error) {
-            console.log(error);
-        }
+    const query = this.value.toLowerCase();
+    suggestions.innerHTML = ""; // clear previous
+    if (query.length === 0) {
+        suggestions.classList.remove("show"); // Hide ul if input is empty
+        return;
     }
 
-    const all_seats = SEATING_DATA[hall_name][row_name]
+    const filtered = SEATING_DATA[hall_name].filter(item => item.toLowerCase().includes(query));
 
-    loadSeats(all_seats);
+    filtered.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `<a class="dropdown-item" href="#">${item}</a>`;
+        li.addEventListener("click", function (e) {
+            e.preventDefault();
+            selected_seat_input.value = item;
+            suggestions.innerHTML = "";
+            suggestions.classList.remove("show"); // Hide suggestions after selection
+        });
+        suggestions.appendChild(li);
+    });
+
+    if (filtered.length > 0) {
+        suggestions.classList.add("show");
+    } else {
+        suggestions.classList.remove("show"); // Hide ul if no children
+        suggestions.innerHTML = ""; // Ensure it's empty
+    }
 })
 
 window.onload = async () => {
@@ -161,12 +159,40 @@ window.onload = async () => {
 const menuBtn = document.getElementById('open-menu-button');
 
 menuBtn.addEventListener('click', () => {
-    let seat_id = selected_seat_input.value;
+    const hall_name = selected_hall.value;
+    const selected_seat = selected_seat_input.value;
+
+    const selected_seat_name = selected_seat.toUpperCase();
+
+    // FIND THE SEAT ID OF THE SEAT
+    const hall_seats = THEATRE_DATA['seating'][hall_name];
+    let seat_id = "";
+
+    for (let i in hall_seats) {
+        const row = hall_seats[i];
+        const first_seat = row[0].seat_name;
+
+        // CHECK IF THE FIRST SEAT SEAT NAME INCLUDES THE SELECTED SEAT OR OR
+        if (first_seat.includes(selected_seat[0])) {
+            // HERE SEAT IS MATCHING WITH THE ROW
+            // RUN A FOR LOOP AND CHECKS WHETHER AND GET THE SEAT ID
+            for (let seat_indx in hall_seats[i]) {
+                const seat = hall_seats[i][seat_indx]
+                if (seat.seat_name == selected_seat_name) {
+                    seat_id = seat.seat_id;
+                    break;
+                }
+                else {
+                    continue;
+                }
+            }
+        }
+    }
 
     if (seat_id === "") {
         alert('Please enter valid seat number');
     }
-
+    
     else {
         const menu_url = `/theatre/show-menu/${seat_id}`
         window.open(menu_url, '_self');

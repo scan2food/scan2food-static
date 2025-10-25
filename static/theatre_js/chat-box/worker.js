@@ -114,6 +114,24 @@ function connectWebsocket(socket_url) {
 
             if (theatre_id === TheatreId) {
 
+                if (!Object.keys(AllChatUsers).includes(phone_key)) {
+
+                    const new_phne_data = {
+                        continue_chat: true,
+                        hall_name: eventData['hall_name'],
+                        phone_number: phone_number,
+                        pk: eventData['pk'],
+                        reply_required: false,
+                        seat_id: eventData['seat_id'],
+                        seat_name: eventData['seat_name'],
+                        theatre_id: theatre_id,
+                        theatre_name: eventData['theatre_name'],
+                        user_messages: []
+                    }
+
+                    AllChatUsers[phone_key] = new_phne_data;
+                }
+
                 if (AllChatUsers[phone_key]['reply_required']) {
                     if (msg_type === 'OUTGOING') {
                         ChatCount -= 1;

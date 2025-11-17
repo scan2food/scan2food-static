@@ -108,6 +108,17 @@ function timeup() {
     })
     buttonArea.appendChild(refundButton);
 
+    const downloadPermission = JSON.parse(document.getElementById('download_invoice').innerText);
+    
+    if (downloadPermission === true) {
+        const order_id = JSON.parse(document.getElementById('order-id').innerText)
+        const downloadInvoice = document.createElement('a');
+        downloadInvoice.setAttribute('href', `/theatre/invoice/${order_id}`);
+        downloadInvoice.setAttribute('class', 'refund-button mx-1 my-1');
+        downloadInvoice.setAttribute('target', '_blank');
+        downloadInvoice.innerHTML = '<i class="fa fa-download"></i> Invoice';
+        buttonArea.appendChild(downloadInvoice);
+    }
 }
 
 

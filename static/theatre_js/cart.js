@@ -78,18 +78,19 @@ function loadCart(table_name) {
         let cart_item = table_cart_data[i]
         let item_name = cart_item.name;
         let item_type = cart_item.item_type;
+        let item_real_price = cart_item.item_real_price;
         let item_price = cart_item.item_price;
         let item_description = cart_item.item_description;
         let item_quantity = cart_item.quantity;
         // load a single item
-        createItemCart(item_name, item_type, item_price, item_quantity, item_description, i);
+        createItemCart(item_name, item_type, item_price, item_real_price, item_quantity, item_description, i);
     }
 
     getCartAmount(table_cart_data)
 }
 
 
-function createItemCart(item_name, item_type, item_price, item_quantity, item_description, item_id) {
+function createItemCart(item_name, item_type, item_price, item_real_price, item_quantity, item_description, item_id) {
     let cart_box = document.getElementById('cart-items');
     let old_html = cart_box.innerHTML;
     let new_item_card = `
@@ -104,7 +105,7 @@ function createItemCart(item_name, item_type, item_price, item_quantity, item_de
                                     </h6>
                                 </div>
                                 <div class="col-lg-4 col-md-6 col-4 text-end">
-                                    <h6 class="price"><span class="me-1-cust">₹</span>${item_price}</h6>
+                                    <h6 class="price"><span class="me-1-cust">₹</span>${item_real_price}</h6>
                                 </div>
                             </div>
 
@@ -145,7 +146,7 @@ function getCartAmount(cart_data) {
 
     calculateConvinence(theatre_price, total_amount);
 
-    document.getElementById('cart-amount').innerText = Math.round(total_amount);
+    document.getElementById('cart-amount').innerText = Math.round(theatre_price);
 
     totalPayBalance();
 }

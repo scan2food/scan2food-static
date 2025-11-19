@@ -45,28 +45,7 @@ async function loadMenu() {
     }
 
 }
-// Update view cart position as per the category size
-// function updateCartPanelPosition() {
-//     const ul = document.getElementById('food-category-list');
 
-//     const cartPanel = document.querySelector('a#cart-div');
-//      cartPanel.classList.add('PositionBottomless');
-//     // const blankDiv = document.querySelector('.blank-div');
-
-//     if (!ul || !cartPanel) return;
-
-//     const liCount = ul.querySelectorAll('li.category-type-column').length;
-
-//     cartPanel.classList.remove('PositionBottomless', 'PositionBottomMore');
-
-//     if (liCount <= 5) {
-//         cartPanel.classList.add('PositionBottomless');
-
-//     } else {
-//         cartPanel.classList.add('PositionBottomMore');
-//         // blankDiv.classList.add('more-margin_bottom');
-//     }
-// }
 
 document.addEventListener("DOMContentLoaded", function () {
     const categoryList = document.querySelectorAll('#food-category-list li');
@@ -196,8 +175,11 @@ function showFoodItems(category_data, is_active) {
                                                         ₹<span class="item-price d-none">
                                                                 ${item_data.price}
                                                             </span>
-                                                            <span class="item-price-new">
+                                                            <span class="item-price-new d-none">
                                                                 ${Math.round(item_data.price)}
+                                                            </span>
+                                                            <span class="item-price-new">
+                                                                ${item_data.real_price}
                                                             </span>
                                                         </span>
                                                     </h5>

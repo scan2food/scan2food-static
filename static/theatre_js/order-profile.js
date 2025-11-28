@@ -161,6 +161,11 @@ function createCartTab(order_data) {
                                             <span class="ps-2 pe-2"> | </span>Quantity: <span class="text-dark fw-bold item-qty"> ${item.quantity}</span>
                                         </span>
                                     </div>
+                                    <div class="col-12 my-2 align-items-left"> 
+                                        <span class="text-muted" style="font-size: 0.85rem;">
+                                        Description: <span class="text-dark fw-bold">${item.description}</span>
+                                        </span>
+                                    </div>
                                 <div>
                             <div>
                         </div>

@@ -79,6 +79,8 @@ function createOrderTab(order_data) {
     document.getElementById('order-id').innerText = `#${order_data.order_detail.order_id}`;
     document.getElementById('seat-name').innerText = order_data.seat;
 
+    document.getElementById('theatre-name').innerText = order_data.theatre_name;
+
     document.getElementById('items-tab').setAttribute('seat-id', order_data.seat_id);
     document.getElementById('kot-button').setAttribute('seat-id', order_data.seat_id);
 
@@ -144,32 +146,33 @@ function createCartTab(order_data) {
         let item = cart_items[i];
         let item_row = `
                     <div class="row mb-2 order-item order-item-small-device">
-                            <div class="col-3 col-lg-1 col-md-2">
-                               <img class="food-item" src="${item.food_image}" />
-                              
-                            </div>  
-                                   <div class="col-9 col-lg-11 col-md-10">    
-                                <div class="row">            
-                            <div class="col-7">
-                                <h6 class="d-flex align-items-center">
-                                    <span class="">${item.name}</span>
-
-                                </h6>
-                              
-                            </div>
+                        <div class="col-3 col-lg-1 col-md-2">
+                            <img class="food-item" src="${item.food_image}" />
+                        </div>  
+                        <div class="col-9 col-lg-11 col-md-10">    
+                            <div class="row">            
+                                <div class="col-7">
+                                    <h6 class="d-flex align-items-center">
+                                        <span class="">${item.name}</span>
+                                    </h6>
+                                </div>
                             <div class="col-5 text-end">
                                 <h6 class="price"><span class="me-1-cust">₹</span>${item.price}</h6>
                             </div> 
                             <div class="col-12 m-0 align-items-left"> 
-                                    <span class="text-muted" style="font-size: 0.85rem;">
-                                       Price: <span class="text-dark fw-bold"> ₹ ${item['item-price']} </span>
-                                    </span>
-                                    <span class="text-muted ps-3" style="font-size: 0.85rem;">
-                                    <span class="ps-2 pe-2"> | </span>Quantity: <span class="text-dark fw-bold"> ${item.quantity}</span>
-                                    </span>
+                                <span class="text-muted" style="font-size: 0.85rem;">
+                                    Price: <span class="text-dark fw-bold"> ₹ ${item['item-price']} </span>
+                                </span>
+                                <span class="text-muted ps-3" style="font-size: 0.85rem;">
+                                    <span class="ps-2 pe-2"> | </span>
+                                    Quantity: <span class="text-dark fw-bold"> ${item.quantity}</span>
+                                </span>
                             </div>
-                            <div>
-                            <div>
+                            <div class="col-12 my-2 align-items-left"> 
+                                <span class="text-muted" style="font-size: 0.85rem;">
+                                Description: <span class="text-dark fw-bold">${item.description}</span>
+                                </span>
+                            </div>
                         </div>
                        
         `

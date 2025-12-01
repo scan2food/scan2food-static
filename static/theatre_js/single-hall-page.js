@@ -92,6 +92,10 @@ async function loadData() {
     // CREATE THE ROW AND SEAT DROPDOWN
     const seating = response.seating;
     const hall_name = JSON.parse(document.getElementById('hall-name').innerText)
+
+    const hall_name_label = document.getElementById('hall-name-label')
+    hall_name_label.innerText = hall_name;
+    
     SEATING_DATA = seating[hall_name]
     updateRowDropDown()
 }

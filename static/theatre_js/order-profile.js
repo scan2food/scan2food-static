@@ -136,6 +136,10 @@ function createCartTab(order_data) {
 
     for (let i = 0; i < cart_items.length; i++) {
         let item = cart_items[i];
+        const food_image = item.food_image;
+        if (window.location.href.includes("https://")) {
+            food_image = food_image.replace("http://", "https://");
+        }
         let item_row = `
                         <div class="row mb-2 order-item order-item-small-device">
                             <div class="col-3 col-lg-1 col-md-2">

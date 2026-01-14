@@ -111,6 +111,20 @@ function createOrderTab(order_data) {
         document.getElementById('panding-amount-heading-value').innerText = order_data.order_detail.amount;
         document.getElementById('payment-tab-panding-amount-value').innerText = order_data.order_detail.amount;
         document.getElementById('payment-method-value').innerHTML = order_data.order_detail.payment_method;
+
+        try {
+            if (order_data.order_detail.payment_method == 'Gateway') {
+                document.getElementById('gateway-detail').classList.remove('d-none');
+                document.getElementById('gateway-name').innerText = order_data.order_detail.payment_gateway;
+
+                document.getElementById('gateway-transaction').classList.remove('d-none');
+                document.getElementById('gateway-transaction-id').innerText = order_data.order_detail.gateway_order_id;
+            }
+        }
+
+        catch (error) {
+            console.log('Error in payment gateway details');
+        }
     }
 
     if (order_data.order_detail.is_shown == true) {
@@ -250,7 +264,7 @@ async function getPhonNumberByOrderId(id) {
 
     let phone_number = data['phone_number'];
     document.getElementById('phone-number').innerText = phone_number;
-    
+
 }
 
 async function UpdateSeatView(element) {

@@ -328,9 +328,9 @@ chatWorker.onmessage = (e) => {
 
 async function getOrderIdFromPhone() {
     ph_no = `${PhoneNumberLabel.innerText.trim()}`
-    // if (PhoneNumberLabel.innerText.trim().includes('+') === false) {
-    //     ph_no = `+${PhoneNumberLabel.innerText.trim()}`
-    // }
+    if (PhoneNumberLabel.innerText.trim().includes('+') === false) {
+        ph_no = `+${PhoneNumberLabel.innerText.trim()}`
+    }
 
     const api_url = `/theatre/api/get-order-by-phone-no/${ph_no}`
     const response = await getRequest(api_url);

@@ -51,6 +51,18 @@ if (page === undefined) {
     page = 0;
 }
 
+let scan2food_payment_id = all_parimeters['scan2food-payment-id']
+if (scan2food_payment_id === undefined) {
+    scan2food_payment_id = "";
+}
+let payment_id = all_parimeters['payment-id']
+if (payment_id === undefined) {
+    payment_id = "";
+}
+let phone_number = all_parimeters['phone-number']
+if (phone_number === undefined) {
+    phone_number = "";
+}
 
 function showOrders(order_list) {
     const tbody = document.getElementById('all-orders-tbody');
@@ -129,12 +141,12 @@ function downloadReport() {
     worker.postMessage(task);
 }
 
-function getAllOrders(daterange, orderStatus, selectedTheatre, page) {
-    const task = { task_name: 'get-all-orders', daterange: daterange, order_status: orderStatus, selected_theatre: selectedTheatre, page: page }
+function getAllOrders(daterange, orderStatus, selectedTheatre, page, scan2food_payment_id, payment_id, phone_number) {
+    const task = { task_name: 'get-all-orders', daterange: daterange, order_status: orderStatus, selected_theatre: selectedTheatre, page: page, scan2food_payment_id: scan2food_payment_id, payment_id: payment_id, phone_number: phone_number }
     worker.postMessage(task)
 }
 
-getAllOrders(daterange, orderStatus, selectedTheatre, page);
+getAllOrders(daterange, orderStatus, selectedTheatre, page, scan2food_payment_id, payment_id, phone_number);
 
 // It will show the card data...
 function showCardData(theatre_amount, total_amount, net_profit, order_count) {
@@ -192,6 +204,10 @@ async function loadAllTheatres() {
     }
 
     document.getElementById('order-status').value = orderStatus;
+
+    document.getElementById('scan2food-payment-id').value = scan2food_payment_id || "";
+    document.getElementById('payment-id').value = payment_id || "";
+    document.getElementById('phone-number').value = phone_number || "";
 
 }
 

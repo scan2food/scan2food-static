@@ -39,8 +39,9 @@ function showOrdersByPage(page) {
 }
 
 
-function getAllOrders(daterange, theatre_id, order_status, page) {
-    const sse_url = `/theatre/api/all-orders-sse?daterange=${daterange}&selected-theatre=${theatre_id}&order-status=${order_status}`
+function getAllOrders(daterange, theatre_id, order_status, page, scan2food_payment_id, payment_id, phone_number) {
+    const sse_url = `/theatre/api/all-orders-sse?daterange=${daterange}&selected-theatre=${theatre_id}&order-status=${order_status}&scan2food-payment-id=${scan2food_payment_id}&payment-id=${payment_id}&phone-number=${phone_number}`;
+    console.log(sse_url);
     const eventSource = new EventSource(sse_url);
 
     eventSource.onmessage = (e) => {
@@ -76,9 +77,12 @@ onmessage = (e) => {
         const daterange = task_detail.daterange;
         const order_status = task_detail.order_status;
         const theatre_id = task_detail.selected_theatre;
-        const page = task_detail.page
+        const page = task_detail.page;
+        const scan2food_payment_id = task_detail.scan2food_payment_id;
+        const payment_id = task_detail.payment_id;
+        const phone_number = task_detail.phone_number;
 
-        getAllOrders(daterange, theatre_id, order_status, page);
+        getAllOrders(daterange, theatre_id, order_status, page, scan2food_payment_id, payment_id, phone_number);
     }
 
     else if (task_name === "paginate") {

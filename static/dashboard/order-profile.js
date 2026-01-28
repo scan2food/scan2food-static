@@ -134,8 +134,11 @@ function createOrderTab(order_data) {
         document.getElementById('order-shown').innerHTML = `Order Not Seen Yet !`;
     }
 
-    document.getElementById('payment-status').innerHTML = payment_status
-    document.getElementById('payment-tab-payment-status').innerHTML = payment_status
+    document.getElementById('payment-status').innerHTML = payment_status;
+    document.getElementById('payment-tab-payment-status').innerHTML = payment_status;
+
+    document.getElementById('scan2food-payment-id-detail').setAttribute('class', 'd-flex justify-content-between');
+    document.getElementById('scan2food-payment-id-value').innerText = order_data.order_detail.payment_id;
 
 }
 

@@ -41,7 +41,7 @@ function showOrdersByPage(page) {
 
 function getAllOrders(daterange, theatre_id, order_status, page, scan2food_payment_id, payment_id, phone_number) {
     const sse_url = `/theatre/api/all-orders-sse?daterange=${daterange}&selected-theatre=${theatre_id}&order-status=${order_status}&scan2food-payment-id=${scan2food_payment_id}&payment-id=${payment_id}&phone-number=${phone_number}`;
-    console.log(sse_url);
+    
     const eventSource = new EventSource(sse_url);
 
     eventSource.onmessage = (e) => {
